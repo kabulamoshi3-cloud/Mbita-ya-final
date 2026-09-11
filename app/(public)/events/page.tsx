@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import EventCard from "@/components/sections/EventCard";
 import { separateEvents } from "@/lib/events";
+import SlideGrid from "@/components/SlideGrid";
 
 export const dynamic = "force-dynamic";
 
@@ -33,7 +34,7 @@ export default async function EventsPage() {
       <section className="mb-12">
         <h2 className="text-2xl font-semibold text-navy-900 mb-6">Upcoming Events</h2>
         {upcoming.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <SlideGrid columns={3}>
             {upcoming.map((event) => (
               <EventCard
                 key={event.id}
@@ -48,7 +49,7 @@ export default async function EventsPage() {
                 streamUrl={event.streamUrl}
               />
             ))}
-          </div>
+          </SlideGrid>
         ) : (
           <p className="text-navy-600">No upcoming events at this time.</p>
         )}
@@ -58,7 +59,7 @@ export default async function EventsPage() {
       {past.length > 0 && (
         <section>
           <h2 className="text-2xl font-semibold text-navy-900 mb-6">Past Events</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <SlideGrid columns={3}>
             {past.map((event) => (
               <EventCard
                 key={event.id}
@@ -73,7 +74,7 @@ export default async function EventsPage() {
                 streamUrl={event.streamUrl}
               />
             ))}
-          </div>
+          </SlideGrid>
         </section>
       )}
 

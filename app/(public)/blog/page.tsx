@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import BlogPostCard from "@/components/sections/BlogPostCard";
 import NewsletterForm from "@/components/sections/NewsletterForm";
 import Link from "next/link";
+import SlideGrid from "@/components/SlideGrid";
 
 export const revalidate = 0;
 
@@ -69,7 +70,7 @@ export default async function BlogPage() {
       )}
 
       {posts.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+        <SlideGrid columns={3} staggerDelay={0.12}>
           {posts.map((post) => (
             <BlogPostCard
               key={post.id}
@@ -82,7 +83,7 @@ export default async function BlogPage() {
               tags={post.tags}
             />
           ))}
-        </div>
+        </SlideGrid>
       ) : (
         <p className="text-center text-gray-600 py-12">
           No posts have been published yet.
@@ -90,7 +91,7 @@ export default async function BlogPage() {
       )}
 
       {/* Newsletter subscription */}
-      <div className="max-w-2xl mx-auto mb-8">
+      <div className="max-w-2xl mx-auto mb-8 mt-16">
         <NewsletterForm />
       </div>
 

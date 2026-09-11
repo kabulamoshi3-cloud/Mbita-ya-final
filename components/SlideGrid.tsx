@@ -25,7 +25,7 @@ interface SlideGridProps {
 export default function SlideGrid({
   children,
   columns = 3,
-  direction = 'up',
+  direction = 'alternate',
   staggerDelay = 0.1,
   gap = 6,
   className = ''
