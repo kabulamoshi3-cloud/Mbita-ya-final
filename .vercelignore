@@ -1,9 +1,0 @@
-# Build outputs
-.next
-out
-
-# Don't ignore source files
-!components
-!app
-!lib
-

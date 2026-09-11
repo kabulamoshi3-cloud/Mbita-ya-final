@@ -22,7 +22,10 @@ export async function logAction(
       },
     });
   } catch (err) {
-    // Non-fatal — log to console but don't throw
-    console.error("Failed to write activity log:", err);
+    // Non-fatal — log but don't throw
+    // Note: Avoid importing logger here to prevent circular dependencies
+    if (process.env.NODE_ENV === 'development') {
+      console.error("Failed to write activity log:", err);
+    }
   }
 }
