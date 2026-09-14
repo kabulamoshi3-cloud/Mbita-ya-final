@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       extractedText = buffer.toString("utf8");
     } else if (file.type === "application/pdf") {
       // Use pdf-parse for reliable PDF text extraction
-      const pdfParse = (await import("pdf-parse")).default;
+      const pdfParse = await import("pdf-parse");
       const pdfData = await pdfParse(buffer);
       extractedText = pdfData.text;
     } else {
