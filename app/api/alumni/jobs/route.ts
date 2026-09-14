@@ -15,12 +15,12 @@ const jobSchema = z.object({
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const jobType = searchParams.get("jobType");
+    const jobType = searchParams.get("type"); // Changed from jobType to match schema field 'type'
     const search = searchParams.get("search");
 
-    const where: any = { status: "active" };
+    const where: any = { active: true }; // Use 'active' instead of 'status'
 
-    if (jobType) where.jobType = jobType;
+    if (jobType) where.type = jobType;
     if (search) {
       where.OR = [
         { title: { contains: search, mode: "insensitive" } },
@@ -31,16 +31,22 @@ export async function GET(request: NextRequest) {
 
     const jobs = await prisma.jobPosting.findMany({
       where,
-      include: {
-        poster: {
-          select: {
-            firstName: true,
-            lastName: true,
-            currentCompany: true,
-          },
-        },
+      select: {
+        id: true,
+        postedBy: true,
+        title: true,
+        company: true,
+        location: true,
+        type: true,
+        description: true,
+        requirements: true,
+        salary: true,
+        applyUrl: true,
+        active: true,
+        expiresAt: true,
+        createdAt: true,
       },
-      orderBy: { postedAt: "desc" },
+      orderBy: { createdAt: "desc" }, // Use 'createdAt' instead of 'postedAt'
     });
 
     return NextResponse.json({ jobs });
@@ -65,9 +71,15 @@ export async function POST(request: NextRequest) {
     // Note: In production, verify poster is alumni
     const job = await prisma.jobPosting.create({
       data: {
-        ...result.data,
-        status: "active",
-        posterId: body.posterId, // Should come from session
+        postedBy: body.postedBy || "system", // Match schema field
+        title: result.data.title,
+        company: result.data.company,
+        location: result.data.location,
+        type: result.data.jobType, // Map jobType to 'type' field
+        description: result.data.description,
+        salary: result.data.salary,
+        applyUrl: result.data.applyUrl,
+        active: true,
       },
     });
 
