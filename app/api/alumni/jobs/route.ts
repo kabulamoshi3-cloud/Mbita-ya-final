@@ -12,6 +12,14 @@ const jobSchema = z.object({
   applyUrl: z.string().url("Invalid URL"),
 });
 
+/**
+ * GET /api/alumni/jobs
+ * Get all active job postings with optional filtering
+ * 
+ * Query params:
+ * - type: Filter by job type (full-time, part-time, contract, internship)
+ * - search: Search in title, company, or location
+ */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
