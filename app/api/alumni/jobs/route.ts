@@ -12,21 +12,13 @@ const jobSchema = z.object({
   applyUrl: z.string().url("Invalid URL"),
 });
 
-/**
- * GET /api/alumni/jobs
- * Get all active job postings with optional filtering
- * 
- * Query params:
- * - type: Filter by job type (full-time, part-time, contract, internship)
- * - search: Search in title, company, or location
- */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const jobType = searchParams.get("type"); // Changed from jobType to match schema field 'type'
+    const jobType = searchParams.get("type");
     const search = searchParams.get("search");
 
-    const where: any = { active: true }; // Use 'active' instead of 'status'
+    const where: any = { active: true };
 
     if (jobType) where.type = jobType;
     if (search) {
@@ -54,7 +46,7 @@ export async function GET(request: NextRequest) {
         expiresAt: true,
         createdAt: true,
       },
-      orderBy: { createdAt: "desc" }, // Use 'createdAt' instead of 'postedAt'
+      orderBy: { createdAt: "desc" },
     });
 
     return NextResponse.json({ jobs });
@@ -76,14 +68,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Note: In production, verify poster is alumni
     const job = await prisma.jobPosting.create({
       data: {
-        postedBy: body.postedBy || "system", // Match schema field
+        postedBy: body.postedBy || "system",
         title: result.data.title,
         company: result.data.company,
         location: result.data.location,
-        type: result.data.jobType, // Map jobType to 'type' field
+        type: result.data.jobType,
         description: result.data.description,
         salary: result.data.salary,
         applyUrl: result.data.applyUrl,
