@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       where: { id: mentorId },
     });
 
-    if (!mentor || mentor.status !== "graduated") {
+    if (!mentor || mentor.status !== "alumni") {
       return NextResponse.json({ error: "Mentor not found" }, { status: 404 });
     }
 
