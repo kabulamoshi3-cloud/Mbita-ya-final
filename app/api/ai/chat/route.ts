@@ -1,25 +1,51 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getIronSession } from "iron-session";
-import { prisma } from "@/lib/prisma";
 import { sessionOptions, SessionData } from "@/lib/session";
-import OpenAI from "openai";
+
+/**
+ * POST /api/ai/chat
+ * AI chatbot for students
+ * 
+ * Note: Temporarily disabled due to Prisma schema issues on Render.
+ * This can be re-enabled after fixing the AIConversation and AIMessage schema.
+ */
+export async function POST(request: NextRequest) {
+  const res = new NextResponse();
+  const session = await getIronSession<SessionData>(request, res, sessionOptions);
+  
+  if (!session.studentId) {
+    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+  }
+
+  // Temporarily return a friendly message
+  return NextResponse.json({
+    response: "AI Assistant is temporarily unavailable. We're working on bringing it back soon! In the meantime, please contact your professor for assistance.",
+    conversationId: null,
+    error: "Feature temporarily disabled"
+  }, { status: 503 });
+}
+
+/*
+// Original implementation - Uncomment after fixing Prisma schema
+import { OpenAI } from "openai";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || "",
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 export async function POST(request: NextRequest) {
+  const res = new NextResponse();
+  const session = await getIronSession<SessionData>(request, res, sessionOptions);
+  
+  if (!session.studentId) {
+    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+  }
+
   try {
-    const session = await getIronSession<SessionData>(request, NextResponse.next(), sessionOptions);
-
-    if (!session.studentId) {
-      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
-    }
-
     const body = await request.json();
     const { message, conversationId } = body;
 
-    if (!message) {
+    if (!message || typeof message !== "string") {
       return NextResponse.json({ error: "Message is required" }, { status: 400 });
     }
 
@@ -38,18 +64,17 @@ export async function POST(request: NextRequest) {
         include: {
           messages: {
             orderBy: { createdAt: 'asc' },
-            take: 10, // Last 10 messages for context
+            take: 10,
           },
-        } as any,
+        },
       });
     } else {
-      // Create new conversation
       conversation = await prisma.aIConversation.create({
         data: {
           studentId: session.studentId,
           title: message.substring(0, 50),
         },
-        include: { messages: true } as any,
+        include: { messages: true },
       });
     }
 
@@ -66,7 +91,7 @@ export async function POST(request: NextRequest) {
     const messages = [
       {
         role: "system" as const,
-        content: "You are a helpful AI research assistant for students. You help with academic questions, paper summaries, citations, and study tips. Be concise and educational."
+        content: "You are a helpful AI research assistant for students."
       },
       ...conversation.messages.map(m => ({
         role: m.role as "user" | "assistant",
@@ -97,12 +122,6 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Update conversation
-    await prisma.aIConversation.update({
-      where: { id: conversation.id },
-      data: { updatedAt: new Date() },
-    });
-
     return NextResponse.json({
       response: aiResponse,
       conversationId: conversation.id,
@@ -116,3 +135,4 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+*/
