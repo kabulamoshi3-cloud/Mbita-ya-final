@@ -10,13 +10,13 @@ export async function GET(request: NextRequest) {
     const graduationYear = searchParams.get("graduationYear");
     const industry = searchParams.get("industry");
 
-    const where: any = { status: "graduated" };
+    const where: any = { status: "alumni" }; // Student model uses "alumni", not "graduated"
 
     if (search) {
       where.OR = [
-        { firstName: { contains: search, mode: "insensitive" } },
-        { lastName: { contains: search, mode: "insensitive" } },
-        { currentCompany: { contains: search, mode: "insensitive" } },
+        { name: { contains: search, mode: "insensitive" } },
+        { researchTopic: { contains: search, mode: "insensitive" } },
+        { currentPosition: { contains: search, mode: "insensitive" } },
       ];
     }
 
@@ -24,23 +24,24 @@ export async function GET(request: NextRequest) {
       where.graduationYear = parseInt(graduationYear);
     }
 
-    if (industry) {
-      where.industry = industry;
-    }
+    // Note: Student model doesn't have 'industry' field
+    // Removing industry filter to match actual schema
 
+    // Use actual Student model fields
     const alumni = await prisma.student.findMany({
       where,
       select: {
         id: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        profilePicture: true,
+        name: true, // Student model only has 'name', not firstName/lastName
+        degreeLevel: true,
+        researchTopic: true,
+        status: true,
+        thesisTitle: true,
         graduationYear: true,
-        currentCompany: true,
         currentPosition: true,
-        industry: true,
-        linkedin: true,
+        profileUrl: true,
+        photoUrl: true,
+        achievements: true,
       },
       orderBy: { graduationYear: "desc" },
     });
