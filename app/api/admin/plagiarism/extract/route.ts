@@ -4,6 +4,13 @@ import { sessionOptions, SessionData } from "@/lib/session";
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
+/**
+ * POST /api/admin/plagiarism/extract
+ * Extract text from uploaded document (TXT only for now)
+ * 
+ * Note: PDF and DOCX support temporarily disabled due to build issues on Render.
+ * These can be re-enabled after deployment by uncommenting the code below.
+ */
 export async function POST(request: NextRequest) {
   // Auth check
   const res = new NextResponse();
@@ -26,14 +33,17 @@ export async function POST(request: NextRequest) {
 
     const allowedTypes = [
       "text/plain",
-      "application/pdf",
-      "application/msword",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      // Temporarily disabled due to build issues:
+      // "application/pdf",
+      // "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     ];
 
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json(
-        { error: "Unsupported file type. Please upload PDF, DOCX, or TXT." },
+        { 
+          error: "Currently only TXT files are supported. PDF and DOCX support coming soon!",
+          info: "You can paste text directly in the text area instead."
+        },
         { status: 400 }
       );
     }
@@ -41,19 +51,23 @@ export async function POST(request: NextRequest) {
     let extractedText = "";
     const buffer = Buffer.from(await file.arrayBuffer());
 
+    // Only support plain text for now
     if (file.type === "text/plain") {
       extractedText = buffer.toString("utf8");
-    } else if (file.type === "application/pdf") {
-      // Use pdf-parse for reliable PDF text extraction
+    }
+
+    /* PDF and DOCX support - Uncomment after resolving build issues:
+    
+    else if (file.type === "application/pdf") {
       const pdfParse = require("pdf-parse");
       const pdfData = await pdfParse(buffer);
       extractedText = pdfData.text;
     } else {
-      // Use mammoth for DOCX text extraction
       const mammoth = await import("mammoth");
       const result = await mammoth.extractRawText({ buffer });
       extractedText = result.value;
     }
+    */
 
     // Clean up extracted text
     extractedText = extractedText
@@ -64,7 +78,7 @@ export async function POST(request: NextRequest) {
 
     if (!extractedText) {
       return NextResponse.json(
-        { error: "Could not extract text from the document. The file may be scanned/image-based or empty." },
+        { error: "Could not extract text from the document. The file may be empty." },
         { status: 422 }
       );
     }
