@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
             orderBy: { createdAt: 'asc' },
             take: 10, // Last 10 messages for context
           },
-        },
+        } as any,
       });
     } else {
       // Create new conversation
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
           studentId: session.studentId,
           title: message.substring(0, 50),
         },
-        include: { messages: true },
+        include: { messages: true } as any,
       });
     }
 
