@@ -1,19 +1,60 @@
-import { Metadata } from "next";
-import Link from "next/link";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Student Portal",
-  description: "Access your courses, assignments, grades, and academic resources.",
-};
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Button from "@/components/ui/Button";
 
 export default function StudentPortalPage() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleLogout() {
+    setIsLoading(true);
+    try {
+      await fetch("/api/student/auth/logout", { method: "POST" });
+      router.push("/student-login");
+    } catch {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-navy-900 mb-4">Student Portal</h1>
-        <p className="text-lg text-navy-600 mb-8">
-          Access your courses, assignments, grades, and academic resources
-        </p>
+        {/* Header with Logout */}
+        <div className="flex justify-between items-start mb-8">
+          <div>
+            <h1 className="text-4xl font-bold text-navy-900 mb-4">Student Portal</h1>
+            <p className="text-lg text-navy-600">
+              Welcome! Access your courses, assignments, grades, and academic resources
+            </p>
+          </div>
+          <Button 
+            variant="outline" 
+            onClick={handleLogout}
+            isLoading={isLoading}
+          >
+            Logout
+          </Button>
+        </div>
+
+        {/* Success Notice */}
+        <div className="bg-green-50 border border-green-200 rounded-xl p-6 mb-8">
+          <div className="flex gap-4">
+            <div className="flex-shrink-0">
+              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-green-900 mb-1">Successfully Logged In</h3>
+              <p className="text-green-800 text-sm">
+                You are now logged into the student portal. Access all your resources below.
+              </p>
+            </div>
+          </div>
+        </div>
 
         {/* Quick Links Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
@@ -150,35 +191,11 @@ export default function StudentPortalPage() {
           </Link>
         </div>
 
-        {/* Login Notice */}
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
-          <div className="flex gap-4">
-            <div className="flex-shrink-0">
-              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-blue-900 mb-2">Student Access Required</h3>
-              <p className="text-blue-800 text-sm mb-4">
-                To access the full student portal with personalized content and resources, you need to log in with your student account.
-              </p>
-              <div className="flex gap-3">
-                <Link 
-                  href="/student-login"
-                  className="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors font-medium text-sm"
-                >
-                  Login to Portal
-                </Link>
-                <Link 
-                  href="/student-register"
-                  className="inline-flex items-center px-4 py-2 bg-white text-primary border-2 border-primary rounded-lg hover:bg-primary-light transition-colors font-medium text-sm"
-                >
-                  Register Account
-                </Link>
-              </div>
-            </div>
-          </div>
+        {/* Back to Home */}
+        <div className="text-center">
+          <Link href="/" className="text-primary hover:underline">
+            ← Back to homepage
+          </Link>
         </div>
       </div>
     </div>

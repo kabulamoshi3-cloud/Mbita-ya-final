@@ -23,7 +23,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Auth check for admin routes only
+  // Auth check for admin routes
   if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
     const response = NextResponse.next();
     const session = await getIronSession<SessionData>(request, response, sessionOptions);
@@ -42,6 +42,29 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
+  // Auth check for student portal routes
+  if (pathname.startsWith("/student-portal") || 
+      (pathname.startsWith("/api/student") && !pathname.startsWith("/api/student/auth"))) {
+    const response = NextResponse.next();
+    const session = await getIronSession<SessionData>(request, response, sessionOptions);
+
+    if (!session.studentId || session.role !== "student") {
+      if (pathname.startsWith("/api/student")) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+      return NextResponse.redirect(new URL("/student-login", request.url));
+    }
+
+    if (session.createdAt && Date.now() - session.createdAt > SESSION_MAX_AGE_MS) {
+      const redirectResponse = NextResponse.redirect(new URL("/student-login", request.url));
+      const clearSession = await getIronSession<SessionData>(request, redirectResponse, sessionOptions);
+      clearSession.destroy();
+      return redirectResponse;
+    }
+
+    return response;
+  }
+
   return NextResponse.next();
 }
 
@@ -49,5 +72,7 @@ export const config = {
   matcher: [
     "/admin/:path*",
     "/api/admin/:path*",
+    "/student-portal/:path*",
+    "/api/student/:path*",
   ],
 };
