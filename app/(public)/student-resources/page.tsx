@@ -2,17 +2,17 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Student Portal",
-  description: "Access your courses, assignments, grades, and academic resources.",
+  title: "Student Resources",
+  description: "Access student portal, courses, assignments, grades, and academic resources.",
 };
 
-export default function StudentPortalPage() {
+export default function StudentResourcesPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-navy-900 mb-4">Student Portal</h1>
+        <h1 className="text-4xl font-bold text-navy-900 mb-4">Student Resources</h1>
         <p className="text-lg text-navy-600 mb-8">
-          Access your courses, assignments, grades, and academic resources
+          Access the student portal, course materials, and academic resources
         </p>
 
         {/* Quick Links Grid */}
@@ -30,10 +30,10 @@ export default function StudentPortalPage() {
               </div>
               <div>
                 <h2 className="text-xl font-bold text-navy-900 mb-2 group-hover:text-primary transition-colors">
-                  My Courses
+                  Course Listings
                 </h2>
                 <p className="text-navy-600 text-sm">
-                  View enrolled courses, lecture materials, and schedules
+                  Browse available courses and lecture materials
                 </p>
               </div>
             </div>
@@ -55,95 +55,95 @@ export default function StudentPortalPage() {
                   Video Library
                 </h2>
                 <p className="text-navy-600 text-sm">
-                  Access lecture videos, tutorials, and recorded sessions
+                  Access lecture videos and tutorials
                 </p>
               </div>
             </div>
           </Link>
 
-          {/* Certificates */}
+          {/* Blog & Articles */}
           <Link
-            href="/certificates"
+            href="/blog"
             className="bg-white border-2 border-border rounded-xl p-6 hover:border-primary hover:shadow-lg transition-all group"
           >
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-green-200 transition-colors">
                 <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                 </svg>
               </div>
               <div>
                 <h2 className="text-xl font-bold text-navy-900 mb-2 group-hover:text-primary transition-colors">
-                  My Certificates
+                  Blog & Articles
                 </h2>
                 <p className="text-navy-600 text-sm">
-                  View and download your earned certificates
+                  Read latest articles and updates
                 </p>
               </div>
             </div>
           </Link>
 
-          {/* Achievements */}
+          {/* Research Publications */}
           <Link
-            href="/gamification"
+            href="/publications"
             className="bg-white border-2 border-border rounded-xl p-6 hover:border-primary hover:shadow-lg transition-all group"
           >
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-yellow-200 transition-colors">
                 <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
               <div>
                 <h2 className="text-xl font-bold text-navy-900 mb-2 group-hover:text-primary transition-colors">
-                  Achievements & Badges
+                  Research Publications
                 </h2>
                 <p className="text-navy-600 text-sm">
-                  Track your progress and unlock achievements
+                  Explore research papers and publications
                 </p>
               </div>
             </div>
           </Link>
 
-          {/* AI Assistant */}
+          {/* Events */}
           <Link
-            href="/ai-assistant"
+            href="/events"
             className="bg-white border-2 border-border rounded-xl p-6 hover:border-primary hover:shadow-lg transition-all group"
           >
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-indigo-200 transition-colors">
                 <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-navy-900 mb-2 group-hover:text-primary transition-colors">
-                  AI Assistant
-                </h2>
-                <p className="text-navy-600 text-sm">
-                  Get instant help with your studies and questions
-                </p>
-              </div>
-            </div>
-          </Link>
-
-          {/* Office Hours */}
-          <Link
-            href="/scheduling"
-            className="bg-white border-2 border-border rounded-xl p-6 hover:border-primary hover:shadow-lg transition-all group"
-          >
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-red-200 transition-colors">
-                <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </div>
               <div>
                 <h2 className="text-xl font-bold text-navy-900 mb-2 group-hover:text-primary transition-colors">
-                  Book Office Hours
+                  Upcoming Events
                 </h2>
                 <p className="text-navy-600 text-sm">
-                  Schedule appointments with your professor
+                  View academic events and schedules
+                </p>
+              </div>
+            </div>
+          </Link>
+
+          {/* Contact */}
+          <Link
+            href="/contact"
+            className="bg-white border-2 border-border rounded-xl p-6 hover:border-primary hover:shadow-lg transition-all group"
+          >
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-red-200 transition-colors">
+                <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-navy-900 mb-2 group-hover:text-primary transition-colors">
+                  Contact
+                </h2>
+                <p className="text-navy-600 text-sm">
+                  Get in touch for inquiries
                 </p>
               </div>
             </div>
@@ -159,9 +159,9 @@ export default function StudentPortalPage() {
               </svg>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-blue-900 mb-2">Student Access Required</h3>
+              <h3 className="text-lg font-semibold text-blue-900 mb-2">Student Portal Access</h3>
               <p className="text-blue-800 text-sm mb-4">
-                To access the full student portal with personalized content and resources, you need to log in with your student account.
+                To access the full student portal with personalized content, assignments, grades, and exclusive resources, you need to log in with your student account.
               </p>
               <div className="flex gap-3">
                 <Link 
