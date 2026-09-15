@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
           where: {
             studentId: session.studentId,
             assignment: { courseId: enrollment.courseId },
-            status: "graded",
+            gradedAt: { not: null },
           },
         });
 

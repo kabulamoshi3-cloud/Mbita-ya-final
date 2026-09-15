@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     });
 
     const completedAssignments = await prisma.assignmentSubmission.count({
-      where: { studentId, status: "graded" },
+      where: { studentId, gradedAt: { not: null } },
     });
 
     const completionRate = totalAssignments > 0
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
     const recentGrades = await prisma.assignmentSubmission.findMany({
       where: {
         studentId,
-        status: "graded",
+        gradedAt: { not: null },
         grade: { not: null },
       },
       select: { grade: true, assignment: { select: { maxPoints: true } } },

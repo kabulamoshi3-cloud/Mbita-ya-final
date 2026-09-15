@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     const recentGrades = await prisma.assignmentSubmission.findMany({
       where: {
         studentId,
-        status: "graded",
+        gradedAt: { not: null },
         grade: { not: null },
       },
       select: {
