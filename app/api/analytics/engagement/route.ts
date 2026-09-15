@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     });
 
     // Course enrollments
-    const enrollments = await prisma.courseEnrollment.count({
+    const enrollments = await prisma.studentEnrollment.count({
       where: { enrolledAt: { gte: dateFilter } },
     });
 

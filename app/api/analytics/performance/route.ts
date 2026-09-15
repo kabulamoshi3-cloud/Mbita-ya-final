@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
       : 0;
 
     // Video completion
-    const videosWatched = await prisma.videoWatchProgress.count({
+    const videosWatched = await prisma.videoProgress.count({
       where: { studentId, completed: true },
     });
 

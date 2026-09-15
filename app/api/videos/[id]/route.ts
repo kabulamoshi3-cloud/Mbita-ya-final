@@ -57,7 +57,7 @@ export async function POST(
     const { progress, completed } = body;
 
     // Update or create watch progress
-    const watchProgress = await prisma.videoWatchProgress.upsert({
+    const watchProgress = await prisma.videoProgress.upsert({
       where: {
         studentId_videoId: {
           studentId: session.studentId,
@@ -67,14 +67,12 @@ export async function POST(
       update: {
         progress: progress || 0,
         completed: completed || false,
-        lastWatched: new Date(),
       },
       create: {
         studentId: session.studentId,
         videoId: params.id,
         progress: progress || 0,
         completed: completed || false,
-        lastWatched: new Date(),
       },
     });
 
