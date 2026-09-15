@@ -19,30 +19,35 @@ export async function GET(request: NextRequest) {
         studentId: session.studentId,
         status: status as any,
       },
-      include: {
-        course: {
-          include: {
-            instructor: {
-              select: {
-                firstName: true,
-                lastName: true,
-                email: true,
-              },
-            },
-            department: {
-              select: {
-                name: true,
-                code: true,
-              },
-            },
-          },
-        },
+      select: {
+        id: true,
+        studentId: true,
+        courseId: true,
+        status: true,
+        grade: true,
+        enrolledAt: true,
+        completedAt: true,
       },
       orderBy: { enrolledAt: "desc" },
     });
 
     const coursesWithDetails = await Promise.all(
       enrollments.map(async (enrollment) => {
+        // Get course details separately
+        const course = await prisma.course.findUnique({
+          where: { id: enrollment.courseId },
+          select: {
+            id: true,
+            name: true,
+            code: true,
+            description: true,
+            term: true,
+            status: true,
+            syllabusUrl: true,
+            published: true,
+          },
+        });
+
         const totalAssignments = await prisma.assignment.count({
           where: { courseId: enrollment.courseId },
         });
@@ -62,19 +67,9 @@ export async function GET(request: NextRequest) {
         return {
           enrollmentId: enrollment.id,
           enrolledAt: enrollment.enrolledAt,
-          finalGrade: enrollment.finalGrade,
+          finalGrade: enrollment.grade,
           status: enrollment.status,
-          course: {
-            id: enrollment.course.id,
-            name: enrollment.course.name,
-            code: enrollment.course.code,
-            description: enrollment.course.description,
-            credits: enrollment.course.credits,
-            semester: enrollment.course.semester,
-            year: enrollment.course.year,
-            instructor: enrollment.course.instructor,
-            department: enrollment.course.department,
-          },
+          course: course || { id: enrollment.courseId, name: "Unknown Course" },
           progress,
           totalAssignments,
           completedAssignments,
