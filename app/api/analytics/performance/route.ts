@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     });
 
     const avgGrade = completedCourses.length > 0
-      ? completedCourses.reduce((sum, c) => sum + (c.grade || 0), 0) / completedCourses.length
+      ? completedCourses.reduce((sum, c) => sum + (parseFloat(c.grade || '0') || 0), 0) / completedCourses.length
       : 0;
 
     // Assignment completion rate

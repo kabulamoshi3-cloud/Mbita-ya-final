@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     });
 
     const averageGrade = grades.length > 0
-      ? grades.reduce((sum, g) => sum + (g.grade || 0), 0) / grades.length
+      ? grades.reduce((sum, g) => sum + (parseFloat(g.grade || '0') || 0), 0) / grades.length
       : 0;
 
     // Get gamification points
