@@ -30,26 +30,31 @@ export async function POST(request: NextRequest) {
 
     const { assignmentId, content, attachmentUrl } = result.data;
 
-    // Check if assignment exists and is not past due
+    // Check if assignment exists
     const assignment = await prisma.assignment.findUnique({
       where: { id: assignmentId },
-      include: {
-        course: {
-          include: {
-            enrollments: {
-              where: { studentId: session.studentId },
-            },
-          },
-        },
+      select: {
+        id: true,
+        courseId: true,
+        dueDate: true,
+        published: true,
       },
     });
 
-    if (!assignment) {
+    if (!assignment || !assignment.published) {
       return NextResponse.json({ error: "Assignment not found" }, { status: 404 });
     }
 
-    // Check if student is enrolled
-    if (assignment.course.enrollments.length === 0) {
+    // Check if student is enrolled in the course
+    const enrollment = await prisma.studentEnrollment.findFirst({
+      where: {
+        studentId: session.studentId,
+        courseId: assignment.courseId,
+        status: "active",
+      },
+    });
+
+    if (!enrollment) {
       return NextResponse.json({ error: "Not enrolled in this course" }, { status: 403 });
     }
 
@@ -61,9 +66,9 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    if (existingSubmission && existingSubmission.status !== "pending") {
+    if (existingSubmission && existingSubmission.gradedAt) {
       return NextResponse.json(
-        { error: "Assignment already submitted" },
+        { error: "Assignment already submitted and graded" },
         { status: 400 }
       );
     }
@@ -74,9 +79,9 @@ export async function POST(request: NextRequest) {
           where: { id: existingSubmission.id },
           data: {
             content,
-            attachmentUrl,
+            fileUrl: attachmentUrl,
             submittedAt: new Date(),
-            status: "submitted",
+            late: assignment.dueDate < new Date(),
           },
         })
       : await prisma.assignmentSubmission.create({
@@ -84,21 +89,30 @@ export async function POST(request: NextRequest) {
             assignmentId,
             studentId: session.studentId,
             content,
-            attachmentUrl,
+            fileUrl: attachmentUrl,
             submittedAt: new Date(),
-            status: "submitted",
+            late: assignment.dueDate < new Date(),
           },
         });
 
-    // Award participation points
-    await prisma.studentPoints.create({
-      data: {
-        studentId: session.studentId,
-        points: 10,
-        source: "assignment_submission",
-        description: `Submitted assignment: ${assignment.title}`,
-      },
+    // Update student points (upsert)
+    const studentPoints = await prisma.studentPoints.findUnique({
+      where: { studentId: session.studentId },
     });
+
+    if (studentPoints) {
+      await prisma.studentPoints.update({
+        where: { studentId: session.studentId },
+        data: { points: studentPoints.points + 10 },
+      });
+    } else {
+      await prisma.studentPoints.create({
+        data: {
+          studentId: session.studentId,
+          points: 10,
+        },
+      });
+    }
 
     return NextResponse.json({
       message: "Assignment submitted successfully",
