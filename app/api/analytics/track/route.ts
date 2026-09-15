@@ -13,13 +13,14 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { event, category, metadata } = body;
 
-    // Track event (you can store in a separate analytics table if needed)
+    // Track event in ActivityLog
     await prisma.activityLog.create({
       data: {
-        studentId: session.studentId,
-        event,
-        category,
-        metadata: metadata || {},
+        performedBy: session.studentId,
+        action: event || "unknown",
+        section: category || "general",
+        itemTitle: metadata?.title || null,
+        itemId: metadata?.id || null,
       },
     });
 
