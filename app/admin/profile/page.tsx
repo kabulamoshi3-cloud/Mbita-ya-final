@@ -556,6 +556,52 @@ export default function AdminProfilePage() {
             </div>
           </div>
 
+          {/* ── AUTO-SYNC SETTINGS ── */}
+          <div className="bg-white border border-border rounded-xl p-6">
+            <h2 className="font-semibold text-navy-900 text-base mb-2">Auto-Sync Settings</h2>
+            <p className="text-sm text-navy-500 mb-4">
+              Automatically fetch publications and research from your connected academic profiles
+            </p>
+
+            <div className="flex items-center justify-between p-4 bg-navy-50 rounded-lg">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className="font-medium text-navy-900 text-sm">Enable Auto-Sync</h3>
+                  {profile.autoSyncEnabled ? (
+                    <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full font-medium">
+                      ENABLED
+                    </span>
+                  ) : (
+                    <span className="text-xs px-2 py-0.5 bg-red-100 text-red-700 rounded-full font-medium">
+                      DISABLED
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-navy-500">
+                  When enabled, your publications and research will be automatically synced from Google Scholar, ORCID, and other connected platforms
+                </p>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer ml-4">
+                <input
+                  type="checkbox"
+                  checked={profile.autoSyncEnabled ?? false}
+                  onChange={(e) => setProfile({ ...profile, autoSyncEnabled: e.target.checked })}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+              </label>
+            </div>
+
+            {profile.lastSyncAt && (
+              <div className="mt-3 text-xs text-navy-500 flex items-center gap-1.5">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Last synced: {new Date(profile.lastSyncAt).toLocaleString()}
+              </div>
+            )}
+          </div>
+
           <div className="flex justify-end">
             <Button type="submit" variant="primary" isLoading={saving}>
               {saving ? "Saving…" : "Save Links"}
