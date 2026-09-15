@@ -101,25 +101,31 @@ export default function AutoSyncPage() {
     }
   }
 
-  // Run full sync + import
+  // Run full sync + import (using academic profile URLs)
   async function handleFullSync() {
     setIsSyncing(true);
     setIsImporting(true);
     setSyncResult(null);
     setImportResult(null);
     try {
-      const res = await fetch("/api/sync/background", {
+      const res = await fetch("/api/sync/manual", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ trigger: "manual" }),
+        headers: { "Content-Type": "application/json"},
+        body: JSON.stringify({ importToDb: true }),
       });
       const data = await res.json();
-      setSyncResult(data.sync);
-      setImportResult(data.import);
+      
+      if (data.success) {
+        setSyncResult({ success: true, ...data.sync });
+        setImportResult(data.import);
+      } else {
+        setSyncResult({ success: false, error: data.message || "Sync failed" });
+      }
+      
       await fetchStatus();
       await fetchSyncedContent();
     } catch (error: any) {
-      setSyncResult({ error: error.message });
+      setSyncResult({ success: false, error: error.message });
     } finally {
       setIsSyncing(false);
       setIsImporting(false);
@@ -170,12 +176,12 @@ export default function AutoSyncPage() {
               variant="primary"
               onClick={handleFullSync}
               isLoading={isSyncing || isImporting}
-              disabled={!isEnabled || accounts.length === 0}
+              disabled={!isEnabled}
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
               </svg>
-              Full Sync + Import
+              Sync Now
             </Button>
           </div>
         </div>
@@ -183,15 +189,15 @@ export default function AutoSyncPage() {
         {!isEnabled && (
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
             <p className="text-sm text-yellow-800">
-              ⚠️ Auto-sync is disabled. Enable it in Profile Settings to start syncing content automatically.
+              ⚠️ Auto-sync is disabled. Enable it in Profile Settings → Academic Links tab to start syncing content automatically.
             </p>
           </div>
         )}
 
-        {accounts.length === 0 && isEnabled && (
+        {isEnabled && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <p className="text-sm text-blue-800">
-              ℹ️ No connected accounts found. Add accounts via Integrations page to start syncing.
+              ℹ️ Sync uses academic profile URLs from Profile Settings (Google Scholar, ORCID, GitHub, etc.). Make sure you've added them in Profile → Academic Links.
             </p>
           </div>
         )}
