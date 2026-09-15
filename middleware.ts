@@ -32,7 +32,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
 
-    if (Date.now() - session.createdAt > SESSION_MAX_AGE_MS) {
+    if (session.createdAt && Date.now() - session.createdAt > SESSION_MAX_AGE_MS) {
       const redirectResponse = NextResponse.redirect(new URL("/login", request.url));
       const clearSession = await getIronSession<SessionData>(request, redirectResponse, sessionOptions);
       clearSession.destroy();
