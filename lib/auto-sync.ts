@@ -383,14 +383,12 @@ export async function importSyncedContent(limit = 100): Promise<{
             type: pubType as any,
             abstract: item.content || "",
             year: item.publishedDate?.getFullYear() || new Date().getFullYear(),
-            authors: Array.isArray(item.authors) ? item.authors.join(", ") : String(item.authors || ""),
+            authors: Array.isArray(item.authors) ? item.authors : [String(item.authors || "Unknown")],
             url: item.url || "",
             pdfUrl: metadata?.pdf_url || metadata?.pdfUrl || "",
             doi: metadata?.doi || "",
             venue: metadata?.venue || metadata?.journal || metadata?.conference || "External Source",
-            citations: item.citations || 0,
             published: true, // Auto-publish synced content
-            tags: metadata?.keywords || [],
           },
         });
         
