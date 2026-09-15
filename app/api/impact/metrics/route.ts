@@ -6,75 +6,24 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const researcherId = searchParams.get("researcherId");
 
-    const where: any = researcherId ? { authorId: researcherId } : {};
-
-    // Get publication metrics
-    const publications = await prisma.publication.findMany({
-      where,
-      select: {
-        downloads: true,
-        views: true,
-        citations: true,
-        altmetricScore: true,
-      },
-    });
-
-    const totalDownloads = publications.reduce((sum, p) => sum + (p.downloads || 0), 0);
-    const totalViews = publications.reduce((sum, p) => sum + (p.views || 0), 0);
-    const totalCitations = publications.reduce((sum, p) => sum + (p.citations || 0), 0);
-    const avgAltmetric = publications.length > 0
-      ? publications.reduce((sum, p) => sum + (p.altmetricScore || 0), 0) / publications.length
-      : 0;
-
-    // Get collaboration metrics
-    const collaborations = await prisma.researcherConnection.count({
-      where: {
-        OR: [
-          { requesterId: researcherId },
-          { receiverId: researcherId },
-        ],
-        status: "accepted",
-      },
-    });
-
-    // Get funding metrics
-    const fundingApplications = await prisma.fundingApplication.findMany({
-      where: { applicantId: researcherId },
-    });
-
-    const fundingAwarded = fundingApplications
-      .filter(a => a.status === "awarded")
-      .reduce((sum, a) => sum + a.budgetAmount, 0);
-
-    // Calculate impact score (weighted average)
-    const impactScore = Math.round(
-      (totalCitations * 0.4 +
-        (totalDownloads / 100) * 0.2 +
-        (totalViews / 1000) * 0.1 +
-        avgAltmetric * 0.15 +
-        collaborations * 0.15) *
-        10
-    ) / 10;
-
+    // Impact metrics not fully implemented - Publication model lacks tracking fields
+    // FundingApplication and ResearcherConnection models don't exist
     return NextResponse.json({
       metrics: {
-        downloads: totalDownloads,
-        views: totalViews,
-        citations: totalCitations,
-        altmetricScore: Math.round(avgAltmetric * 10) / 10,
-        collaborations,
-        fundingAwarded,
-        impactScore: Math.min(impactScore, 100),
+        downloads: 0,
+        views: 0,
+        citations: 0,
+        altmetricScore: 0,
+        collaborations: 0,
+        fundingAwarded: 0,
+        impactScore: 0,
       },
       breakdown: {
-        publicationsCount: publications.length,
-        avgDownloadsPerPaper: publications.length > 0
-          ? Math.round(totalDownloads / publications.length)
-          : 0,
-        avgCitationsPerPaper: publications.length > 0
-          ? Math.round((totalCitations / publications.length) * 10) / 10
-          : 0,
+        publicationsCount: 0,
+        avgDownloadsPerPaper: 0,
+        avgCitationsPerPaper: 0,
       },
+      message: "Impact metrics tracking not yet fully implemented",
     });
   } catch (error) {
     console.error("Metrics error:", error);
