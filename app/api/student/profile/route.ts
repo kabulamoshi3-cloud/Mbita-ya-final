@@ -45,11 +45,11 @@ export async function GET(request: NextRequest) {
     }
 
     // Get additional stats
-    const enrolledCourses = await prisma.courseEnrollment.count({
+    const enrolledCourses = await prisma.studentEnrollment.count({
       where: { studentId: session.studentId, status: "active" },
     });
 
-    const completedCourses = await prisma.courseEnrollment.count({
+    const completedCourses = await prisma.studentEnrollment.count({
       where: { studentId: session.studentId, status: "completed" },
     });
 

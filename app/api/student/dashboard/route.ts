@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     const studentId = session.studentId;
 
     // Get enrolled courses count
-    const enrolledCoursesCount = await prisma.courseEnrollment.count({
+    const enrolledCoursesCount = await prisma.studentEnrollment.count({
       where: { studentId, status: "active" },
     });
 
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     });
 
     // Get average grade
-    const grades = await prisma.courseEnrollment.findMany({
+    const grades = await prisma.studentEnrollment.findMany({
       where: { studentId, status: "completed", finalGrade: { not: null } },
       select: { finalGrade: true },
     });
@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
     });
 
     // Get enrolled courses
-    const enrolledCourses = await prisma.courseEnrollment.findMany({
+    const enrolledCourses = await prisma.studentEnrollment.findMany({
       where: { studentId, status: "active" },
       include: {
         course: {

@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     const studentId = session.studentId;
 
     // Get completed courses with grades
-    const completedCourses = await prisma.courseEnrollment.findMany({
+    const completedCourses = await prisma.studentEnrollment.findMany({
       where: {
         studentId,
         status: "completed",

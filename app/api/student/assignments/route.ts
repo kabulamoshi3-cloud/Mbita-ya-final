@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     const courseId = searchParams.get("courseId");
 
     // Get enrolled courses
-    const enrollments = await prisma.courseEnrollment.findMany({
+    const enrollments = await prisma.studentEnrollment.findMany({
       where: {
         studentId: session.studentId,
         status: "active",
