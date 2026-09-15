@@ -36,13 +36,13 @@ async function handleInit() {
 
     // 1. Create Admin User
     if (!existingAdmin) {
-      const passwordHash = await bcrypt.hash("admin123", 10);
+      const passwordHash = await bcrypt.hash("Mbita@2026", 10);
       results.admin = await prisma.adminUser.upsert({
         where: { id: 1 },
         update: {},
         create: {
           id: 1,
-          username: "admin",
+          username: "Mbita",
           passwordHash,
           failedAttempts: 0,
           totpEnabled: false,
@@ -192,9 +192,9 @@ async function handleInit() {
       success: true,
       message: "Database initialized successfully!",
       credentials: {
-        adminUsername: "admin",
-        adminPassword: "admin123",
-        warning: "⚠️ Please change the admin password immediately after login!",
+        adminUsername: "Mbita",
+        adminPassword: "Mbita@2026",
+        warning: "⚠️ Keep these credentials secure!",
       },
       loginUrl: "/login",
       adminUrl: "/admin",
