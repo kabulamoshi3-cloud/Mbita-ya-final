@@ -17,11 +17,13 @@ export async function GET(request: NextRequest) {
       dateFilter = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000);
     }
 
-    // Active students count
-    const activeStudents = await prisma.student.count({
+    // Active students count (StudentUser model, not Student)
+    // Note: Student model only has 'current' and 'alumni' status
+    // StudentUser is for the student portal with active field
+    const activeStudents = await prisma.studentUser.count({
       where: {
-        status: "active",
-        lastActive: { gte: dateFilter },
+        active: true,
+        lastLogin: { gte: dateFilter },
       },
     });
 
