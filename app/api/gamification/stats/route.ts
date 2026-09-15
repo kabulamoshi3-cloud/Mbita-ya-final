@@ -11,55 +11,34 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    // Get total points
-    const pointRecords = await prisma.studentPoints.findMany({
+    // Get total points (StudentPoints has one record per student with studentId as unique)
+    const studentPoints = await prisma.studentPoints.findUnique({
       where: { studentId: session.studentId },
-      select: { points: true },
+      select: { points: true, level: true, rank: true },
     });
 
-    const totalPoints = pointRecords.reduce((sum, p) => sum + p.points, 0);
-
-    // Calculate level (100 points per level)
-    const level = Math.floor(totalPoints / 100) + 1;
+    const totalPoints = studentPoints?.points || 0;
+    const level = studentPoints?.level || 1;
     const pointsToNextLevel = (level * 100) - totalPoints;
 
-    // Get badges count
-    const badgesCount = await prisma.studentBadge.count({
-      where: { studentId: session.studentId },
-    });
+    // StudentBadge model doesn't exist
+    const badgesCount = 0;
 
-    // Get rank
-    const allStudentPoints = await prisma.studentPoints.groupBy({
-      by: ['studentId'],
-      _sum: { points: true },
-      orderBy: { _sum: { points: 'desc' } },
+    // Get rank from all students
+    const allStudentPoints = await prisma.studentPoints.findMany({
+      select: { studentId: true, points: true },
+      orderBy: { points: 'desc' },
     });
 
     const rank = allStudentPoints.findIndex(s => s.studentId === session.studentId) + 1;
-
-    // Get achievements
-    const achievements = await prisma.studentBadge.findMany({
-      where: { studentId: session.studentId },
-      include: {
-        badge: true,
-      },
-      orderBy: { earnedAt: 'desc' },
-    });
 
     return NextResponse.json({
       totalPoints,
       level,
       pointsToNextLevel,
       badgesCount,
-      rank,
-      achievements: achievements.map(a => ({
-        id: a.badge.id,
-        name: a.badge.name,
-        description: a.badge.description,
-        icon: a.badge.icon,
-        rarity: a.badge.rarity,
-        earnedAt: a.earnedAt,
-      })),
+      rank: rank || studentPoints?.rank || null,
+      achievements: [], // StudentBadge model doesn't exist
     });
 
   } catch (error) {

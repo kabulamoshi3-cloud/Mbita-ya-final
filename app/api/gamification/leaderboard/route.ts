@@ -36,15 +36,8 @@ export async function GET(request: NextRequest) {
           },
         });
 
-        // StudentBadge model may not exist, set to 0
-        let badgesCount = 0;
-        try {
-          badgesCount = await prisma.studentBadge.count({
-            where: { studentId: sp.studentId },
-          });
-        } catch {
-          badgesCount = 0;
-        }
+        // StudentBadge model doesn't exist in schema
+        const badgesCount = 0;
 
         return {
           studentId: sp.studentId,

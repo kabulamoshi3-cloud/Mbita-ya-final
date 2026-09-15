@@ -53,21 +53,20 @@ export async function GET(request: NextRequest) {
       where: { studentId: session.studentId, status: "completed" },
     });
 
-    const totalPoints = await prisma.studentPoints.aggregate({
+    const studentPoints = await prisma.studentPoints.findUnique({
       where: { studentId: session.studentId },
-      _sum: { points: true },
+      select: { points: true },
     });
 
-    const badgesCount = await prisma.studentBadge.count({
-      where: { studentId: session.studentId },
-    });
+    // StudentBadge model doesn't exist
+    const badgesCount = 0;
 
     return NextResponse.json({
       profile: student,
       stats: {
         enrolledCourses,
         completedCourses,
-        totalPoints: totalPoints._sum.points || 0,
+        totalPoints: studentPoints?.points || 0,
         badgesCount,
       },
     });
