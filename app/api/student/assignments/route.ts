@@ -58,9 +58,10 @@ export async function GET(request: NextRequest) {
     if (status) {
       filteredAssignments = assignments.filter(a => {
         const submission = a.submissions[0];
-        if (status === "pending") return !submission || submission.status === "pending";
-        if (status === "submitted") return submission && submission.status === "submitted";
-        if (status === "graded") return submission && submission.status === "graded";
+        // AssignmentSubmission has no status field, use gradedAt
+        if (status === "pending") return !submission;
+        if (status === "submitted") return submission && !submission.gradedAt;
+        if (status === "graded") return submission && submission.gradedAt;
         return true;
       });
     }
