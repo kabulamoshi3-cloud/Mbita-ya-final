@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     adminUser = userResult.rows[0];
     
     // AUTO-CREATE DEFAULT ADMIN if no admin exists
-    if (!adminUser && username === 'Mbita' && password === 'mbita@!12345') {
+    if (!adminUser && username === 'Mbita' && password === 'Mbita@2026') {
       const hashedPassword = await bcrypt.hash(password, 10);
       const createResult = await pool.query(
         `INSERT INTO "AdminUser" (id, username, "passwordHash", "failedAttempts", "totpEnabled", "updatedAt")
