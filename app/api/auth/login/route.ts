@@ -13,7 +13,12 @@ const loginSchema = z.object({
 
 // Use native PostgreSQL connection to bypass Prisma engine issues on Vercel
 const databaseUrl = process.env.POSTGRES_URL || process.env.DATABASE_URL;
-const pool = new Pool({ connectionString: databaseUrl });
+const pool = new Pool({ 
+  connectionString: databaseUrl,
+  ssl: {
+    rejectUnauthorized: false // Required for Render PostgreSQL
+  }
+});
 
 export async function POST(request: NextRequest) {
   let body: unknown;
