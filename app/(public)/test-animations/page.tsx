@@ -72,7 +72,7 @@ export default function TestAnimationsPage() {
         <h2 className="text-2xl font-bold text-navy-800 mb-6">Alternating Slide Grid</h2>
         <p className="text-gray-600 mb-4">Cards alternate between sliding from left and right</p>
         
-        <SlideGrid columns={3} stagger={0.15}>
+        <SlideGrid columns={3} staggerDelay={0.15}>
           {[1, 2, 3, 4, 5, 6].map((num) => (
             <div key={num} className="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-6 shadow-sm">
               <h3 className="text-xl font-bold text-purple-900 mb-2">Card {num}</h3>
