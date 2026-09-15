@@ -79,22 +79,12 @@ export async function GET(request: NextRequest) {
     // Get enrolled courses
     const enrolledCourses = await prisma.studentEnrollment.findMany({
       where: { studentId, status: "active" },
-      include: {
-        course: {
-          select: {
-            id: true,
-            name: true,
-            code: true,
-            description: true,
-            credits: true,
-            instructor: {
-              select: {
-                firstName: true,
-                lastName: true,
-              },
-            },
-          },
-        },
+      select: {
+        id: true,
+        courseId: true,
+        status: true,
+        grade: true,
+        enrolledAt: true,
       },
       take: 6,
     });
@@ -102,6 +92,17 @@ export async function GET(request: NextRequest) {
     // Calculate course progress
     const coursesWithProgress = await Promise.all(
       enrolledCourses.map(async (enrollment) => {
+        // Get course details separately
+        const course = await prisma.course.findUnique({
+          where: { id: enrollment.courseId },
+          select: {
+            id: true,
+            name: true,
+            code: true,
+            description: true,
+          },
+        });
+
         const totalAssignments = await prisma.assignment.count({
           where: { courseId: enrollment.courseId },
         });
@@ -119,7 +120,7 @@ export async function GET(request: NextRequest) {
           : 0;
 
         return {
-          ...enrollment.course,
+          ...(course || {}),
           enrollmentId: enrollment.id,
           progress,
         };
