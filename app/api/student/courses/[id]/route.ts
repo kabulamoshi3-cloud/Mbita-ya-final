@@ -51,19 +51,33 @@ export async function GET(
     // Get assignments
     const assignments = await prisma.assignment.findMany({
       where: { courseId },
-      include: {
-        submissions: {
-          where: { studentId: session.studentId },
-          select: {
-            id: true,
-            status: true,
-            grade: true,
-            submittedAt: true,
-          },
-        },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        dueDate: true,
+        maxScore: true,
+        published: true,
       },
       orderBy: { dueDate: "asc" },
     });
+
+    // Get submissions separately
+    const assignmentIds = assignments.map(a => a.id);
+    const submissions = await prisma.assignmentSubmission.findMany({
+      where: {
+        studentId: session.studentId,
+        assignmentId: { in: assignmentIds },
+      },
+      select: {
+        id: true,
+        assignmentId: true,
+        score: true,
+        submittedAt: true,
+        gradedAt: true,
+      },
+    });
+    const submissionMap = new Map(submissions.map(s => [s.assignmentId, s]));
 
     // Get course materials
     const materials = await prisma.courseMaterial.findMany({
@@ -83,7 +97,7 @@ export async function GET(
       enrollment,
       assignments: assignments.map(a => ({
         ...a,
-        submission: a.submissions[0] || null,
+        submission: submissionMap.get(a.id) || null,
       })),
       materials,
       announcements,
