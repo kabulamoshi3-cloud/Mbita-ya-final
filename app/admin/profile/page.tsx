@@ -24,6 +24,8 @@ interface ProfileData {
   adminPhotoUrl: string;
   cvUrl: string;
   academicProfiles: AcademicProfile[];
+  autoSyncEnabled?: boolean;
+  lastSyncAt?: string | null;
 }
 
 export const dynamic = "force-dynamic";
