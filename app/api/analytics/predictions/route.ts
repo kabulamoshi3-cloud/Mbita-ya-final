@@ -30,19 +30,19 @@ export async function GET(request: NextRequest) {
       take: 10,
     });
 
-    // Fetch assignments separately to get maxPoints
+    // Fetch assignments separately to get maxScore
     const assignmentIds = [...new Set(recentGrades.map(g => g.assignmentId))];
     const assignments = await prisma.assignment.findMany({
       where: { id: { in: assignmentIds } },
-      select: { id: true, maxPoints: true },
+      select: { id: true, maxScore: true },
     });
     const assignmentMap = new Map(assignments.map(a => [a.id, a]));
 
     const grades = recentGrades.map(g => {
       const assignment = assignmentMap.get(g.assignmentId);
       return {
-        score: g.score && assignment?.maxPoints
-          ? (g.score / assignment.maxPoints) * 100
+        score: g.score && assignment?.maxScore
+          ? (g.score / assignment.maxScore) * 100
           : 0,
         date: g.submittedAt,
       };

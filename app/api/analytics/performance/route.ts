@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
       take: 6,
     });
 
-    // Calculate trend as percentage scores (assuming maxPoints)
+    // Calculate trend as percentage scores (using maxScore from Assignment)
     const trend = recentGrades.map(g => ({
       score: g.score || 0,
     }));

@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
         title: true,
         description: true,
         dueDate: true,
-        maxPoints: true,
+        maxScore: true,
         courseId: true,
       },
       orderBy: { dueDate: "asc" },
@@ -144,7 +144,7 @@ export async function GET(request: NextRequest) {
         title: a.title,
         courseId: a.courseId,
         dueDate: a.dueDate,
-        maxPoints: a.maxPoints,
+        maxScore: a.maxScore,
       })),
       enrolledCourses: coursesWithProgress,
       notifications: notifications.map(n => ({
