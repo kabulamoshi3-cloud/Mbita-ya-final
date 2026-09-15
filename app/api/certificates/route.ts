@@ -12,18 +12,38 @@ export async function GET(request: NextRequest) {
 
     const certificates = await prisma.certificate.findMany({
       where: { studentId: session.studentId },
-      include: {
-        course: {
-          select: {
-            name: true,
-            code: true,
-          },
-        },
+      select: {
+        id: true,
+        studentId: true,
+        courseId: true,
+        type: true,
+        title: true,
+        description: true,
+        issueDate: true,
+        certificateUrl: true,
+        verificationCode: true,
+        createdAt: true,
       },
-      orderBy: { issuedDate: "desc" },
+      orderBy: { issueDate: "desc" },
     });
 
-    return NextResponse.json({ certificates });
+    // Fetch courses separately
+    const courseIds = certificates
+      .map(c => c.courseId)
+      .filter((id): id is string => id !== null);
+    
+    const courses = await prisma.course.findMany({
+      where: { id: { in: courseIds } },
+      select: { id: true, name: true, code: true },
+    });
+    const courseMap = new Map(courses.map(c => [c.id, c]));
+
+    return NextResponse.json({
+      certificates: certificates.map(cert => ({
+        ...cert,
+        course: cert.courseId ? courseMap.get(cert.courseId) : null,
+      })),
+    });
   } catch (error) {
     console.error("Certificates error:", error);
     return NextResponse.json({ error: "Failed to load certificates" }, { status: 500 });
