@@ -10,51 +10,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const body = await request.json();
-    const { integrationId, accessToken, refreshToken, expiresAt } = body;
-
-    // Check if already connected
-    const existing = await prisma.integration.findFirst({
-      where: {
-        studentId: session.studentId,
-        service: integrationId,
-      },
-    });
-
-    if (existing) {
-      // Update existing connection
-      const updated = await prisma.integration.update({
-        where: { id: existing.id },
-        data: {
-          accessToken,
-          refreshToken,
-          expiresAt: expiresAt ? new Date(expiresAt) : null,
-          status: "connected",
-        },
-      });
-
-      return NextResponse.json({
-        message: "Integration updated",
-        integration: updated,
-      });
-    }
-
-    // Create new connection
-    const integration = await prisma.integration.create({
-      data: {
-        studentId: session.studentId,
-        service: integrationId,
-        accessToken,
-        refreshToken,
-        expiresAt: expiresAt ? new Date(expiresAt) : null,
-        status: "connected",
-      },
-    });
-
+    // Integration model is global (no user-specific integrations)
+    // This feature needs a UserIntegration model to be implemented
     return NextResponse.json({
-      message: "Integration connected",
-      integration,
-    }, { status: 201 });
+      error: "User-specific integrations not yet implemented",
+      message: "Integration model needs per-user tracking (studentId/userId field)",
+    }, { status: 501 });
   } catch (error) {
     console.error("Integration connect error:", error);
     return NextResponse.json({ error: "Failed to connect integration" }, { status: 500 });
