@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import CourseCard from "@/components/sections/CourseCard";
 import AcademicCalendar from "@/components/sections/AcademicCalendar";
+import SlideGrid from "@/components/SlideGrid";
 import type { Course } from "@prisma/client";
 
 interface TeachingClientProps {
@@ -232,28 +233,47 @@ export default function TeachingClient({ courses }: TeachingClientProps) {
 
       {/* ── RESULTS ── */}
       {filtered.length > 0 ? (
-        <div className={viewMode === "grid"
-          ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          : "space-y-4"
-        }>
-          {filtered.map((course) => (
-            <CourseCard
-              key={course.id}
-              id={course.id}
-              name={course.name}
-              code={course.code}
-              term={course.term}
-              status={course.status}
-              syllabusUrl={course.syllabusUrl}
-              externalUrl={course.externalUrl}
-              description={course.description}
-              bannerImage={course.bannerImage}
-              zoomUrl={course.zoomUrl}
-              classroomUrl={course.classroomUrl}
-              schedule={course.schedule}
-            />
-          ))}
-        </div>
+        viewMode === "grid" ? (
+          <SlideGrid columns={3} direction="alternate" staggerDelay={0.1}>
+            {filtered.map((course) => (
+              <CourseCard
+                key={course.id}
+                id={course.id}
+                name={course.name}
+                code={course.code}
+                term={course.term}
+                status={course.status}
+                syllabusUrl={course.syllabusUrl}
+                externalUrl={course.externalUrl}
+                description={course.description}
+                bannerImage={course.bannerImage}
+                zoomUrl={course.zoomUrl}
+                classroomUrl={course.classroomUrl}
+                schedule={course.schedule}
+              />
+            ))}
+          </SlideGrid>
+        ) : (
+          <div className="space-y-4">
+            {filtered.map((course) => (
+              <CourseCard
+                key={course.id}
+                id={course.id}
+                name={course.name}
+                code={course.code}
+                term={course.term}
+                status={course.status}
+                syllabusUrl={course.syllabusUrl}
+                externalUrl={course.externalUrl}
+                description={course.description}
+                bannerImage={course.bannerImage}
+                zoomUrl={course.zoomUrl}
+                classroomUrl={course.classroomUrl}
+                schedule={course.schedule}
+              />
+            ))}
+          </div>
+        )
       ) : (
         <div className="text-center py-16 bg-navy-50 rounded-2xl">
           <svg className="w-12 h-12 text-navy-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
