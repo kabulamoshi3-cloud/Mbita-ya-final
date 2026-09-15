@@ -18,14 +18,11 @@ export async function GET(request: NextRequest) {
       where: { studentId, status: "active" },
     });
 
-    // Get pending assignments count
+    // Get pending assignments count (submitted but not graded)
     const pendingAssignmentsCount = await prisma.assignmentSubmission.count({
       where: {
         studentId,
-        status: "pending",
-        assignment: {
-          dueDate: { gte: new Date() },
-        },
+        gradedAt: null,
       },
     });
 

@@ -25,18 +25,17 @@ export async function GET(request: NextRequest) {
 
     const student = await prisma.student.findUnique({
       where: { id: session.studentId },
-      include: {
-        program: {
-          select: {
-            name: true,
-            code: true,
-            department: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
+      select: {
+        id: true,
+        name: true,
+        degreeLevel: true,
+        researchTopic: true,
+        status: true,
+        thesisTitle: true,
+        graduationYear: true,
+        currentPosition: true,
+        profileUrl: true,
+        photoUrl: true,
       },
     });
 

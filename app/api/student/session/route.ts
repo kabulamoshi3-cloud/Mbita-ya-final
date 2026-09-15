@@ -19,19 +19,10 @@ export async function GET(request: NextRequest) {
       where: { id: session.studentId },
       select: {
         id: true,
-        studentId: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        profilePicture: true,
+        name: true,
+        degreeLevel: true,
         status: true,
-        program: {
-          select: {
-            id: true,
-            name: true,
-            code: true,
-          },
-        },
+        photoUrl: true,
       },
     });
 
