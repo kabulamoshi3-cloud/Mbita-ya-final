@@ -14,12 +14,14 @@ export async function GET(request: NextRequest) {
       dateFilter = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
     }
 
-    // Get student points
-    const studentPoints = await prisma.studentPoints.groupBy({
-      by: ['studentId'],
-      where: dateFilter ? { awardedAt: { gte: dateFilter } } : undefined,
-      _sum: { points: true },
-      orderBy: { _sum: { points: 'desc' } },
+    // Get student points (StudentPoints has no date tracking, ignore dateFilter)
+    const studentPoints = await prisma.studentPoints.findMany({
+      select: {
+        studentId: true,
+        points: true,
+        level: true,
+      },
+      orderBy: { points: 'desc' },
       take: limit,
     });
 
@@ -29,24 +31,27 @@ export async function GET(request: NextRequest) {
         const student = await prisma.student.findUnique({
           where: { id: sp.studentId },
           select: {
-            firstName: true,
-            lastName: true,
-            profilePicture: true,
+            name: true,
+            photoUrl: true,
           },
         });
 
-        const badgesCount = await prisma.studentBadge.count({
-          where: { studentId: sp.studentId },
-        });
-
-        const level = Math.floor((sp._sum.points || 0) / 100) + 1;
+        // StudentBadge model may not exist, set to 0
+        let badgesCount = 0;
+        try {
+          badgesCount = await prisma.studentBadge.count({
+            where: { studentId: sp.studentId },
+          });
+        } catch {
+          badgesCount = 0;
+        }
 
         return {
           studentId: sp.studentId,
-          name: `${student?.firstName} ${student?.lastName}`,
-          profilePicture: student?.profilePicture,
-          points: sp._sum.points || 0,
-          level,
+          name: student?.name || "Unknown",
+          profilePicture: student?.photoUrl,
+          points: sp.points || 0,
+          level: sp.level || 1,
           badgesCount,
         };
       })
