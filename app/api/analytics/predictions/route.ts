@@ -72,9 +72,9 @@ export async function GET(request: NextRequest) {
 
     const weeklyLogins = await prisma.activityLog.count({
       where: {
-        studentId,
-        event: "login",
-        createdAt: { gte: lastWeek },
+        performedBy: studentId,
+        action: "login",
+        performedAt: { gte: lastWeek },
       },
     });
 
