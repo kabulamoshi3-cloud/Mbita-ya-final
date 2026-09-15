@@ -36,8 +36,8 @@ export async function GET(
         where: { id: certificate.studentId },
         select: {
           name: true,
-          email: true,
-          profilePicture: true,
+          photoUrl: true,
+          degreeLevel: true,
         },
       });
     }
