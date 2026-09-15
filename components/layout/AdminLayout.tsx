@@ -25,23 +25,34 @@ const sidebarGroups = [
     ],
   },
   {
-    label: "Content",
+    label: "Content Management",
     links: [
       { href: "/admin/home", label: "Home Page", icon: "🏠" },
       { href: "/admin/about", label: "About Page", icon: "ℹ️" },
       { href: "/admin/profile", label: "Profile", icon: "👤" },
+      { href: "/admin/cv", label: "CV & Awards", icon: "🏆" },
+    ],
+  },
+  {
+    label: "Academic & Research",
+    links: [
+      { href: "/admin/publications", label: "Publications", icon: "📄" },
       { href: "/admin/research", label: "Research", icon: "🔬" },
       { href: "/admin/datasets", label: "Datasets", icon: "📊" },
       { href: "/admin/presentations", label: "Presentations", icon: "🎤" },
       { href: "/admin/proposals", label: "Proposals", icon: "📋" },
       { href: "/admin/repository", label: "Repository", icon: "💻" },
-      { href: "/admin/publications", label: "Publications", icon: "📄" },
+      { href: "/admin/auto-sync", label: "Auto-Sync", icon: "🔄" },
+    ],
+  },
+  {
+    label: "Teaching & Students",
+    links: [
       { href: "/admin/teaching", label: "Teaching", icon: "🎓" },
+      { href: "/admin/students", label: "Students", icon: "👩‍🎓" },
       { href: "/admin/grades", label: "Grades", icon: "📝" },
       { href: "/admin/attendance", label: "Attendance", icon: "✅" },
       { href: "/admin/plagiarism", label: "Plagiarism Check", icon: "🔍" },
-      { href: "/admin/students", label: "Students", icon: "👩‍🎓" },
-      { href: "/admin/cv", label: "CV & Awards", icon: "🏆" },
     ],
   },
   {
@@ -55,15 +66,15 @@ const sidebarGroups = [
     ],
   },
   {
-    label: "Network",
+    label: "Collaboration",
     links: [
       { href: "/admin/collaborations", label: "Collaborations", icon: "🤝" },
-      { href: "/admin/collaboration-requests", label: "Collab Requests", icon: "📬" },
+      { href: "/admin/collaboration-requests", label: "Requests", icon: "📬" },
       { href: "/admin/team", label: "Research Team", icon: "👥" },
     ],
   },
   {
-    label: "Admin",
+    label: "System",
     links: [
       { href: "/admin/messages", label: "Messages", icon: "✉️" },
       { href: "/admin/settings", label: "Settings", icon: "⚙️" },
