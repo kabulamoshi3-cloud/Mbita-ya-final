@@ -477,16 +477,13 @@ export async function importSyncedContent(limit = 100): Promise<{
         result = await prisma.blogPost.create({
           data: {
             title: item.title,
+            slug: item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').substring(0, 100),
             excerpt: item.content?.substring(0, 200) || "",
             content: item.content || "",
-            published: true,
+            draft: false, // Auto-publish synced content
             publishedAt: item.publishedDate || new Date(),
-            author: Array.isArray(item.authors) ? item.authors[0] : "External Author",
-            coverImage: metadata?.image || "",
+            featuredImage: metadata?.image || "",
             tags: metadata?.tags || [],
-            category: metadata?.category || "Research",
-            views: 0,
-            slug: item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
           },
         });
         
@@ -543,13 +540,12 @@ export async function importSyncedContent(limit = 100): Promise<{
             code: metadata?.code || `EXT-${Date.now()}`,
             term: metadata?.term || `${new Date().getFullYear()}`,
             description: item.content || "",
-            status: metadata?.status || "active",
-            syllabus: metadata?.syllabus || "",
-            prerequisites: metadata?.prerequisites || "",
-            learningObjectives: metadata?.objectives || [],
+            status: metadata?.status === "archived" ? "archived" : "active",
+            syllabusUrl: metadata?.syllabus || "",
             published: true,
-            enrollmentLimit: metadata?.enrollmentLimit || null,
             schedule: metadata?.schedule || null,
+            materials: metadata?.materials || null,
+            externalUrl: item.url || "",
           },
         });
         
@@ -569,21 +565,15 @@ export async function importSyncedContent(limit = 100): Promise<{
         
         result = await prisma.event.create({
           data: {
-            title: item.title,
+            name: item.title,
             description: item.content || "",
             date: item.publishedDate || new Date(),
-            startTime: metadata?.startTime || null,
-            endTime: metadata?.endTime || null,
             location: metadata?.location || "External Venue",
-            type: item.contentType === "conference" ? "conference" : 
-                  item.contentType === "talk" ? "seminar" : "workshop",
-            isVirtual: metadata?.isVirtual || false,
-            meetingLink: metadata?.link || item.url || null,
-            capacity: metadata?.capacity || null,
-            registrationLink: item.url || null,
             published: true,
-            imageUrl: metadata?.imageUrl || "",
-            organizers: Array.isArray(item.authors) ? item.authors : [],
+            posterImage: metadata?.imageUrl || "",
+            externalUrl: item.url || "",
+            registrationUrl: metadata?.registrationLink || item.url || "",
+            streamUrl: metadata?.meetingLink || metadata?.link || "",
           },
         });
         
@@ -603,15 +593,11 @@ export async function importSyncedContent(limit = 100): Promise<{
         
         result = await prisma.galleryItem.create({
           data: {
-            title: item.title,
-            description: item.content || "",
-            type: item.contentType === "video" ? "video" : "photo",
-            url: item.url || metadata?.url || "",
-            thumbnailUrl: metadata?.thumbnail || metadata?.thumbnailUrl || "",
+            imageUrl: item.url || metadata?.url || "",
+            alt: item.title,
+            caption: item.content || "",
             category: metadata?.category || "research",
-            date: item.publishedDate || new Date(),
             published: true,
-            tags: metadata?.tags || [],
           },
         });
         
