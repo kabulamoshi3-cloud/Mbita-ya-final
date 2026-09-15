@@ -1,33 +1,17 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getIronSession } from "iron-session";
-import { prisma } from "@/lib/prisma";
-import { sessionOptions, SessionData } from "@/lib/session";
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(request: NextRequest) {
-  try {
-    const session = await getIronSession<SessionData>(request, NextResponse.next(), sessionOptions);
-    if (!session.studentId) {
-      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
-    }
+export async function GET() {
+  return NextResponse.json({ error: 'Marketplace not implemented', message: 'MarketplaceProduct/MarketplaceOrder models do not exist' }, { status: 501 });
+}
 
-    const orders = await prisma.marketplaceOrder.findMany({
-      where: { buyerId: session.studentId },
-      include: {
-        product: {
-          select: {
-            id: true,
-            title: true,
-            imageUrl: true,
-            price: true,
-          },
-        },
-      },
-      orderBy: { createdAt: "desc" },
-    });
+export async function POST() {
+  return NextResponse.json({ error: 'Marketplace not implemented' }, { status: 501 });
+}
 
-    return NextResponse.json({ orders });
-  } catch (error) {
-    console.error("Orders error:", error);
-    return NextResponse.json({ error: "Failed to load orders" }, { status: 500 });
-  }
+export async function PUT() {
+  return NextResponse.json({ error: 'Marketplace not implemented' }, { status: 501 });
+}
+
+export async function DELETE() {
+  return NextResponse.json({ error: 'Marketplace not implemented' }, { status: 501 });
 }
