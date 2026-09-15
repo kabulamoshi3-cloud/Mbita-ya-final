@@ -408,17 +408,18 @@ export async function importSyncedContent(limit = 100): Promise<{
         
         result = await prisma.researchProject.create({
           data: {
+            slug: item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').substring(0, 100),
             title: item.title,
             description: item.content || "",
-            status: metadata?.status || "completed",
-            startDate: item.publishedDate || new Date(),
-            endDate: metadata?.endDate ? new Date(metadata.endDate) : null,
-            funding: metadata?.funding || "",
+            status: metadata?.status === "active" ? "active" : "completed",
+            startYear: item.publishedDate?.getFullYear() || new Date().getFullYear(),
+            endYear: metadata?.endYear ? parseInt(metadata.endYear) : null,
+            fundingSources: metadata?.funding ? [metadata.funding] : [],
             collaborators: Array.isArray(item.authors) ? item.authors : [],
-            outcomes: metadata?.outcomes || [],
             published: true,
             imageUrl: metadata?.imageUrl || "",
             tags: metadata?.tags || [],
+            externalUrl: item.url || "",
           },
         });
         
@@ -440,23 +441,17 @@ export async function importSyncedContent(limit = 100): Promise<{
         try {
           result = await prisma.researchProject.create({
             data: {
+              slug: item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').substring(0, 100),
               title: item.title,
               description: item.content || metadata?.description || "",
               status: metadata?.archived ? "completed" : "active",
-              startDate: item.publishedDate || new Date(),
+              startYear: item.publishedDate?.getFullYear() || new Date().getFullYear(),
               collaborators: Array.isArray(item.authors) ? item.authors : [],
               published: true,
               imageUrl: metadata?.owner?.avatar_url || "",
-              tags: metadata?.topics || metadata?.language ? [metadata.language] : [],
-              outcomes: [
-                {
-                  type: "repository",
-                  url: item.url,
-                  stars: metadata?.stargazers_count || 0,
-                  forks: metadata?.forks_count || 0,
-                  language: metadata?.language || "N/A",
-                }
-              ],
+              tags: metadata?.topics || (metadata?.language ? [metadata.language] : []),
+              githubUrl: item.url || "",
+              externalUrl: item.url || "",
             },
           });
           
