@@ -60,15 +60,26 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Award points
-    await prisma.studentPoints.create({
-      data: {
-        studentId: session.studentId,
-        points: 50,
-        source: "certificate_earned",
-        description: `Earned certificate: ${data.title}`,
-      },
+    // Award points - update or create student points record
+    const existingPoints = await prisma.studentPoints.findUnique({
+      where: { studentId: session.studentId },
     });
+
+    if (existingPoints) {
+      await prisma.studentPoints.update({
+        where: { studentId: session.studentId },
+        data: {
+          points: existingPoints.points + 50,
+        },
+      });
+    } else {
+      await prisma.studentPoints.create({
+        data: {
+          studentId: session.studentId,
+          points: 50,
+        },
+      });
+    }
 
     return NextResponse.json({
       message: "Certificate generated",
