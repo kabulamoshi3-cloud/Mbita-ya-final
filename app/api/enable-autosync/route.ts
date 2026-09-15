@@ -13,8 +13,13 @@ export async function GET() {
         data: {
           fullName: "Dr. Deogratius Mbita Emmanuel",
           title: "Senior Lecturer",
+          department: "Computer Science",
+          institution: "University",
           email: "mbita@example.com",
-          phone: "+255 000 000 000",
+          officeLocation: "Office Building",
+          officeHours: "Mon-Fri 9AM-5PM",
+          bio: "Academic Profile",
+          academicProfiles: {},
           autoSyncEnabled: true,
         },
       });
