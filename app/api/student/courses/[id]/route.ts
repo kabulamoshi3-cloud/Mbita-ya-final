@@ -31,21 +31,16 @@ export async function GET(
     // Get course details
     const course = await prisma.course.findUnique({
       where: { id: courseId },
-      include: {
-        instructor: {
-          select: {
-            firstName: true,
-            lastName: true,
-            email: true,
-            profilePicture: true,
-          },
-        },
-        department: {
-          select: {
-            name: true,
-            code: true,
-          },
-        },
+      select: {
+        id: true,
+        name: true,
+        code: true,
+        description: true,
+        term: true,
+        status: true,
+        syllabusUrl: true,
+        externalUrl: true,
+        published: true,
       },
     });
 

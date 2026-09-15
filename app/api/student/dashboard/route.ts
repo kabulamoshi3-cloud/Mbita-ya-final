@@ -144,10 +144,9 @@ export async function GET(request: NextRequest) {
       upcomingAssignments: upcomingAssignments.map(a => ({
         id: a.id,
         title: a.title,
-        courseName: a.course.name,
-        courseCode: a.course.code,
+        courseId: a.courseId,
         dueDate: a.dueDate,
-        status: a.submissions[0]?.status || "not_started",
+        maxPoints: a.maxPoints,
       })),
       enrolledCourses: coursesWithProgress,
       notifications: notifications.map(n => ({
