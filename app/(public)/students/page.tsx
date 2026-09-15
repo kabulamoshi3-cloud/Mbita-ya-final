@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import StudentCard from "@/components/sections/StudentCard";
+import SlideGrid from "@/components/SlideGrid";
 import { separateStudents } from "@/lib/students";
 
 export const revalidate = 0;
@@ -38,7 +39,7 @@ export default async function StudentsPage() {
           )}
         </h2>
         {current.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <SlideGrid columns={3} direction="alternate" staggerDelay={0.1}>
             {current.map((student) => (
               <StudentCard
                 key={student.id}
@@ -52,7 +53,7 @@ export default async function StudentsPage() {
                 achievements={student.achievements}
               />
             ))}
-          </div>
+          </SlideGrid>
         ) : (
           <p className="text-navy-600 bg-navy-50 rounded-xl p-6 text-center">
             No current students listed at this time.
@@ -67,7 +68,7 @@ export default async function StudentsPage() {
             Alumni
             <span className="ml-2 text-sm font-normal text-navy-500">({alumni.length})</span>
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <SlideGrid columns={3} direction="alternate" staggerDelay={0.1}>
             {alumni.map((student) => (
               <StudentCard
                 key={student.id}
@@ -84,7 +85,7 @@ export default async function StudentsPage() {
                 achievements={student.achievements}
               />
             ))}
-          </div>
+          </SlideGrid>
         </section>
       )}
     </div>

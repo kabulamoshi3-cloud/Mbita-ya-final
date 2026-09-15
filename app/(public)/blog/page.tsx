@@ -70,7 +70,7 @@ export default async function BlogPage() {
       )}
 
       {posts.length > 0 ? (
-        <SlideGrid columns={3} staggerDelay={0.12}>
+        <SlideGrid columns={3} direction="alternate" staggerDelay={0.12}>
           {posts.map((post) => (
             <BlogPostCard
               key={post.id}

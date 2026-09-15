@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import AwardCard from "@/components/sections/AwardCard";
+import SlideGrid from "@/components/SlideGrid";
 import { AwardCategory } from "@prisma/client";
 import Link from "next/link";
 
@@ -115,7 +116,7 @@ export default async function CVPage() {
               {categoryHeadings[category]}
               <span className="text-sm font-normal text-navy-500">({items.length})</span>
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <SlideGrid columns={3} direction="alternate" staggerDelay={0.1}>
               {items.map((award) => (
                 <AwardCard
                   key={award.id}
@@ -130,7 +131,7 @@ export default async function CVPage() {
                   imageUrl={award.imageUrl}
                 />
               ))}
-            </div>
+            </SlideGrid>
           </section>
         );
       })}

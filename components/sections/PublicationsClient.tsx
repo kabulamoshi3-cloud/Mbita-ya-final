@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from "react";
 import PublicationCard from "@/components/sections/PublicationCard";
+import SlideGrid from "@/components/SlideGrid";
 
 interface Publication {
   id: string;
@@ -287,7 +288,7 @@ export default function PublicationsClient({ publications }: PublicationsClientP
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <SlideGrid columns={3} direction="alternate" staggerDelay={0.12}>
             {filtered.map((pub) => (
               <PublicationCard
                 key={pub.id}
@@ -303,7 +304,7 @@ export default function PublicationsClient({ publications }: PublicationsClientP
                 coverImage={pub.coverImage}
               />
             ))}
-          </div>
+          </SlideGrid>
         )
       ) : (
         <div className="text-center py-16 bg-navy-50 rounded-2xl">

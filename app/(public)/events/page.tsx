@@ -34,7 +34,7 @@ export default async function EventsPage() {
       <section className="mb-12">
         <h2 className="text-2xl font-semibold text-navy-900 mb-6">Upcoming Events</h2>
         {upcoming.length > 0 ? (
-          <SlideGrid columns={3}>
+          <SlideGrid columns={3} direction="alternate" staggerDelay={0.1}>
             {upcoming.map((event) => (
               <EventCard
                 key={event.id}
@@ -59,7 +59,7 @@ export default async function EventsPage() {
       {past.length > 0 && (
         <section>
           <h2 className="text-2xl font-semibold text-navy-900 mb-6">Past Events</h2>
-          <SlideGrid columns={3}>
+          <SlideGrid columns={3} direction="alternate" staggerDelay={0.1}>
             {past.map((event) => (
               <EventCard
                 key={event.id}

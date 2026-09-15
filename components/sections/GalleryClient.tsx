@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Modal from "@/components/ui/Modal";
+import SlideGrid from "@/components/SlideGrid";
 import { filterByCategory } from "@/lib/gallery";
 import type { GalleryItem } from "@prisma/client";
 
@@ -230,7 +231,7 @@ export default function GalleryClient({ items, categories }: GalleryClientProps)
           {photos.length > 0 && (
             <section className="mb-10">
               {videos.length > 0 && <h2 className="text-xl font-bold text-navy-900 mb-4">📷 Photos</h2>}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <SlideGrid columns={4} direction="alternate" staggerDelay={0.08}>
                 {photos.map(item => (
                   <div key={item.id} className="group relative bg-white border border-border rounded-xl overflow-hidden hover:shadow-md transition-shadow">
                     <button onClick={() => setLightboxItem(item)} className="w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
@@ -259,7 +260,7 @@ export default function GalleryClient({ items, categories }: GalleryClientProps)
                     </div>
                   </div>
                 ))}
-              </div>
+              </SlideGrid>
             </section>
           )}
 
@@ -267,7 +268,7 @@ export default function GalleryClient({ items, categories }: GalleryClientProps)
           {videos.length > 0 && (
             <section className="mb-10">
               <h2 className="text-xl font-bold text-navy-900 mb-4">🎬 Videos</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <SlideGrid columns={3} direction="alternate" staggerDelay={0.1}>
                 {videos.map(item => {
                   const ytEmbed = getYouTubeEmbed(item.imageUrl);
                   const vimeoEmbed = getVimeoEmbed(item.imageUrl);
@@ -291,7 +292,7 @@ export default function GalleryClient({ items, categories }: GalleryClientProps)
                     </div>
                   );
                 })}
-              </div>
+              </SlideGrid>
             </section>
           )}
 

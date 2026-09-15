@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import ResearchCard from "@/components/sections/ResearchCard";
+import SlideGrid from "@/components/SlideGrid";
 import type { ResearchProject } from "@prisma/client";
 
 interface ResearchClientProps {
@@ -209,7 +210,7 @@ export default function ResearchClient({ projects, profileBio }: ResearchClientP
 
       {/* ── RESULTS ── */}
       {filtered.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <SlideGrid columns={3} direction="alternate" staggerDelay={0.12}>
           {filtered.map((project) => (
             <ResearchCard
               key={project.id}
@@ -227,7 +228,7 @@ export default function ResearchClient({ projects, profileBio }: ResearchClientP
               endYear={project.endYear}
             />
           ))}
-        </div>
+        </SlideGrid>
       ) : (
         <div className="text-center py-16 bg-navy-50 rounded-2xl">
           <svg className="w-12 h-12 text-navy-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
