@@ -42,9 +42,7 @@ export async function POST(request: NextRequest) {
     const student = await prisma.student.findUnique({
       where: { id: session.studentId },
       select: {
-        firstName: true,
-        lastName: true,
-        email: true,
+        name: true,
       },
     });
 
@@ -53,14 +51,12 @@ export async function POST(request: NextRequest) {
       data: {
         studentId: session.studentId,
         courseId: data.courseId,
+        type: data.achievementType || "achievement",
         title: data.title,
         description: data.description,
-        achievementType: data.achievementType,
-        certificateCode: code,
-        qrCode,
-        issuedDate: new Date(),
-        recipientName: `${student?.firstName} ${student?.lastName}`,
-        recipientEmail: student?.email || "",
+        certificateUrl: qrCode, // Store QR code as certificate URL for now
+        verificationCode: code,
+        issueDate: new Date(),
       },
     });
 
