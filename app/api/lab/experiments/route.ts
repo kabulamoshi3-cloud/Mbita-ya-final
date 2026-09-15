@@ -1,16 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getIronSession } from "iron-session";
-import { prisma } from "@/lib/prisma";
 import { sessionOptions, SessionData } from "@/lib/session";
-import { z } from "zod";
-
-const experimentSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  description: z.string().min(1, "Description is required"),
-  hypothesis: z.string().optional(),
-  methodology: z.string().optional(),
-  category: z.string().optional(),
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -19,25 +9,13 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const { searchParams } = new URL(request.url);
-    const status = searchParams.get("status");
-
-    const where: any = { studentId: session.studentId };
-    if (status) where.status = status;
-
-    const experiments = await prisma.labExperiment.findMany({
-      where,
-      include: {
-        _count: {
-          select: { entries: true },
-        },
-      },
-      orderBy: { createdAt: "desc" },
+    // LabExperiment model doesn't exist
+    return NextResponse.json({
+      experiments: [],
+      message: "Lab experiments not yet implemented",
     });
-
-    return NextResponse.json({ experiments });
   } catch (error) {
-    console.error("Experiments error:", error);
+    console.error("Lab experiments error:", error);
     return NextResponse.json({ error: "Failed to load experiments" }, { status: 500 });
   }
 }
@@ -49,30 +27,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const body = await request.json();
-    const result = experimentSchema.safeParse(body);
-
-    if (!result.success) {
-      return NextResponse.json(
-        { error: "Validation failed", fields: result.error.flatten().fieldErrors },
-        { status: 400 }
-      );
-    }
-
-    const experiment = await prisma.labExperiment.create({
-      data: {
-        ...result.data,
-        studentId: session.studentId,
-        status: "in_progress",
-      },
-    });
-
     return NextResponse.json({
-      message: "Experiment created",
-      experiment,
-    }, { status: 201 });
+      error: "Lab experiments not yet implemented",
+    }, { status: 501 });
   } catch (error) {
-    console.error("Experiment creation error:", error);
+    console.error("Lab experiment create error:", error);
     return NextResponse.json({ error: "Failed to create experiment" }, { status: 500 });
   }
 }
