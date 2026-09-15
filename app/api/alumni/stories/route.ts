@@ -13,19 +13,18 @@ export async function GET(request: NextRequest) {
 
     const stories = await prisma.alumniStory.findMany({
       where,
-      include: {
-        author: {
-          select: {
-            firstName: true,
-            lastName: true,
-            profilePicture: true,
-            currentCompany: true,
-            currentPosition: true,
-            graduationYear: true,
-          },
-        },
+      select: {
+        id: true,
+        alumniId: true,
+        title: true,
+        story: true,
+        imageUrl: true,
+        featured: true,
+        published: true,
+        createdAt: true,
+        updatedAt: true,
       },
-      orderBy: { publishedAt: "desc" },
+      orderBy: { createdAt: "desc" },
     });
 
     return NextResponse.json({ stories });

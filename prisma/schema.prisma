@@ -523,6 +523,16 @@ model AdminNotification {
   createdAt DateTime @default(now())
 }
 
+model StudentNotification {
+  id        String   @id @default(uuid())
+  studentId String
+  title     String
+  message   String
+  type      String   @default("info") // info, warning, success, error, mentorship, peer_review
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
 model BackupLog {
   id        String   @id @default(uuid())
   filename  String
@@ -973,6 +983,7 @@ model MentorshipRequest {
   menteeId  String
   mentorId  String // alumniId
   message   String
+  goals     String?
   status    String   @default("pending") // pending, accepted, rejected
   createdAt DateTime @default(now())
 }
