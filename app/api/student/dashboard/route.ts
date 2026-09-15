@@ -98,10 +98,17 @@ export async function GET(request: NextRequest) {
           where: { courseId: enrollment.courseId },
         });
 
+        // Get assignment IDs for this course
+        const assignments = await prisma.assignment.findMany({
+          where: { courseId: enrollment.courseId },
+          select: { id: true },
+        });
+        const assignmentIds = assignments.map(a => a.id);
+
         const completedAssignments = await prisma.assignmentSubmission.count({
           where: {
             studentId,
-            assignment: { courseId: enrollment.courseId },
+            assignmentId: { in: assignmentIds },
             gradedAt: { not: null },
           },
         });
