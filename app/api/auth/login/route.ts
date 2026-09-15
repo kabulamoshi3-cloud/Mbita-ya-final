@@ -97,8 +97,15 @@ export async function POST(request: NextRequest) {
   }
 
   if (!adminUser) {
-    return NextResponse.json({ error: "Invalid credentials.", code: "INVALID_CREDENTIALS" }, { status: 401 });
+    console.log(`❌ Login failed: No user found for username '${username}'`);
+    return NextResponse.json({ 
+      error: "Invalid credentials.", 
+      code: "INVALID_CREDENTIALS",
+      hint: process.env.NODE_ENV === 'development' ? `No user found with username '${username}'` : undefined
+    }, { status: 401 });
   }
+  
+  console.log(`✓ User found: ${adminUser.username} (ID: ${adminUser.id})`);
 
   // Check lockout
   if (adminUser.lockedUntil && new Date(adminUser.lockedUntil) > new Date()) {
