@@ -19,64 +19,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const body = await request.json();
-    const result = applySchema.safeParse(body);
-
-    if (!result.success) {
-      return NextResponse.json(
-        { error: "Validation failed", fields: result.error.flatten().fieldErrors },
-        { status: 400 }
-      );
-    }
-
-    const data = result.data;
-
-    // Check if opportunity exists and is open
-    const opportunity = await prisma.fundingOpportunity.findUnique({
-      where: { id: data.opportunityId },
-    });
-
-    if (!opportunity) {
-      return NextResponse.json({ error: "Opportunity not found" }, { status: 404 });
-    }
-
-    if (opportunity.status !== "open") {
-      return NextResponse.json({ error: "Opportunity is not open" }, { status: 400 });
-    }
-
-    if (opportunity.deadline && opportunity.deadline < new Date()) {
-      return NextResponse.json({ error: "Deadline has passed" }, { status: 400 });
-    }
-
-    // Check if already applied
-    const existing = await prisma.fundingApplication.findFirst({
-      where: {
-        opportunityId: data.opportunityId,
-        applicantId: session.studentId,
-      },
-    });
-
-    if (existing) {
-      return NextResponse.json({ error: "Already applied to this opportunity" }, { status: 400 });
-    }
-
-    // Create application
-    const application = await prisma.fundingApplication.create({
-      data: {
-        opportunityId: data.opportunityId,
-        applicantId: session.studentId,
-        proposalTitle: data.proposalTitle,
-        proposalDescription: data.proposalDescription,
-        budgetAmount: data.budgetAmount,
-        documentUrl: data.documentUrl,
-        status: "submitted",
-      },
-    });
-
+    // FundingApplication model doesn't exist in schema
+    // Return not implemented error
     return NextResponse.json({
-      message: "Application submitted successfully",
-      application,
-    }, { status: 201 });
+      error: "Funding application submission not yet implemented",
+      message: "This feature requires the FundingApplication model to be added to the database schema",
+    }, { status: 501 });
   } catch (error) {
     console.error("Funding application error:", error);
     return NextResponse.json({ error: "Failed to submit application" }, { status: 500 });
