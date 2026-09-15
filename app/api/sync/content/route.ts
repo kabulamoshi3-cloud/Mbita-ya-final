@@ -42,18 +42,18 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const session = await getSession();
-    if (!session?.isAdmin) {
+    if (!session?.isAdmin && !session?.username) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await req.json();
     const { limit = 100 } = body;
 
-    const imported = await importSyncedContent(limit);
+    const result = await importSyncedContent(limit);
 
     return NextResponse.json({
-      message: `Imported ${imported} items`,
-      imported,
+      message: `Import complete: ${result.imported} imported, ${result.skipped} skipped, ${result.errors} errors`,
+      ...result,
     });
   } catch (error: any) {
     return NextResponse.json(

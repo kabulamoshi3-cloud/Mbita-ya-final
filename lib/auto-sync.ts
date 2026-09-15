@@ -338,7 +338,12 @@ export async function syncPlatform(platform: string): Promise<SyncResult> {
 }
 
 // Auto-import synced content to main database tables
-export async function importSyncedContent(limit = 100): Promise<number> {
+export async function importSyncedContent(limit = 100): Promise<{
+  imported: number;
+  skipped: number;
+  errors: number;
+  details: any[];
+}> {
   const content = await prisma.syncedContent.findMany({
     where: { importedToDb: false },
     take: limit,
@@ -346,40 +351,325 @@ export async function importSyncedContent(limit = 100): Promise<number> {
   });
   
   let imported = 0;
+  let skipped = 0;
+  let errors = 0;
+  const details = [];
   
   for (const item of content) {
     try {
+      let result = null;
+      
+      // ========================================
+      // PUBLICATIONS (Journal, Conference, Book)
+      // ========================================
       if (item.contentType === "publication") {
-        // Import to publications table
-        await prisma.publication.create({
+        // Determine publication type from metadata
+        const metadata = item.metadata as any;
+        let pubType = "journal"; // default
+        
+        if (metadata?.type?.includes("conference") || metadata?.type?.includes("proceedings")) {
+          pubType = "conference";
+        } else if (metadata?.type?.includes("book")) {
+          pubType = "book";
+        } else if (metadata?.type?.includes("chapter")) {
+          pubType = "book_chapter";
+        } else if (metadata?.type?.includes("report")) {
+          pubType = "technical_report";
+        }
+        
+        result = await prisma.publication.create({
           data: {
             title: item.title,
-            type: "journal",
-            abstract: item.content,
+            type: pubType as any,
+            abstract: item.content || "",
             year: item.publishedDate?.getFullYear() || new Date().getFullYear(),
-            authors: item.authors.join(", "),
+            authors: Array.isArray(item.authors) ? item.authors.join(", ") : String(item.authors || ""),
             url: item.url || "",
-            pdfUrl: "",
-            published: false,
-            venue: "Unknown",
+            pdfUrl: metadata?.pdf_url || metadata?.pdfUrl || "",
+            doi: metadata?.doi || "",
+            venue: metadata?.venue || metadata?.journal || metadata?.conference || "External Source",
+            citations: item.citations || 0,
+            published: true, // Auto-publish synced content
+            tags: metadata?.keywords || [],
           },
         });
-      } else if (item.contentType === "code") {
-        // Could import to a projects or repositories table if exists
-        console.log(`Skipping import for type: ${item.contentType}`);
+        
+        details.push({
+          type: "publication",
+          title: item.title,
+          status: "imported",
+          id: result.id,
+        });
+      }
+      
+      // ========================================
+      // RESEARCH PROJECTS
+      // ========================================
+      else if (item.contentType === "research" || item.contentType === "project") {
+        const metadata = item.metadata as any;
+        
+        result = await prisma.researchProject.create({
+          data: {
+            title: item.title,
+            description: item.content || "",
+            status: metadata?.status || "completed",
+            startDate: item.publishedDate || new Date(),
+            endDate: metadata?.endDate ? new Date(metadata.endDate) : null,
+            funding: metadata?.funding || "",
+            collaborators: Array.isArray(item.authors) ? item.authors : [],
+            outcomes: metadata?.outcomes || [],
+            published: true,
+            imageUrl: metadata?.imageUrl || "",
+            tags: metadata?.tags || [],
+          },
+        });
+        
+        details.push({
+          type: "research_project",
+          title: item.title,
+          status: "imported",
+          id: result.id,
+        });
+      }
+      
+      // ========================================
+      // CODE REPOSITORIES / GITHUB PROJECTS
+      // ========================================
+      else if (item.contentType === "code" || item.contentType === "repository") {
+        const metadata = item.metadata as any;
+        
+        // Check if ResearchProject table exists for code projects
+        try {
+          result = await prisma.researchProject.create({
+            data: {
+              title: item.title,
+              description: item.content || metadata?.description || "",
+              status: metadata?.archived ? "completed" : "active",
+              startDate: item.publishedDate || new Date(),
+              collaborators: Array.isArray(item.authors) ? item.authors : [],
+              published: true,
+              imageUrl: metadata?.owner?.avatar_url || "",
+              tags: metadata?.topics || metadata?.language ? [metadata.language] : [],
+              outcomes: [
+                {
+                  type: "repository",
+                  url: item.url,
+                  stars: metadata?.stargazers_count || 0,
+                  forks: metadata?.forks_count || 0,
+                  language: metadata?.language || "N/A",
+                }
+              ],
+            },
+          });
+          
+          details.push({
+            type: "code_repository",
+            title: item.title,
+            status: "imported",
+            id: result.id,
+          });
+        } catch (err) {
+          console.log(`Note: Could not import repository as research project: ${err}`);
+          skipped++;
+          continue;
+        }
+      }
+      
+      // ========================================
+      // BLOG POSTS / ARTICLES
+      // ========================================
+      else if (item.contentType === "blog" || item.contentType === "article") {
+        const metadata = item.metadata as any;
+        
+        result = await prisma.blogPost.create({
+          data: {
+            title: item.title,
+            excerpt: item.content?.substring(0, 200) || "",
+            content: item.content || "",
+            published: true,
+            publishedAt: item.publishedDate || new Date(),
+            author: Array.isArray(item.authors) ? item.authors[0] : "External Author",
+            coverImage: metadata?.image || "",
+            tags: metadata?.tags || [],
+            category: metadata?.category || "Research",
+            views: 0,
+            slug: item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          },
+        });
+        
+        details.push({
+          type: "blog_post",
+          title: item.title,
+          status: "imported",
+          id: result.id,
+        });
+      }
+      
+      // ========================================
+      // AWARDS / GRANTS / HONORS
+      // ========================================
+      else if (item.contentType === "award" || item.contentType === "grant" || item.contentType === "honor") {
+        const metadata = item.metadata as any;
+        
+        let category: "award" | "grant" | "fellowship" | "honor" | "distinction" = "award";
+        if (item.contentType === "grant") category = "grant";
+        if (item.contentType === "honor") category = "honor";
+        if (metadata?.type === "fellowship") category = "fellowship";
+        
+        result = await prisma.award.create({
+          data: {
+            name: item.title,
+            organization: metadata?.organization || metadata?.funder || "External Organization",
+            year: item.publishedDate?.getFullYear() || new Date().getFullYear(),
+            category: category,
+            amount: metadata?.amount || metadata?.funding || null,
+            fundingPeriod: metadata?.period || null,
+            description: item.content || "",
+            imageUrl: metadata?.imageUrl || "",
+            published: true,
+          },
+        });
+        
+        details.push({
+          type: "award",
+          title: item.title,
+          status: "imported",
+          id: result.id,
+        });
+      }
+      
+      // ========================================
+      // COURSES / TEACHING MATERIALS
+      // ========================================
+      else if (item.contentType === "course" || item.contentType === "teaching") {
+        const metadata = item.metadata as any;
+        
+        result = await prisma.course.create({
+          data: {
+            name: item.title,
+            code: metadata?.code || `EXT-${Date.now()}`,
+            term: metadata?.term || `${new Date().getFullYear()}`,
+            description: item.content || "",
+            status: metadata?.status || "active",
+            syllabus: metadata?.syllabus || "",
+            prerequisites: metadata?.prerequisites || "",
+            learningObjectives: metadata?.objectives || [],
+            published: true,
+            enrollmentLimit: metadata?.enrollmentLimit || null,
+            schedule: metadata?.schedule || null,
+          },
+        });
+        
+        details.push({
+          type: "course",
+          title: item.title,
+          status: "imported",
+          id: result.id,
+        });
+      }
+      
+      // ========================================
+      // EVENTS / CONFERENCES / TALKS
+      // ========================================
+      else if (item.contentType === "event" || item.contentType === "talk" || item.contentType === "conference") {
+        const metadata = item.metadata as any;
+        
+        result = await prisma.event.create({
+          data: {
+            title: item.title,
+            description: item.content || "",
+            date: item.publishedDate || new Date(),
+            startTime: metadata?.startTime || null,
+            endTime: metadata?.endTime || null,
+            location: metadata?.location || "External Venue",
+            type: item.contentType === "conference" ? "conference" : 
+                  item.contentType === "talk" ? "seminar" : "workshop",
+            isVirtual: metadata?.isVirtual || false,
+            meetingLink: metadata?.link || item.url || null,
+            capacity: metadata?.capacity || null,
+            registrationLink: item.url || null,
+            published: true,
+            imageUrl: metadata?.imageUrl || "",
+            organizers: Array.isArray(item.authors) ? item.authors : [],
+          },
+        });
+        
+        details.push({
+          type: "event",
+          title: item.title,
+          status: "imported",
+          id: result.id,
+        });
+      }
+      
+      // ========================================
+      // GALLERY ITEMS (Photos/Videos)
+      // ========================================
+      else if (item.contentType === "photo" || item.contentType === "video" || item.contentType === "media") {
+        const metadata = item.metadata as any;
+        
+        result = await prisma.galleryItem.create({
+          data: {
+            title: item.title,
+            description: item.content || "",
+            type: item.contentType === "video" ? "video" : "photo",
+            url: item.url || metadata?.url || "",
+            thumbnailUrl: metadata?.thumbnail || metadata?.thumbnailUrl || "",
+            category: metadata?.category || "research",
+            date: item.publishedDate || new Date(),
+            published: true,
+            tags: metadata?.tags || [],
+          },
+        });
+        
+        details.push({
+          type: "gallery_item",
+          title: item.title,
+          status: "imported",
+          id: result.id,
+        });
+      }
+      
+      // ========================================
+      // UNSUPPORTED CONTENT TYPE
+      // ========================================
+      else {
+        console.log(`Skipping unsupported content type: ${item.contentType}`);
+        skipped++;
+        details.push({
+          type: item.contentType,
+          title: item.title,
+          status: "skipped",
+          reason: "unsupported_type",
+        });
+        continue;
       }
       
       // Mark as imported
-      await prisma.syncedContent.update({
-        where: { id: item.id },
-        data: { importedToDb: true },
-      });
+      if (result) {
+        await prisma.syncedContent.update({
+          where: { id: item.id },
+          data: { importedToDb: true },
+        });
+        imported++;
+      }
       
-      imported++;
-    } catch (error) {
+    } catch (error: any) {
       console.error(`Error importing content ${item.id}:`, error);
+      errors++;
+      details.push({
+        type: item.contentType,
+        title: item.title,
+        status: "error",
+        error: error.message,
+      });
     }
   }
   
-  return imported;
+  return {
+    imported,
+    skipped,
+    errors,
+    details,
+  };
 }

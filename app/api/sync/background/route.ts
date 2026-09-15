@@ -16,17 +16,26 @@ export async function POST(req: Request) {
     // Run sync
     const result = await syncAllAccounts();
 
-    // Auto-import new content
-    const imported = await importSyncedContent(50);
+    // Auto-import new content with enhanced details
+    const importResult = await importSyncedContent(50);
 
-    console.log(`[Background Sync] Completed - Fetched: ${result.successful}/${result.total}, Imported: ${imported}`);
+    console.log(`[Background Sync] Completed - Fetched: ${result.successful}/${result.total}, Imported: ${importResult.imported}, Skipped: ${importResult.skipped}`);
 
     return NextResponse.json({
       success: true,
-      synced: result.successful,
-      imported,
-      failed: result.failed,
-      results: result.results,
+      sync: {
+        synced: result.successful,
+        failed: result.failed,
+        total: result.total,
+        results: result.results,
+      },
+      import: importResult,
+      summary: {
+        accountsSynced: result.successful,
+        itemsImported: importResult.imported,
+        itemsSkipped: importResult.skipped,
+        totalErrors: result.failed + importResult.errors,
+      }
     });
   } catch (error: any) {
     console.error('[Background Sync] Error:', error);

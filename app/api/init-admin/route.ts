@@ -10,7 +10,16 @@ const pool = new Pool({
   }
 });
 
+// Allow GET for browser access
+export async function GET() {
+  return initializeAdmin();
+}
+
 export async function POST() {
+  return initializeAdmin();
+}
+
+async function initializeAdmin() {
   try {
     // Check if admin already exists
     const checkResult = await pool.query(
