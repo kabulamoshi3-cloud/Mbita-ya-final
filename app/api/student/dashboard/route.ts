@@ -31,12 +31,12 @@ export async function GET(request: NextRequest) {
 
     // Get average grade
     const grades = await prisma.studentEnrollment.findMany({
-      where: { studentId, status: "completed", finalGrade: { not: null } },
-      select: { finalGrade: true },
+      where: { studentId, status: "completed", grade: { not: null } },
+      select: { grade: true },
     });
 
     const averageGrade = grades.length > 0
-      ? grades.reduce((sum, g) => sum + (g.finalGrade || 0), 0) / grades.length
+      ? grades.reduce((sum, g) => sum + (g.grade || 0), 0) / grades.length
       : 0;
 
     // Get gamification points
