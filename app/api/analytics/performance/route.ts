@@ -52,14 +52,14 @@ export async function GET(request: NextRequest) {
       _sum: { points: true },
     });
 
-    // Get performance trend (last 6 submissions)
+    // Get recent grades (using score instead of grade)
     const recentGrades = await prisma.assignmentSubmission.findMany({
       where: {
         studentId,
         gradedAt: { not: null },
-        grade: { not: null },
+        score: { not: null },
       },
-      select: { grade: true, assignment: { select: { maxPoints: true } } },
+      select: { score: true, assignmentId: true },
       orderBy: { submittedAt: "desc" },
       take: 6,
     });
