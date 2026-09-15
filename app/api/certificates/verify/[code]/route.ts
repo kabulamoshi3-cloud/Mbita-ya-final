@@ -7,20 +7,17 @@ export async function GET(
 ) {
   try {
     const certificate = await prisma.certificate.findUnique({
-      where: { certificateCode: params.code },
-      include: {
-        student: {
-          select: {
-            firstName: true,
-            lastName: true,
-          },
-        },
-        course: {
-          select: {
-            name: true,
-            code: true,
-          },
-        },
+      where: { verificationCode: params.code },
+      select: {
+        id: true,
+        studentId: true,
+        courseId: true,
+        type: true,
+        title: true,
+        description: true,
+        issueDate: true,
+        certificateUrl: true,
+        verificationCode: true,
       },
     });
 
@@ -31,15 +28,30 @@ export async function GET(
       }, { status: 404 });
     }
 
+    // Fetch student and course separately
+    const student = certificate.studentId
+      ? await prisma.student.findUnique({
+          where: { id: certificate.studentId },
+          select: { name: true },
+        })
+      : null;
+
+    const course = certificate.courseId
+      ? await prisma.course.findUnique({
+          where: { id: certificate.courseId },
+          select: { name: true, code: true },
+        })
+      : null;
+
     return NextResponse.json({
       valid: true,
       certificate: {
         id: certificate.id,
         title: certificate.title,
-        recipientName: certificate.recipientName,
-        issuedDate: certificate.issuedDate,
-        achievementType: certificate.achievementType,
-        course: certificate.course,
+        recipientName: student?.name || "Unknown",
+        issueDate: certificate.issueDate,
+        type: certificate.type,
+        course,
       },
     });
   } catch (error) {
