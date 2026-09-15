@@ -73,13 +73,13 @@ export async function GET(
     // Get course materials
     const materials = await prisma.courseMaterial.findMany({
       where: { courseId },
-      orderBy: { uploadedAt: "desc" },
+      orderBy: { createdAt: "desc" },
     });
 
-    // Get announcements
-    const announcements = await prisma.courseAnnouncement.findMany({
-      where: { courseId },
-      orderBy: { postedAt: "desc" },
+    // Get announcements (using Announcement model, not CourseAnnouncement)
+    const announcements = await prisma.announcement.findMany({
+      where: { published: true },
+      orderBy: { createdAt: "desc" },
       take: 10,
     });
 
