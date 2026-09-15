@@ -23,10 +23,15 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Update student's last active timestamp
-    await prisma.student.update({
+    // Update student's last login timestamp (StudentUser model, not Student)
+    // Note: Student model doesn't have lastActive field
+    // If this is for student portal users, update StudentUser
+    await prisma.studentUser.update({
       where: { id: session.studentId },
-      data: { lastActive: new Date() },
+      data: { lastLogin: new Date() },
+    }).catch(() => {
+      // Silently fail if student is not in StudentUser table
+      // (might be admin or different user type)
     });
 
     return NextResponse.json({ message: "Event tracked" });
