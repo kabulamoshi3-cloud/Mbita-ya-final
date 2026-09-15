@@ -66,7 +66,6 @@ export async function POST(req: NextRequest) {
     // Try OpenAI if key is configured
     if (process.env.OPENAI_API_KEY) {
       try {
-        // @ts-expect-error openai is an optional dependency loaded at runtime
         const { default: OpenAI } = await import("openai");
         const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
