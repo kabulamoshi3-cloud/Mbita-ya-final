@@ -354,15 +354,14 @@ export async function importSyncedContent(limit = 100): Promise<number> {
         await prisma.publication.create({
           data: {
             title: item.title,
-            type: "journal_article",
+            type: "journal",
             abstract: item.content,
             year: item.publishedDate?.getFullYear() || new Date().getFullYear(),
-            month: item.publishedDate?.getMonth() || 0,
             authors: item.authors.join(", "),
-            citations: item.citations,
             url: item.url || "",
             pdfUrl: "",
-            featured: false,
+            published: false,
+            venue: "Unknown",
           },
         });
       } else if (item.contentType === "code") {
