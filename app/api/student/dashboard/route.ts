@@ -50,27 +50,18 @@ export async function GET(request: NextRequest) {
     // Get upcoming assignments (next 7 days)
     const upcomingAssignments = await prisma.assignment.findMany({
       where: {
-        course: {
-          enrollments: {
-            some: { studentId, status: "active" },
-          },
-        },
         dueDate: {
           gte: new Date(),
           lte: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         },
       },
-      include: {
-        course: {
-          select: {
-            name: true,
-            code: true,
-          },
-        },
-        submissions: {
-          where: { studentId },
-          select: { status: true },
-        },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        dueDate: true,
+        maxPoints: true,
+        courseId: true,
       },
       orderBy: { dueDate: "asc" },
       take: 5,
