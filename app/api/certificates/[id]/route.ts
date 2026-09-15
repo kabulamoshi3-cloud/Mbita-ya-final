@@ -8,27 +8,18 @@ export async function GET(
   try {
     const certificate = await prisma.certificate.findUnique({
       where: { id: params.id },
-      include: {
-        student: {
-          select: {
-            firstName: true,
-            lastName: true,
-            email: true,
-            profilePicture: true,
-          },
-        },
-        course: {
-          select: {
-            name: true,
-            code: true,
-            instructor: {
-              select: {
-                firstName: true,
-                lastName: true,
-              },
-            },
-          },
-        },
+      select: {
+        id: true,
+        studentId: true,
+        courseId: true,
+        type: true,
+        title: true,
+        description: true,
+        issueDate: true,
+        certificateUrl: true,
+        verificationCode: true,
+        blockchainHash: true,
+        createdAt: true,
       },
     });
 
@@ -36,7 +27,38 @@ export async function GET(
       return NextResponse.json({ error: "Certificate not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ certificate });
+    // Fetch student and course separately
+    let student = null;
+    let course = null;
+
+    if (certificate.studentId) {
+      student = await prisma.student.findUnique({
+        where: { id: certificate.studentId },
+        select: {
+          name: true,
+          email: true,
+          profilePicture: true,
+        },
+      });
+    }
+
+    if (certificate.courseId) {
+      course = await prisma.course.findUnique({
+        where: { id: certificate.courseId },
+        select: {
+          name: true,
+          code: true,
+        },
+      });
+    }
+
+    return NextResponse.json({
+      certificate: {
+        ...certificate,
+        student,
+        course,
+      },
+    });
   } catch (error) {
     console.error("Certificate error:", error);
     return NextResponse.json({ error: "Failed to load certificate" }, { status: 500 });
