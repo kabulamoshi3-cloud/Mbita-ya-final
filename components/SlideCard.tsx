@@ -14,8 +14,12 @@ interface SlideCardProps {
 }
 
 /**
- * Universal Slide Card Component
- * Add slide animations to any card from any direction
+ * Universal Slide Card Component - IMPROVED VERSION
+ * Add smooth slide animations to any card from any direction
+ * - Better visibility with reduced distance
+ * - Smoother animations with optimized easing
+ * - Prevents overflow/clipping issues
+ * - Professional hover effects
  * 
  * Usage:
  * <SlideCard direction="left">
@@ -26,13 +30,13 @@ export default function SlideCard({
   children,
   direction = 'up',
   delay = 0,
-  duration = 0.6,
-  distance = 60,
+  duration = 0.7,
+  distance = 40, // Reduced from 60 for better visibility
   className = '',
   hover = true
 }: SlideCardProps) {
   const { ref, inView } = useInView({
-    threshold: 0.1,
+    threshold: 0.05, // Reduced from 0.1 - triggers earlier
     triggerOnce: true
   });
 
@@ -57,14 +61,15 @@ export default function SlideCard({
 
   const baseStyle: React.CSSProperties = {
     ...directionStyles[direction],
-    transition: `all ${duration}s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s`,
+    // Improved easing curve for smoother animation
+    transition: `transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s, opacity ${duration}s ease-out ${delay}s`,
     willChange: 'transform, opacity'
   };
 
   return (
     <div
       ref={ref}
-      className={`${className} ${hover ? 'hover:scale-105 hover:shadow-2xl hover:-translate-y-2' : ''} transition-all duration-300`}
+      className={`${className} ${hover ? 'hover:scale-[1.03] hover:shadow-xl hover:-translate-y-1' : ''} transition-all duration-300 ease-out`}
       style={baseStyle}
     >
       {children}
