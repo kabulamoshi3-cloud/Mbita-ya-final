@@ -19,23 +19,34 @@ export async function GET(request: NextRequest) {
       where: {
         studentId,
         gradedAt: { not: null },
-        grade: { not: null },
+        score: { not: null },
       },
       select: {
-        grade: true,
-        assignment: { select: { maxPoints: true } },
+        score: true,
+        assignmentId: true,
         submittedAt: true,
       },
       orderBy: { submittedAt: "desc" },
       take: 10,
     });
 
-    const grades = recentGrades.map(g => ({
-      score: g.grade && g.assignment.maxPoints
-        ? (g.grade / g.assignment.maxPoints) * 100
-        : 0,
-      date: g.submittedAt,
-    }));
+    // Fetch assignments separately to get maxPoints
+    const assignmentIds = [...new Set(recentGrades.map(g => g.assignmentId))];
+    const assignments = await prisma.assignment.findMany({
+      where: { id: { in: assignmentIds } },
+      select: { id: true, maxPoints: true },
+    });
+    const assignmentMap = new Map(assignments.map(a => [a.id, a]));
+
+    const grades = recentGrades.map(g => {
+      const assignment = assignmentMap.get(g.assignmentId);
+      return {
+        score: g.score && assignment?.maxPoints
+          ? (g.score / assignment.maxPoints) * 100
+          : 0,
+        date: g.submittedAt,
+      };
+    });
 
     // Simple trend analysis
     let trend = "stable";
