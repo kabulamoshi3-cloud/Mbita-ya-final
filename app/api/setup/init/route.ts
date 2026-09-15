@@ -4,7 +4,16 @@ import * as bcrypt from "bcrypt";
 
 export const dynamic = "force-dynamic";
 
+// Allow both GET and POST so it can be called from browser
+export async function GET(request: NextRequest) {
+  return handleInit();
+}
+
 export async function POST(request: NextRequest) {
+  return handleInit();
+}
+
+async function handleInit() {
   try {
     // Check if already initialized
     const existingAdmin = await prisma.adminUser.findUnique({ where: { id: 1 } });
