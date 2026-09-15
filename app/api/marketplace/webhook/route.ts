@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
 
         // Award points to buyer
         if (order) {
-          await prisma.studentPoint.create({
+          await prisma.studentPoints.create({
             data: {
               studentId: order.buyerId,
               points: Math.floor(order.totalPrice / 10), // 1 point per $10 spent

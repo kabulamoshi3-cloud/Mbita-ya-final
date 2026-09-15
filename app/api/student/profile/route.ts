@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
       where: { studentId: session.studentId, status: "completed" },
     });
 
-    const totalPoints = await prisma.studentPoint.aggregate({
+    const totalPoints = await prisma.studentPoints.aggregate({
       where: { studentId: session.studentId },
       _sum: { points: true },
     });

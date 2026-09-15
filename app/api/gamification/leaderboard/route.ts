@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get student points
-    const studentPoints = await prisma.studentPoint.groupBy({
+    const studentPoints = await prisma.studentPoints.groupBy({
       by: ['studentId'],
       where: dateFilter ? { awardedAt: { gte: dateFilter } } : undefined,
       _sum: { points: true },

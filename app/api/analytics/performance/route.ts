@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
     });
 
     // Points earned
-    const pointsTotal = await prisma.studentPoint.aggregate({
+    const pointsTotal = await prisma.studentPoints.aggregate({
       where: { studentId },
       _sum: { points: true },
     });

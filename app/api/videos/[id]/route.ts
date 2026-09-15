@@ -78,7 +78,7 @@ export async function POST(
 
     // Award points for completing video
     if (completed) {
-      const existingPoints = await prisma.studentPoint.findFirst({
+      const existingPoints = await prisma.studentPoints.findFirst({
         where: {
           studentId: session.studentId,
           source: "video_completion",
@@ -87,7 +87,7 @@ export async function POST(
       });
 
       if (!existingPoints) {
-        await prisma.studentPoint.create({
+        await prisma.studentPoints.create({
           data: {
             studentId: session.studentId,
             points: 5,

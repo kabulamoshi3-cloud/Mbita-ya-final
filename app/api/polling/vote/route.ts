@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    await prisma.studentPoint.create({
+    await prisma.studentPoints.create({
       data: {
         studentId: session.studentId,
         points,

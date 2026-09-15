@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
       : 0;
 
     // Get gamification points
-    const studentPoints = await prisma.studentPoint.findMany({
+    const studentPoints = await prisma.studentPoints.findMany({
       where: { studentId },
       select: { points: true },
     });

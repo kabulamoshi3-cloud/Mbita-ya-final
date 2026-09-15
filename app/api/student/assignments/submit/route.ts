@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
         });
 
     // Award participation points
-    await prisma.studentPoint.create({
+    await prisma.studentPoints.create({
       data: {
         studentId: session.studentId,
         points: 10,

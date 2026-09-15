@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Award points for submitting work for review
-    await prisma.studentPoint.create({
+    await prisma.studentPoints.create({
       data: {
         studentId: session.studentId,
         points: 5,

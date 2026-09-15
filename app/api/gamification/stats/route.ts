@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get total points
-    const pointRecords = await prisma.studentPoint.findMany({
+    const pointRecords = await prisma.studentPoints.findMany({
       where: { studentId: session.studentId },
       select: { points: true },
     });
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     });
 
     // Get rank
-    const allStudentPoints = await prisma.studentPoint.groupBy({
+    const allStudentPoints = await prisma.studentPoints.groupBy({
       by: ['studentId'],
       _sum: { points: true },
       orderBy: { _sum: { points: 'desc' } },
