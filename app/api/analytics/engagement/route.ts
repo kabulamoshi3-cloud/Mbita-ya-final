@@ -33,8 +33,8 @@ export async function GET(request: NextRequest) {
     });
 
     // Video watch time (count of watch progress records)
-    const videoWatches = await prisma.videoWatchProgress.count({
-      where: { lastWatched: { gte: dateFilter } },
+    const videoWatches = await prisma.videoProgress.count({
+      where: { updatedAt: { gte: dateFilter } },
     });
 
     // Course enrollments
