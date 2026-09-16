@@ -188,8 +188,8 @@ He has published numerous peer-reviewed papers in international journals and con
   for (const project of researchProjects) {
     await prisma.researchProject.upsert({
       where: { slug: project.slug },
-      update: project,
-      create: project,
+      update: project as any,
+      create: project as any,
     });
   }
 
@@ -234,7 +234,7 @@ He has published numerous peer-reviewed papers in international journals and con
 
   for (const pub of publications) {
     await prisma.publication.create({
-      data: pub,
+      data: pub as any,
     });
   }
 
@@ -297,7 +297,7 @@ He has published numerous peer-reviewed papers in international journals and con
 
   for (const course of courses) {
     await prisma.course.create({
-      data: course,
+      data: course as any,
     });
   }
 
@@ -336,7 +336,7 @@ He has published numerous peer-reviewed papers in international journals and con
 
   for (const post of blogPosts) {
     await prisma.blogPost.create({
-      data: post,
+      data: post as any,
     });
   }
 
@@ -366,7 +366,7 @@ He has published numerous peer-reviewed papers in international journals and con
 
   for (const event of events) {
     await prisma.event.create({
-      data: event,
+      data: event as any,
     });
   }
 
