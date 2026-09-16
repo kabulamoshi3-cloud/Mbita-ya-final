@@ -76,6 +76,7 @@ const sidebarGroups = [
   {
     label: "System",
     links: [
+      { href: "/admin/navigation", label: "Navigation", icon: "🧭" },
       { href: "/admin/messages", label: "Messages", icon: "✉️" },
       { href: "/admin/settings", label: "Settings", icon: "⚙️" },
       { href: "/admin/backup", label: "Backup", icon: "💾" },

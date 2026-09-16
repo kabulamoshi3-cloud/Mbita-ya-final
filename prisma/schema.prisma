@@ -1573,3 +1573,34 @@ model ABTest {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+
+// ── DYNAMIC NAVIGATION MENU SYSTEM ──
+model NavigationMenu {
+  id          String   @id @default(uuid())
+  label       String   // Display name (e.g., "Research", "Publications")
+  href        String?  // URL path (e.g., "/research", null for dropdown only)
+  icon        String?  // Icon name or emoji (e.g., "🔬", "research")
+  description String?  // Description for mega menu
+  order       Int      @default(0) // Display order
+  parentId    String?  // Parent menu ID for sub-navigation (null for top-level)
+  parent      NavigationMenu? @relation("MenuHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children    NavigationMenu[] @relation("MenuHierarchy")
+  
+  // Settings
+  isVisible   Boolean  @default(true) // Show/hide menu item
+  openInNewTab Boolean @default(false) // Open link in new tab
+  requiresAuth Boolean @default(false) // Requires authentication
+  badge       String?  // Badge text (e.g., "New", "Hot")
+  badgeColor  String?  // Badge color (e.g., "red", "green")
+  
+  // Mega Menu Support
+  isMegaMenu  Boolean  @default(false) // Enable mega menu dropdown
+  columns     Int?     @default(1) // Number of columns in mega menu
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([parentId])
+  @@index([order])
+}
