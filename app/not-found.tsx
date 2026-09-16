@@ -39,6 +39,8 @@ export default async function NotFound() {
         title: profile.title,
         email: profile.email,
         photoUrl: profile.photoUrl || null,
+        institution: profile.institution || undefined,
+        academicProfiles: profile.academicProfiles as Array<{ label: string; url: string }> || undefined,
       }
     : null;
 

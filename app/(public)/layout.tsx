@@ -22,6 +22,8 @@ async function getProfile() {
         navbarPhotoUrl: true,
         footerPhotoUrl: true,
         cvUrl: true,
+        institution: true,
+        academicProfiles: true,
       },
     });
   } catch {
@@ -56,7 +58,14 @@ export default async function PublicLayout({
     : null;
 
   const footerProfile = profile
-    ? { fullName: profile.fullName, title: profile.title, email: profile.email, photoUrl: footerPhoto || null }
+    ? { 
+        fullName: profile.fullName, 
+        title: profile.title, 
+        email: profile.email, 
+        photoUrl: footerPhoto || null,
+        institution: profile.institution || undefined,
+        academicProfiles: profile.academicProfiles as Array<{ label: string; url: string }> || undefined
+      }
     : null;
 
   const hiddenSections = settings?.hiddenSections
