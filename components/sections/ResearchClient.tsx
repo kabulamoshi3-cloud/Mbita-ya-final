@@ -3,6 +3,8 @@
 import { useState, useMemo } from "react";
 import ResearchCard from "@/components/sections/ResearchCard";
 import SlideGrid from "@/components/SlideGrid";
+import PageHeader from "@/components/PageHeader";
+import SlideCard from "@/components/SlideCard";
 import type { ResearchProject } from "@prisma/client";
 
 interface ResearchClientProps {
@@ -76,14 +78,16 @@ export default function ResearchClient({ projects, profileBio }: ResearchClientP
     <div>
       {/* Research interests */}
       {profileBio && (
-        <section className="mb-10 p-6 bg-gradient-to-br from-navy-50 to-primary-light rounded-2xl border border-navy-100">
-          <h2 className="text-xl font-bold text-navy-900 mb-3 flex items-center gap-2">
-            <span aria-hidden="true">🔬</span> Research Interests
-          </h2>
-          <p className="text-navy-700 leading-relaxed">
-            {profileBio.substring(0, 400)}{profileBio.length > 400 && "..."}
-          </p>
-        </section>
+        <SlideCard direction="up" delay={0.2}>
+          <section className="mb-10 p-6 bg-gradient-to-br from-navy-50 to-primary-light rounded-2xl border border-navy-100">
+            <h2 className="text-xl font-bold text-navy-900 mb-3 flex items-center gap-2">
+              <span aria-hidden="true">🔬</span> Research Interests
+            </h2>
+            <p className="text-navy-700 leading-relaxed">
+              {profileBio.substring(0, 400)}{profileBio.length > 400 && "..."}
+            </p>
+          </section>
+        </SlideCard>
       )}
 
       {/* ── STATS ── */}
@@ -210,7 +214,7 @@ export default function ResearchClient({ projects, profileBio }: ResearchClientP
 
       {/* ── RESULTS ── */}
       {filtered.length > 0 ? (
-        <SlideGrid columns={3} direction="alternate" staggerDelay={0.12}>
+        <SlideGrid columns={3} direction="wave" staggerDelay={0.12}>
           {filtered.map((project) => (
             <ResearchCard
               key={project.id}

@@ -9,6 +9,9 @@ import rehypeStringify from "rehype-stringify";
 import Link from "next/link";
 import Image from "next/image";
 import { getPhotoForSlot } from "@/lib/profilePhotos";
+import PageHeader from "@/components/PageHeader";
+import SlideCard from "@/components/SlideCard";
+import SlideGrid from "@/components/SlideGrid";
 
 export const revalidate = 0;
 
@@ -134,10 +137,17 @@ export default async function AboutPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-4xl font-bold text-navy-900 mb-10">About</h1>
+      <PageHeader 
+        title="About"
+        subtitle="Get to Know Me"
+        description="Learn about my academic journey, research interests, and professional accomplishments"
+        icon="👨‍🎓"
+        gradient={true}
+      />
 
       {/* ── PROFILE HEADER ── */}
-      <section className="flex flex-col md:flex-row gap-8 mb-14">
+      <SlideCard direction="up" delay={0.2}>
+        <section className="flex flex-col md:flex-row gap-8 mb-14">
         <div className="flex-shrink-0 flex flex-col items-center md:items-start gap-4">
           <ProfessorAvatar
             photoUrl={aboutPhoto || profile.photoUrl}
@@ -259,10 +269,12 @@ export default async function AboutPage() {
           )}
         </div>
       </section>
+      </SlideCard>
 
       {/* ── VIDEO INTRODUCTION ── */}
       {profile.videoIntroUrl && (
-        <section className="mb-14">
+        <SlideCard direction="left" delay={0.3}>
+          <section className="mb-14">
           <h2 className="text-2xl font-bold text-navy-900 mb-6">Video Introduction</h2>
           <div className="aspect-video max-w-3xl rounded-xl overflow-hidden shadow-lg">
             <iframe
@@ -274,11 +286,13 @@ export default async function AboutPage() {
             />
           </div>
         </section>
+        </SlideCard>
       )}
 
       {/* ── EDUCATION HISTORY ── */}
       {education.length > 0 && (
-        <section className="mb-14">
+        <SlideCard direction="right" delay={0.4}>
+          <section className="mb-14">
           <h2 className="text-2xl font-bold text-navy-900 mb-6">Education</h2>
           <div className="relative border-l-2 border-primary-light pl-8 space-y-8">
             {education.map((edu, i) => (
@@ -304,11 +318,13 @@ export default async function AboutPage() {
             ))}
           </div>
         </section>
+        </SlideCard>
       )}
 
       {/* ── WORK EXPERIENCE TIMELINE ── */}
       {workExperience.length > 0 && (
-        <section className="mb-14">
+        <SlideCard direction="left" delay={0.5}>
+          <section className="mb-14">
           <h2 className="text-2xl font-bold text-navy-900 mb-6">Professional Journey</h2>
           <div className="relative border-l-2 border-primary-light pl-8 space-y-8">
             {workExperience.map((exp, i) => (
@@ -322,11 +338,13 @@ export default async function AboutPage() {
             ))}
           </div>
         </section>
+        </SlideCard>
       )}
 
       {/* ── SKILLS ── */}
       {skills.length > 0 && (
-        <section className="mb-14">
+        <SlideCard direction="right" delay={0.6}>
+          <section className="mb-14">
           <h2 className="text-2xl font-bold text-navy-900 mb-6">Skills &amp; Expertise</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {skills.map((skill, i) => (
@@ -345,13 +363,16 @@ export default async function AboutPage() {
             ))}
           </div>
         </section>
+        </SlideCard>
       )}
 
       {/* ── CERTIFICATIONS ── */}
       {certifications.length > 0 && (
         <section className="mb-14">
-          <h2 className="text-2xl font-bold text-navy-900 mb-6">Certifications</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <SlideCard direction="up" delay={0.7}>
+            <h2 className="text-2xl font-bold text-navy-900 mb-6">Certifications</h2>
+          </SlideCard>
+          <SlideGrid columns={3} direction="wave" staggerDelay={0.08}>
             {certifications.map((cert, i) => (
               <div key={i} className="flex items-start gap-4 p-4 bg-white border border-border rounded-xl">
                 {cert.imageUrl ? (
@@ -376,14 +397,15 @@ export default async function AboutPage() {
                 </div>
               </div>
             ))}
-          </div>
+          </SlideGrid>
         </section>
       )}
 
       {/* ── MEMBERSHIPS & LANGUAGES ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-14">
         {memberships.length > 0 && (
-          <section>
+          <SlideCard direction="left" delay={0.8}>
+            <section>
             <h2 className="text-2xl font-bold text-navy-900 mb-4">Professional Memberships</h2>
             <ul className="space-y-2">
               {memberships.map((m, i) => (
@@ -394,10 +416,12 @@ export default async function AboutPage() {
               ))}
             </ul>
           </section>
+          </SlideCard>
         )}
 
         {languages.length > 0 && (
-          <section>
+          <SlideCard direction="right" delay={0.9}>
+            <section>
             <h2 className="text-2xl font-bold text-navy-900 mb-4">Languages</h2>
             <div className="flex flex-wrap gap-2">
               {languages.map((lang, i) => (
@@ -407,14 +431,17 @@ export default async function AboutPage() {
               ))}
             </div>
           </section>
+          </SlideCard>
         )}
       </div>
 
       {/* ── LEADERSHIP POSITIONS ── */}
       {leadershipPositions.length > 0 && (
         <section className="mb-14">
-          <h2 className="text-2xl font-bold text-navy-900 mb-6">Leadership Positions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <SlideCard direction="up" delay={1.0}>
+            <h2 className="text-2xl font-bold text-navy-900 mb-6">Leadership Positions</h2>
+          </SlideCard>
+          <SlideGrid columns={2} direction="wave" staggerDelay={0.1}>
             {leadershipPositions.map((pos, i) => (
               <div key={i} className="flex items-start gap-4 p-5 bg-white border border-border rounded-xl hover:shadow-sm transition-shadow">
                 <div className="w-10 h-10 bg-primary-light rounded-lg flex items-center justify-center flex-shrink-0">
@@ -428,15 +455,17 @@ export default async function AboutPage() {
                 </div>
               </div>
             ))}
-          </div>
+          </SlideGrid>
         </section>
       )}
 
       {/* ── MEDIA APPEARANCES ── */}
       {mediaAppearances.length > 0 && (
         <section className="mb-14">
-          <h2 className="text-2xl font-bold text-navy-900 mb-6">Media Appearances</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <SlideCard direction="up" delay={0.2}>
+            <h2 className="text-2xl font-bold text-navy-900 mb-6">Media Appearances</h2>
+          </SlideCard>
+          <SlideGrid columns={3} direction="wave" staggerDelay={0.08}>
             {mediaAppearances.map((media, i) => (
               <div key={i} className="bg-white border border-border rounded-xl overflow-hidden hover:shadow-md transition-shadow">
                 {media.imageUrl ? (
@@ -464,15 +493,17 @@ export default async function AboutPage() {
                 </div>
               </div>
             ))}
-          </div>
+          </SlideGrid>
         </section>
       )}
 
       {/* ── ACHIEVEMENT GALLERY ── */}
       {awards.length > 0 && (
         <section className="mb-14">
-          <h2 className="text-2xl font-bold text-navy-900 mb-6">Achievement Gallery</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          <SlideCard direction="up" delay={0.3}>
+            <h2 className="text-2xl font-bold text-navy-900 mb-6">Achievement Gallery</h2>
+          </SlideCard>
+          <SlideGrid columns={4} direction="wave" staggerDelay={0.06}>
             {awards.map((award, i) => (
               <div key={i} className="group bg-white border border-border rounded-xl overflow-hidden hover:shadow-md transition-shadow">
                 {award.imageUrl ? (
@@ -497,7 +528,7 @@ export default async function AboutPage() {
                 </div>
               </div>
             ))}
-          </div>
+          </SlideGrid>
         </section>
       )}
 

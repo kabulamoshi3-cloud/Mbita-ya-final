@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useInView } from '@/lib/hooks/useInView';
 
 interface SlideCardProps {
@@ -11,18 +11,20 @@ interface SlideCardProps {
   distance?: number;
   className?: string;
   hover?: boolean;
+  scale?: boolean;
 }
 
 /**
- * Universal Slide Card Component - IMPROVED VERSION
- * Add smooth slide animations to any card from any direction
- * - Better visibility with reduced distance
- * - Smoother animations with optimized easing
- * - Prevents overflow/clipping issues
- * - Professional hover effects
+ * Universal Slide Card Component - PROFESSIONAL VERSION
+ * Premium slide animations with:
+ * - Smooth spring-like easing for natural movement
+ * - Proper client-side rendering
+ * - Scale effect for depth perception
+ * - Professional hover effects with lift and shadow
+ * - Optimized performance
  * 
  * Usage:
- * <SlideCard direction="left">
+ * <SlideCard direction="left" delay={0.1}>
  *   <YourCard />
  * </SlideCard>
  */
@@ -30,46 +32,57 @@ export default function SlideCard({
   children,
   direction = 'up',
   delay = 0,
-  duration = 0.7,
-  distance = 40, // Reduced from 60 for better visibility
+  duration = 0.8,
+  distance = 50,
   className = '',
-  hover = true
+  hover = true,
+  scale = true
 }: SlideCardProps) {
+  const [isMounted, setIsMounted] = useState(false);
   const { ref, inView } = useInView({
-    threshold: 0.05, // Reduced from 0.1 - triggers earlier
+    threshold: 0.1,
     triggerOnce: true
   });
 
-  const directionStyles: Record<string, React.CSSProperties> = {
-    up: {
-      transform: inView ? 'translateY(0)' : `translateY(${distance}px)`,
-      opacity: inView ? 1 : 0
-    },
-    down: {
-      transform: inView ? 'translateY(0)' : `translateY(-${distance}px)`,
-      opacity: inView ? 1 : 0
-    },
-    left: {
-      transform: inView ? 'translateX(0)' : `translateX(${distance}px)`,
-      opacity: inView ? 1 : 0
-    },
-    right: {
-      transform: inView ? 'translateX(0)' : `translateX(-${distance}px)`,
-      opacity: inView ? 1 : 0
+  // Ensure animations only run on client-side
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const getTransform = () => {
+    if (!isMounted || !inView) {
+      // Initial state - hidden with offset and scale
+      const scaleValue = scale ? 'scale(0.95)' : 'scale(1)';
+      switch (direction) {
+        case 'up':
+          return `translateY(${distance}px) ${scaleValue}`;
+        case 'down':
+          return `translateY(-${distance}px) ${scaleValue}`;
+        case 'left':
+          return `translateX(${distance}px) ${scaleValue}`;
+        case 'right':
+          return `translateX(-${distance}px) ${scaleValue}`;
+        default:
+          return scaleValue;
+      }
     }
+    // Final state - visible
+    return 'translateY(0) translateX(0) scale(1)';
   };
 
   const baseStyle: React.CSSProperties = {
-    ...directionStyles[direction],
-    // Improved easing curve for smoother animation
-    transition: `transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s, opacity ${duration}s ease-out ${delay}s`,
+    transform: getTransform(),
+    opacity: (isMounted && inView) ? 1 : 0,
+    transition: isMounted 
+      ? `all ${duration}s cubic-bezier(0.34, 1.56, 0.64, 1) ${delay}s`
+      : 'none',
     willChange: 'transform, opacity'
   };
 
   return (
     <div
       ref={ref}
-      className={`${className} ${hover ? 'hover:scale-[1.03] hover:shadow-xl hover:-translate-y-1' : ''} transition-all duration-300 ease-out`}
+      className={`${className} ${hover ? 'hover:scale-105 hover:shadow-2xl hover:-translate-y-2' : ''} transition-all duration-300 ease-out`}
       style={baseStyle}
     >
       {children}

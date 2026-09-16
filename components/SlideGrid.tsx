@@ -6,22 +6,28 @@ import SlideCard from './SlideCard';
 interface SlideGridProps {
   children: ReactNode[];
   columns?: 1 | 2 | 3 | 4;
-  direction?: 'left' | 'right' | 'up' | 'down' | 'alternate';
+  direction?: 'left' | 'right' | 'up' | 'down' | 'alternate' | 'wave';
   staggerDelay?: number;
   gap?: 4 | 6 | 8;
   className?: string;
 }
 
 /**
- * Slide Grid - Automatically animates all cards in a grid - IMPROVED VERSION
+ * Slide Grid - Professional animated grid layout
  * 
  * Improvements:
+ * - Wave pattern for dynamic cascading effect
  * - Better stagger timing for smoother reveals
- * - Improved spacing and layout
- * - Better responsive behavior
+ * - Improved spacing and responsive behavior
+ * - Scale animations for depth
+ * 
+ * Patterns:
+ * - 'alternate': Cards alternate left-right
+ * - 'wave': Cards cascade diagonally (recommended)
+ * - 'left/right/up/down': All cards slide from same direction
  * 
  * Usage:
- * <SlideGrid columns={3} direction="alternate">
+ * <SlideGrid columns={3} direction="wave" staggerDelay={0.08}>
  *   <Card1 />
  *   <Card2 />
  *   <Card3 />
@@ -30,8 +36,8 @@ interface SlideGridProps {
 export default function SlideGrid({
   children,
   columns = 3,
-  direction = 'alternate',
-  staggerDelay = 0.08, // Reduced from 0.1 for smoother stagger
+  direction = 'wave',
+  staggerDelay = 0.08,
   gap = 6,
   className = ''
 }: SlideGridProps) {
@@ -50,10 +56,32 @@ export default function SlideGrid({
 
   const getDirection = (index: number) => {
     if (direction === 'alternate') {
-      // Alternate between left and right for more dynamic effect
+      // Alternate between left and right
       return index % 2 === 0 ? 'left' : 'right';
+    } else if (direction === 'wave') {
+      // Wave pattern - creates diagonal cascade effect
+      const row = Math.floor(index / columns);
+      const col = index % columns;
+      const position = row + col;
+      
+      if (position % 2 === 0) {
+        return 'left';
+      } else {
+        return 'right';
+      }
     }
     return direction;
+  };
+
+  const getDelay = (index: number) => {
+    if (direction === 'wave') {
+      // Wave delay - diagonal cascade
+      const row = Math.floor(index / columns);
+      const col = index % columns;
+      return (row + col) * staggerDelay;
+    }
+    // Standard sequential delay
+    return index * staggerDelay;
   };
 
   return (
@@ -61,9 +89,10 @@ export default function SlideGrid({
       {React.Children.map(children, (child, index) => (
         <SlideCard
           direction={getDirection(index)}
-          delay={index * staggerDelay}
-          duration={0.7}
-          distance={40}
+          delay={getDelay(index)}
+          duration={0.8}
+          distance={50}
+          scale={true}
         >
           {child}
         </SlideCard>

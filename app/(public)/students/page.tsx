@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import StudentCard from "@/components/sections/StudentCard";
 import SlideGrid from "@/components/SlideGrid";
+import PageHeader from "@/components/PageHeader";
+import SlideCard from "@/components/SlideCard";
 import { separateStudents } from "@/lib/students";
 
 export const revalidate = 0;
@@ -28,18 +30,26 @@ export default async function StudentsPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-4xl font-bold text-navy-900 mb-8">Students &amp; Supervision</h1>
+      <PageHeader 
+        title="Students & Supervision"
+        subtitle="Mentoring Future Researchers"
+        description="Meet my current PhD and Master's students, and explore the success stories of alumni"
+        icon="🎓"
+        gradient={true}
+      />
 
       {/* Current students */}
       <section className="mb-12">
-        <h2 className="text-2xl font-semibold text-navy-900 mb-6">
-          Current Students
-          {current.length > 0 && (
-            <span className="ml-2 text-sm font-normal text-navy-500">({current.length})</span>
-          )}
-        </h2>
+        <SlideCard direction="up" delay={0.2}>
+          <h2 className="text-2xl font-semibold text-navy-900 mb-6">
+            Current Students
+            {current.length > 0 && (
+              <span className="ml-2 text-sm font-normal text-navy-500">({current.length})</span>
+            )}
+          </h2>
+        </SlideCard>
         {current.length > 0 ? (
-          <SlideGrid columns={3} direction="alternate" staggerDelay={0.1}>
+          <SlideGrid columns={3} direction="wave" staggerDelay={0.1}>
             {current.map((student) => (
               <StudentCard
                 key={student.id}
@@ -64,11 +74,13 @@ export default async function StudentsPage() {
       {/* Alumni */}
       {alumni.length > 0 && (
         <section>
-          <h2 className="text-2xl font-semibold text-navy-900 mb-6">
-            Alumni
-            <span className="ml-2 text-sm font-normal text-navy-500">({alumni.length})</span>
-          </h2>
-          <SlideGrid columns={3} direction="alternate" staggerDelay={0.1}>
+          <SlideCard direction="up" delay={0.3}>
+            <h2 className="text-2xl font-semibold text-navy-900 mb-6">
+              Alumni
+              <span className="ml-2 text-sm font-normal text-navy-500">({alumni.length})</span>
+            </h2>
+          </SlideCard>
+          <SlideGrid columns={3} direction="wave" staggerDelay={0.1}>
             {alumni.map((student) => (
               <StudentCard
                 key={student.id}

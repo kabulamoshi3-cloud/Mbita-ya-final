@@ -17,6 +17,12 @@ export function useInView(options: UseInViewOptions = {}) {
     const element = ref.current;
     if (!element) return;
 
+    // Fallback for browsers that don't support IntersectionObserver
+    if (typeof IntersectionObserver === 'undefined') {
+      setInView(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         const isIntersecting = entry.isIntersecting;

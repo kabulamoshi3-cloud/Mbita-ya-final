@@ -4,6 +4,8 @@ import { useState, useMemo } from "react";
 import CourseCard from "@/components/sections/CourseCard";
 import AcademicCalendar from "@/components/sections/AcademicCalendar";
 import SlideGrid from "@/components/SlideGrid";
+import PageHeader from "@/components/PageHeader";
+import SlideCard from "@/components/SlideCard";
 import type { Course } from "@prisma/client";
 
 interface TeachingClientProps {
@@ -234,7 +236,7 @@ export default function TeachingClient({ courses }: TeachingClientProps) {
       {/* ── RESULTS ── */}
       {filtered.length > 0 ? (
         viewMode === "grid" ? (
-          <SlideGrid columns={3} direction="alternate" staggerDelay={0.1}>
+          <SlideGrid columns={3} direction="wave" staggerDelay={0.1}>
             {filtered.map((course) => (
               <CourseCard
                 key={course.id}

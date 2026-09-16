@@ -3,6 +3,8 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import PublicationCard from "@/components/sections/PublicationCard";
 import SlideGrid from "@/components/SlideGrid";
+import PageHeader from "@/components/PageHeader";
+import SlideCard from "@/components/SlideCard";
 
 interface Publication {
   id: string;
@@ -288,7 +290,7 @@ export default function PublicationsClient({ publications }: PublicationsClientP
             ))}
           </div>
         ) : (
-          <SlideGrid columns={3} direction="alternate" staggerDelay={0.12}>
+          <SlideGrid columns={3} direction="wave" staggerDelay={0.12}>
             {filtered.map((pub) => (
               <PublicationCard
                 key={pub.id}
