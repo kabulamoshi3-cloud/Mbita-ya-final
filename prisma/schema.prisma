@@ -289,13 +289,24 @@ enum CollaboratorType {
 model Resource {
   id          String   @id @default(uuid())
   title       String
-  description String
+  description String   @db.Text
   url         String
-  category    String?
+  category    String   // dataset, software, template, tutorial, paper, book, tool
+  type        String?  // PDF, ZIP, Link, Video, etc.
   iconUrl     String?
+  fileUrl     String?  // File download link
+  fileSize    String?  // e.g., "2.5 MB"
+  thumbnailUrl String? // Preview image
+  tags        String[] @default([]) // Searchable tags
+  downloads   Int      @default(0)
+  views       Int      @default(0)
+  featured    Boolean  @default(false)
   published   Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([category, published])
+  @@index([featured])
 }
 
 model GalleryItem {
@@ -371,14 +382,19 @@ model ActivityLog {
 }
 
 model Testimonial {
-  id        String   @id @default(uuid())
-  name      String
-  role      String
-  content   String
-  photoUrl  String?
-  published Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(uuid())
+  name        String
+  role        String
+  institution String?
+  content     String   @db.Text
+  rating      Int      @default(5) // 1-5 stars
+  photoUrl    String?
+  featured    Boolean  @default(false)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([featured, published])
 }
 
 model Announcement {
@@ -1604,3 +1620,59 @@ model NavigationMenu {
   @@index([parentId])
   @@index([order])
 }
+
+// ── COMMUNITY SYSTEM ──
+model CommunityPost {
+  id          String   @id @default(uuid())
+  title       String
+  content     String   @db.Text
+  authorName  String   // Display name
+  authorEmail String?  // Optional for replies
+  category    String   // discussion, question, announcement, opportunity
+  tags        String[] // Topics
+  imageUrl    String?  // Optional image
+  likes       Int      @default(0)
+  views       Int      @default(0)
+  isPinned    Boolean  @default(false)
+  isApproved  Boolean  @default(false) // Moderation
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  replies     CommunityReply[]
+
+  @@index([category, published])
+  @@index([isPinned, isApproved])
+}
+
+model CommunityReply {
+  id          String   @id @default(uuid())
+  postId      String
+  post        CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorName  String
+  authorEmail String?
+  content     String   @db.Text
+  likes       Int      @default(0)
+  isApproved  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([postId])
+}
+
+model FAQ {
+  id          String   @id @default(uuid())
+  question    String
+  answer      String   @db.Text
+  category    String   // general, research, teaching, technical, admission
+  order       Int      @default(0)
+  helpful     Int      @default(0)
+  notHelpful  Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category, published])
+  @@index([order])
+}
+

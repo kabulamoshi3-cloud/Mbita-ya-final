@@ -71,8 +71,11 @@ export async function POST(request: NextRequest) {
     try {
       const resource = await prisma.resource.create({
         data: {
-          ...result.data,
+          title: result.data.title,
           description: validateResourceDescription(result.data.description),
+          url: result.data.url,
+          category: result.data.category || "tool",
+          tags: [],
           published: result.data.published ?? true,
         },
       });
