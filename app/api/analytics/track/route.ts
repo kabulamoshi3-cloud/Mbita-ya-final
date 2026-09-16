@@ -1,43 +1,46 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getIronSession } from "iron-session";
-import { prisma } from "@/lib/prisma";
-import { sessionOptions, SessionData } from "@/lib/session";
+import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
 
+// POST track analytics event
 export async function POST(request: NextRequest) {
   try {
-    const session = await getIronSession<SessionData>(request, NextResponse.next(), sessionOptions);
-    if (!session.studentId) {
-      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    const body = await request.json();
+    const { eventType, userId, sessionId, properties, path } = body;
+
+    if (!eventType) {
+      return NextResponse.json({ error: 'Event type required' }, { status: 400 });
     }
 
-    const body = await request.json();
-    const { event, category, metadata } = body;
+    // Get request metadata
+    const userAgent = request.headers.get('user-agent') || undefined;
+    const ipAddress = request.headers.get('x-forwarded-for')?.split(',')[0] || 
+                      request.headers.get('x-real-ip') || 
+                      undefined;
 
-    // Track event in ActivityLog
-    await prisma.activityLog.create({
+    const event = await prisma.analyticsEvent.create({
       data: {
-        performedBy: session.studentId,
-        action: event || "unknown",
-        section: category || "general",
-        itemTitle: metadata?.title || null,
-        itemId: metadata?.id || null,
+        eventType,
+        userId,
+        sessionId,
+        properties: properties || {},
+        userAgent,
+        ipAddress,
       },
     });
 
-    // Update student's last login timestamp (StudentUser model, not Student)
-    // Note: Student model doesn't have lastActive field
-    // If this is for student portal users, update StudentUser
-    await prisma.studentUser.update({
-      where: { id: session.studentId },
-      data: { lastLogin: new Date() },
-    }).catch(() => {
-      // Silently fail if student is not in StudentUser table
-      // (might be admin or different user type)
-    });
+    // Also track page views separately
+    if (eventType === 'page_view' && path) {
+      await prisma.pageView.create({
+        data: {
+          path,
+          userAgent,
+        },
+      });
+    }
 
-    return NextResponse.json({ message: "Event tracked" });
-  } catch (error) {
-    console.error("Event tracking error:", error);
-    return NextResponse.json({ error: "Failed to track event" }, { status: 500 });
+    return NextResponse.json({ success: true, event }, { status: 201 });
+  } catch (error: any) {
+    console.error('[Analytics Track]', error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
