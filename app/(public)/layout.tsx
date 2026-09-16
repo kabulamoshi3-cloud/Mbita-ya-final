@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import dynamic from "next/dynamic";
-import Navbar from "@/components/layout/Navbar";
+import DynamicNavbar from "@/components/layout/DynamicNavbar";
 import Footer from "@/components/layout/Footer";
 import { getPhotoForSlot } from "@/lib/profilePhotos";
 
@@ -31,6 +31,29 @@ async function getProfile() {
   }
 }
 
+async function getNavigationMenu() {
+  try {
+    // Get all visible menu items with their children
+    const menuItems = await prisma.navigationMenu.findMany({
+      where: {
+        isVisible: true,
+        parentId: null, // Only top-level items
+      },
+      include: {
+        children: {
+          where: { isVisible: true },
+          orderBy: { order: "asc" },
+        },
+      },
+      orderBy: { order: "asc" },
+    });
+    return menuItems;
+  } catch (error) {
+    console.error("Error fetching navigation menu:", error);
+    return [];
+  }
+}
+
 async function getSiteSettings() {
   try {
     return await prisma.siteSettings.findFirst({
@@ -46,8 +69,11 @@ export default async function PublicLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const profile = await getProfile();
-  const settings = await getSiteSettings();
+  const [profile, menuItems, settings] = await Promise.all([
+    getProfile(),
+    getNavigationMenu(),
+    getSiteSettings(),
+  ]);
 
   // Use slot-specific photos with fallback to main photoUrl
   const navbarPhoto = getPhotoForSlot(profile, "navbar");
@@ -68,19 +94,13 @@ export default async function PublicLayout({
       }
     : null;
 
-  const hiddenSections = settings?.hiddenSections
-    ? (Array.isArray(settings.hiddenSections)
-        ? (settings.hiddenSections as string[])
-        : JSON.parse(settings.hiddenSections as string))
-    : [];
-
   return (
     <>
       <a href="#main-content" className="skip-to-content">
         Skip to main content
       </a>
 
-      <Navbar profile={navbarProfile} hiddenSections={hiddenSections} />
+      <DynamicNavbar profile={navbarProfile} menuItems={menuItems} />
 
       <main id="main-content" className="flex-1 dark:bg-slate-900">
         {children}
