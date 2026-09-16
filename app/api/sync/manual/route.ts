@@ -45,10 +45,9 @@ export async function POST(req: Request) {
         results: syncResult.results,
       },
       import: importResult ? {
-        publications: importResult.publications || 0,
-        research: importResult.research || 0,
-        code: importResult.code || 0,
-        total: importResult.total || 0,
+        imported: importResult.imported || 0,
+        skipped: importResult.skipped || 0,
+        errors: importResult.errors || 0,
       } : null,
     });
   } catch (error: any) {
