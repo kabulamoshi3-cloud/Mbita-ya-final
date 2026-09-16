@@ -278,6 +278,7 @@ export async function syncFromProfileUrls(serpApiKey?: string): Promise<{
     // Get profile with academic URLs
     const profile = await prisma.profile.findFirst({
       select: {
+        id: true,
         academicProfiles: true,
         autoSyncEnabled: true,
       },
