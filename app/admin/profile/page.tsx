@@ -501,41 +501,99 @@ export default function AdminProfilePage() {
       {activeTab === "academic" && profile && (
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="bg-white border border-border rounded-xl p-6">
-            <h2 className="font-semibold text-navy-900 text-base mb-4">Academic Profile Links</h2>
-            <p className="text-sm text-navy-500 mb-4">These links appear on the homepage and contact page.</p>
+            <h2 className="font-semibold text-navy-900 text-base mb-2">Academic Profile Links</h2>
+            <p className="text-sm text-navy-500 mb-4">
+              Add your academic profile URLs. These are used for auto-sync to fetch your publications and research.
+            </p>
+
+            {/* Quick Add Buttons */}
+            <div className="mb-4 p-4 bg-gray-50 rounded-lg">
+              <p className="text-xs font-medium text-gray-700 mb-2">Quick Add Popular Platforms:</p>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  { label: "Google Scholar", icon: "🎓", placeholder: "https://scholar.google.com/citations?user=YOUR_ID" },
+                  { label: "ORCID", icon: "🆔", placeholder: "https://orcid.org/0000-0002-1234-5678" },
+                  { label: "ResearchGate", icon: "🔬", placeholder: "https://researchgate.net/profile/Your-Name" },
+                  { label: "GitHub", icon: "💻", placeholder: "https://github.com/username" },
+                  { label: "LinkedIn", icon: "💼", placeholder: "https://linkedin.com/in/username" },
+                ].map((platform) => (
+                  <button
+                    key={platform.label}
+                    type="button"
+                    onClick={() => {
+                      const exists = profile.academicProfiles?.some((ap: any) => 
+                        ap.label?.toLowerCase().includes(platform.label.toLowerCase())
+                      );
+                      if (!exists) {
+                        setProfile({ 
+                          ...profile, 
+                          academicProfiles: [...(profile.academicProfiles ?? []), { label: platform.label, url: "" }] 
+                        });
+                      }
+                    }}
+                    className="px-3 py-1.5 text-xs font-medium border border-gray-300 rounded-md hover:bg-white hover:border-primary hover:text-primary transition-colors"
+                  >
+                    {platform.icon} {platform.label}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             <div className="space-y-3">
-              {(profile.academicProfiles ?? []).map((ap, i) => (
-                <div key={i} className="flex gap-3 items-center">
-                  <input
-                    type="text"
-                    placeholder="Label (e.g. Google Scholar)"
-                    value={ap.label}
-                    onChange={(e) => {
-                      const updated = [...profile.academicProfiles];
-                      updated[i] = { ...updated[i], label: e.target.value };
-                      setProfile({ ...profile, academicProfiles: updated });
-                    }}
-                    className={`${inputClass(false)} flex-1`}
-                  />
-                  <input
-                    type="url"
-                    placeholder="URL"
-                    value={ap.url}
-                    onChange={(e) => {
-                      const updated = [...profile.academicProfiles];
-                      updated[i] = { ...updated[i], url: e.target.value };
-                      setProfile({ ...profile, academicProfiles: updated });
-                    }}
-                    className={`${inputClass(false)} flex-2`}
-                  />
+              {(profile.academicProfiles ?? []).map((ap: any, i: number) => (
+                <div key={i} className="flex gap-3 items-start">
+                  <div className="flex-1 space-y-2">
+                    <input
+                      type="text"
+                      placeholder="Platform Name (e.g. Google Scholar)"
+                      value={ap.label}
+                      onChange={(e) => {
+                        const updated = [...profile.academicProfiles];
+                        updated[i] = { ...updated[i], label: e.target.value };
+                        setProfile({ ...profile, academicProfiles: updated });
+                      }}
+                      className={`${inputClass(false)} w-full`}
+                    />
+                    <input
+                      type="url"
+                      placeholder="Full URL (https://...)"
+                      value={ap.url}
+                      onChange={(e) => {
+                        const updated = [...profile.academicProfiles];
+                        updated[i] = { ...updated[i], url: e.target.value };
+                        setProfile({ ...profile, academicProfiles: updated });
+                      }}
+                      className={`${inputClass(false)} w-full`}
+                    />
+                    {/* URL Format Hints */}
+                    {ap.label && (
+                      <p className="text-xs text-gray-500 flex items-start gap-1">
+                        <svg className="w-3 h-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>
+                          {ap.label.toLowerCase().includes('scholar') && 'Example: https://scholar.google.com/citations?user=YOUR_ID'}
+                          {ap.label.toLowerCase().includes('orcid') && 'Example: https://orcid.org/0000-0002-1234-5678'}
+                          {ap.label.toLowerCase().includes('researchgate') && 'Example: https://researchgate.net/profile/Your-Name'}
+                          {ap.label.toLowerCase().includes('github') && 'Example: https://github.com/username'}
+                          {ap.label.toLowerCase().includes('linkedin') && 'Example: https://linkedin.com/in/username'}
+                          {!ap.label.toLowerCase().includes('scholar') && 
+                           !ap.label.toLowerCase().includes('orcid') && 
+                           !ap.label.toLowerCase().includes('researchgate') && 
+                           !ap.label.toLowerCase().includes('github') && 
+                           !ap.label.toLowerCase().includes('linkedin') && 
+                           'Enter the full profile URL'}
+                        </span>
+                      </p>
+                    )}
+                  </div>
                   <button
                     type="button"
                     onClick={() => {
-                      const updated = profile.academicProfiles.filter((_, idx) => idx !== i);
+                      const updated = profile.academicProfiles.filter((_: any, idx: number) => idx !== i);
                       setProfile({ ...profile, academicProfiles: updated });
                     }}
-                    className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                    className="mt-2 p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                     aria-label="Remove link"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -548,12 +606,12 @@ export default function AdminProfilePage() {
               <button
                 type="button"
                 onClick={() => setProfile({ ...profile, academicProfiles: [...(profile.academicProfiles ?? []), { label: "", url: "" }] })}
-                className="flex items-center gap-2 px-4 py-2 border border-dashed border-border rounded-lg text-sm text-navy-500 hover:border-primary hover:text-primary transition-colors"
+                className="flex items-center gap-2 px-4 py-2 border border-dashed border-border rounded-lg text-sm text-navy-500 hover:border-primary hover:text-primary transition-colors w-full justify-center"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                 </svg>
-                Add Profile Link
+                Add Custom Link
               </button>
             </div>
           </div>
