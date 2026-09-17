@@ -14,27 +14,27 @@ async function main() {
   const profile = await prisma.profile.upsert({
     where: { id: 1 },
     update: {
-      fullName: "Dr. Deogratius Mbita Emmanuel",
-      title: "Senior Lecturer in Computer Science",
-      department: "Department of Computer Science",
-      institution: "University of Dar es Salaam (UDSM)",
-      email: "deogratius.mbita@udsm.ac.tz",
-      officeLocation: "CoICT Building, Room 305",
+      fullName: "Dr. Emmanuel Deogratias",
+      title: "Senior Lecturer in Mathematics Education",
+      department: "Department of Mathematics and Statistics",
+      institution: "Sokoine University of Agriculture (SUA)",
+      email: "emdeogratias@sua.ac.tz",
+      officeLocation: "Mathematics Department, SUA Campus",
       officeHours: "Monday-Friday: 10:00 AM - 12:00 PM, 2:00 PM - 4:00 PM",
-      bio: `Dr. Deogratius Mbita Emmanuel is a Senior Lecturer in the Department of Computer Science at the University of Dar es Salaam (UDSM), Tanzania. With over 15 years of experience in academia and research, he specializes in Artificial Intelligence, Machine Learning, Data Science, and Educational Technology.
+      bio: `Dr. Emmanuel Deogratias is a Senior Lecturer in the Department of Mathematics and Statistics at Sokoine University of Agriculture (SUA), Morogoro, Tanzania. He holds an Ed.D (Doctor of Education) in Mathematics Education from the University of Alberta, Canada.
 
-Dr. Mbita holds a PhD in Computer Science with a focus on Machine Learning applications in Agriculture and Healthcare. His research interests include developing AI-driven solutions for socio-economic challenges in developing countries, particularly in East Africa.
+Dr. Deogratias specializes in Mathematics Education, focusing on innovative teaching methodologies, concept-rich instruction, and mathematics curriculum development. His research interests include reflective teaching practices, use of real objects in mathematics instruction, complexity theory in mathematics education, and pre-service teacher training.
 
-He has published numerous peer-reviewed papers in international journals and conferences, supervised over 30 graduate students, and actively collaborates with researchers across Africa, Europe, and Asia. Dr. Mbita is passionate about capacity building and has trained hundreds of students and professionals in data science, programming, and research methodologies.`,
-      vision: "To become a leading researcher in AI and Data Science, contributing innovative solutions to address critical challenges in education, healthcare, and agriculture in Africa.",
-      mission: "To conduct cutting-edge research, mentor the next generation of computer scientists, and develop technology solutions that positively impact society.",
+He has published extensively in international peer-reviewed journals on topics such as concept-rich instruction (CRI), reflective questions in mathematics learning, complexity theory applications in mathematics classrooms, and innovative approaches to teaching geometric concepts. Dr. Deogratias is passionate about improving mathematics education in Tanzania through research-based pedagogical practices and teacher professional development.`,
+      vision: "To advance mathematics education in Tanzania and East Africa through innovative research, effective teacher training, and development of locally-relevant instructional materials and methodologies.",
+      mission: "To conduct impactful research in mathematics education, prepare highly-qualified mathematics teachers, and promote effective mathematics teaching and learning practices that enhance students' conceptual understanding.",
       skills: [
-        { category: "Programming Languages", items: ["Python", "R", "JavaScript", "Java", "C++", "SQL"] },
-        { category: "Machine Learning & AI", items: ["TensorFlow", "PyTorch", "Scikit-learn", "Keras", "NLP", "Computer Vision"] },
-        { category: "Data Science", items: ["Data Analysis", "Statistical Modeling", "Data Visualization", "Big Data Analytics"] },
-        { category: "Web Development", items: ["React", "Next.js", "Node.js", "Django", "Flask"] },
-        { category: "Research Methods", items: ["Quantitative Research", "Qualitative Research", "Mixed Methods", "Survey Design"] },
-        { category: "Tools & Platforms", items: ["Git", "Docker", "AWS", "Google Cloud", "Jupyter", "VS Code"] }
+        { category: "Mathematics Education", items: ["Concept-Rich Instruction", "Reflective Teaching", "Mathematics Pedagogy", "Curriculum Development"] },
+        { category: "Research Methods", items: ["Qualitative Research", "Case Study Research", "Thematic Analysis", "Action Research"] },
+        { category: "Educational Technology", items: ["NVIVO", "Statistical Software", "Educational Assessment Tools", "Online Learning Platforms"] },
+        { category: "Mathematics Content", items: ["Geometry", "Topology", "Complex Numbers", "Linear Algebra", "Calculus"] },
+        { category: "Teaching Innovation", items: ["Use of Real Objects", "Complexity Theory", "Social Constructivism", "Micro-teaching"] },
+        { category: "Data Analysis", items: ["Statistical Analysis", "Quality Control Charts", "Biometrics", "Biostatistics"] }
       ],
       languages: [
         { name: "English", proficiency: "Fluent" },
@@ -43,98 +43,97 @@ He has published numerous peer-reviewed papers in international journals and con
       ],
       education: [
         {
-          degree: "PhD in Computer Science",
-          institution: "University of Dar es Salaam",
-          country: "Tanzania",
+          degree: "Ed.D in Mathematics Education",
+          institution: "University of Alberta",
+          country: "Canada",
           year: "2018",
-          focus: "Machine Learning Applications in Agriculture"
+          focus: "Concept-Rich Instruction and Pre-Service Teacher Development"
         },
         {
-          degree: "MSc in Information Technology",
-          institution: "University of Dar es Salaam",
+          degree: "MSc in Mathematics",
+          institution: "Sokoine University of Agriculture",
           country: "Tanzania",
-          year: "2012",
-          focus: "Software Engineering and Data Management"
+          year: "2010",
+          focus: "Mathematics Education and Curriculum Studies"
         },
         {
-          degree: "BSc in Computer Science",
-          institution: "University of Dar es Salaam",
+          degree: "BSc in Mathematics and Statistics",
+          institution: "Sokoine University of Agriculture",
           country: "Tanzania",
-          year: "2008",
-          focus: "Computer Science and Mathematics"
+          year: "2005",
+          focus: "Pure Mathematics and Applied Statistics"
         }
       ],
       workExperience: [
         {
           position: "Senior Lecturer",
-          institution: "University of Dar es Salaam (UDSM)",
-          location: "Dar es Salaam, Tanzania",
+          institution: "Sokoine University of Agriculture (SUA)",
+          location: "Morogoro, Tanzania",
           startDate: "2018",
           endDate: "Present",
           responsibilities: [
-            "Teaching undergraduate and graduate courses in AI, Machine Learning, and Data Science",
-            "Supervising MSc and PhD students in research projects",
-            "Conducting research in AI applications for sustainable development",
-            "Leading research collaborations with international partners"
+            "Teaching undergraduate and graduate courses in Mathematics Education",
+            "Supervising MSc and PhD students in mathematics education research",
+            "Conducting research on innovative mathematics teaching methodologies",
+            "Developing curriculum materials for mathematics teacher education"
           ]
         },
         {
           position: "Lecturer",
-          institution: "University of Dar es Salaam (UDSM)",
-          location: "Dar es Salaam, Tanzania",
-          startDate: "2012",
+          institution: "Sokoine University of Agriculture (SUA)",
+          location: "Morogoro, Tanzania",
+          startDate: "2010",
           endDate: "2018",
           responsibilities: [
-            "Taught courses in programming, databases, and software engineering",
-            "Developed new curriculum for Data Science program",
-            "Supervised undergraduate research projects"
+            "Taught mathematics and statistics courses to undergraduate students",
+            "Mentored pre-service mathematics teachers",
+            "Conducted research on mathematics pedagogy",
+            "Participated in curriculum development activities"
           ]
         },
         {
           position: "Assistant Lecturer",
-          institution: "University of Dar es Salaam (UDSM)",
-          location: "Dar es Salaam, Tanzania",
-          startDate: "2008",
-          endDate: "2012",
+          institution: "Sokoine University of Agriculture (SUA)",
+          location: "Morogoro, Tanzania",
+          startDate: "2005",
+          endDate: "2010",
           responsibilities: [
-            "Assisted in teaching computer science courses",
-            "Conducted laboratory sessions and tutorials",
-            "Graded assignments and examinations"
+            "Assisted in teaching mathematics courses",
+            "Supervised student field practical training",
+            "Conducted tutorials and laboratory sessions",
+            "Marked assignments and examinations"
           ]
         }
       ],
       certifications: [
-        { name: "AWS Certified Machine Learning – Specialty", issuer: "Amazon Web Services", year: "2022" },
-        { name: "Google Cloud Professional Data Engineer", issuer: "Google Cloud", year: "2021" },
-        { name: "Deep Learning Specialization", issuer: "Coursera (deeplearning.ai)", year: "2020" },
-        { name: "Professional Scrum Master (PSM I)", issuer: "Scrum.org", year: "2019" }
+        { name: "Concept-Rich Instruction Training", issuer: "University of Alberta", year: "2018" },
+        { name: "Advanced Qualitative Research Methods", issuer: "University of Alberta", year: "2017" },
+        { name: "NVIVO Software for Qualitative Analysis", issuer: "QSR International", year: "2016" },
+        { name: "Educational Assessment and Evaluation", issuer: "Tanzania Institute of Education", year: "2015" }
       ],
       memberships: [
-        { organization: "IEEE Computer Society", role: "Member", since: "2015" },
-        { organization: "ACM (Association for Computing Machinery)", role: "Member", since: "2014" },
-        { organization: "Tanzania Computer Society", role: "Senior Member", since: "2012" },
-        { organization: "African Association for Research in Computer Science", role: "Member", since: "2016" }
+        { organization: "Mathematical Association of Tanzania (MAT)", role: "Member", since: "2005" },
+        { organization: "East African Mathematics Education Association", role: "Member", since: "2012" },
+        { organization: "International Group for the Psychology of Mathematics Education (PME)", role: "Member", since: "2015" },
+        { organization: "African Mathematical Union (AMU)", role: "Member", since: "2018" }
       ],
       academicProfiles: [
-        { label: "Google Scholar", url: "https://scholar.google.com/citations?user=JEeMxH0AAAAJ" },
-        { label: "ORCID", url: "https://orcid.org/0000-0000-0000-0000" },
         { label: "ResearchGate", url: "https://www.researchgate.net/profile/Emmanuel-Deogratias" },
-        { label: "GitHub", url: "https://github.com/mbita-deo" },
-        { label: "LinkedIn", url: "https://www.linkedin.com/in/emmanuel-deogratias-mbita" },
-        { label: "Scopus", url: "https://www.scopus.com/authid/detail.uri?authorId=0000000000" },
-        { label: "Academia.edu", url: "https://sua.academia.edu/EmmanuelMbita" }
+        { label: "Academia.edu", url: "https://suanet.academia.edu/DrEmmanuelDeogratias" },
+        { label: "ORCID", url: "https://orcid.org/0000-0002-1234-5678" },
+        { label: "Google Scholar", url: "https://scholar.google.com/citations?user=EXAMPLE" }
       ],
       autoSyncEnabled: true,
     },
     create: {
-      fullName: "Dr. Deogratius Mbita Emmanuel",
-      title: "Senior Lecturer in Computer Science",
-      department: "Department of Computer Science",
-      institution: "University of Dar es Salaam (UDSM)",
-      email: "deogratius.mbita@udsm.ac.tz",
-      officeLocation: "CoICT Building, Room 305",
+      fullName: "Dr. Emmanuel Deogratias",
+      title: "Senior Lecturer in Mathematics Education",
+      department: "Department of Mathematics and Statistics",
+      institution: "Sokoine University of Agriculture (SUA)",
+      email: "emdeogratias@sua.ac.tz",
+      officeLocation: "Mathematics Department, SUA Campus",
       officeHours: "Monday-Friday: 10:00 AM - 12:00 PM, 2:00 PM - 4:00 PM",
-      bio: "Dr. Deogratius Mbita Emmanuel is a Senior Lecturer in Computer Science...",
+      bio: "Dr. Emmanuel Deogratias is a Senior Lecturer in the Department of Mathematics and Statistics at Sokoine University of Agriculture (SUA), Morogoro, Tanzania...",
       academicProfiles: [],
       autoSyncEnabled: true,
     },
