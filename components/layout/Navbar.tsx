@@ -10,6 +10,7 @@ interface NavbarProfile {
   fullName: string;
   title: string;
   photoUrl?: string | null;
+  academicProfiles?: Array<{ label: string; url: string }>;
 }
 
 interface NavbarProps {

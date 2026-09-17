@@ -102,11 +102,13 @@ He has published numerous peer-reviewed papers in international journals and con
           { organization: "Tanzania Computer Society", role: "Senior Member", since: "2012" }
         ],
         academicProfiles: [
-          { label: "Google Scholar", url: "https://scholar.google.com/citations?user=EXAMPLE" },
-          { label: "ORCID", url: "https://orcid.org/0000-0002-1234-5678" },
-          { label: "ResearchGate", url: "https://researchgate.net/profile/Deogratius-Mbita" },
+          { label: "Google Scholar", url: "https://scholar.google.com/citations?user=JEeMxH0AAAAJ" },
+          { label: "ORCID", url: "https://orcid.org/0000-0000-0000-0000" },
+          { label: "ResearchGate", url: "https://www.researchgate.net/profile/Emmanuel-Deogratias" },
           { label: "GitHub", url: "https://github.com/mbita-deo" },
-          { label: "LinkedIn", url: "https://linkedin.com/in/deogratius-mbita" }
+          { label: "LinkedIn", url: "https://www.linkedin.com/in/emmanuel-deogratias-mbita" },
+          { label: "Scopus", url: "https://www.scopus.com/authid/detail.uri?authorId=0000000000" },
+          { label: "Academia.edu", url: "https://sua.academia.edu/EmmanuelMbita" }
         ],
         autoSyncEnabled: true,
       },
