@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
@@ -20,15 +20,13 @@ model Profile {
   bio                 String
   photoUrl            String    @default("")
   cvUrl               String    @default("")
-  // ── Per-location photos (each can be uploaded separately) ──
-  navbarPhotoUrl      String    @default("") // Navbar top bar (40px circle)
-  heroPhotoUrl        String    @default("") // Homepage hero (220px circle)
-  aboutPhotoUrl       String    @default("") // About page (200px circle)
-  contactPhotoUrl     String    @default("") // Contact page (150px circle)
-  footerPhotoUrl      String    @default("") // Footer (48px circle)
-  adminPhotoUrl       String    @default("") // Admin panel sidebar & dropdown
+  navbarPhotoUrl      String    @default("")
+  heroPhotoUrl        String    @default("")
+  aboutPhotoUrl       String    @default("")
+  contactPhotoUrl     String    @default("")
+  footerPhotoUrl      String    @default("")
+  adminPhotoUrl       String    @default("")
   academicProfiles    Json
-  // About page enhancements
   vision              String?
   mission             String?
   skills              Json?
@@ -38,34 +36,30 @@ model Profile {
   certifications      Json?
   memberships         Json?
   videoIntroUrl       String?
-  // Contact enhancements
   whatsapp            String?
   mapEmbedUrl         String?
   buildingImageUrl    String?
   faq                 Json?
-  // New fields
-  leadershipPositions Json? // Leadership positions
-  mediaAppearances    Json? // Media appearances/press
-  emergencyContact    String? // Emergency contact info
-  // Auto-sync settings
-  autoSyncEnabled     Boolean   @default(true) // Enable/disable auto-sync
-  lastSyncAt          DateTime? // Last sync timestamp
+  leadershipPositions Json?
+  mediaAppearances    Json?
+  emergencyContact    String?
+  autoSyncEnabled     Boolean   @default(true)
+  lastSyncAt          DateTime?
   updatedAt           DateTime  @updatedAt
 }
 
-// Connected Academic Accounts for Auto-Sync
 model ConnectedAccount {
   id           String    @id @default(cuid())
-  platform     String // google-scholar, orcid, researchgate, github, etc.
-  accountId    String // External account ID or username
-  accessToken  String? // OAuth token (encrypted)
-  refreshToken String? // OAuth refresh token (encrypted)
-  apiKey       String? // API key if applicable
+  platform     String
+  accountId    String
+  accessToken  String?
+  refreshToken String?
+  apiKey       String?
   isActive     Boolean   @default(true)
   lastSyncedAt DateTime?
-  syncStatus   String    @default("pending") // pending, syncing, success, error
-  syncError    String? // Error message if sync failed
-  metadata     Json? // Platform-specific settings
+  syncStatus   String    @default("pending")
+  syncError    String?
+  metadata     Json?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
@@ -73,20 +67,19 @@ model ConnectedAccount {
   @@index([platform, isActive])
 }
 
-// Auto-Synced Content Cache
 model SyncedContent {
   id            String    @id @default(cuid())
-  platform      String // Source platform
-  externalId    String // ID from external platform
-  contentType   String // publication, research, course, etc.
+  platform      String
+  externalId    String
+  contentType   String
   title         String
-  content       String    @db.Text
-  metadata      Json // All extracted data
-  authors       String[] // Array of authors
+  content       String
+  metadata      Json
+  authors       String[]
   publishedDate DateTime?
   citations     Int       @default(0)
   url           String?
-  importedToDb  Boolean   @default(false) // Whether imported to main tables
+  importedToDb  Boolean   @default(false)
   lastFetchedAt DateTime  @default(now())
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -113,15 +106,6 @@ model Publication {
   updatedAt  DateTime        @updatedAt
 }
 
-enum PublicationType {
-  journal
-  conference
-  book
-  book_chapter
-  technical_report
-  other
-}
-
 model ResearchProject {
   id             String        @id @default(uuid())
   slug           String        @unique
@@ -144,11 +128,6 @@ model ResearchProject {
   updatedAt      DateTime      @updatedAt
 }
 
-enum ProjectStatus {
-  active
-  completed
-}
-
 model Course {
   id           String       @id @default(uuid())
   name         String
@@ -168,11 +147,6 @@ model Course {
   updatedAt    DateTime     @updatedAt
 }
 
-enum CourseStatus {
-  active
-  archived
-}
-
 model Student {
   id              String        @id @default(uuid())
   name            String
@@ -190,16 +164,6 @@ model Student {
   updatedAt       DateTime      @updatedAt
 }
 
-enum DegreeLevel {
-  PhD
-  Masters
-}
-
-enum StudentStatus {
-  current
-  alumni
-}
-
 model Award {
   id            String        @id @default(uuid())
   name          String
@@ -213,14 +177,6 @@ model Award {
   published     Boolean       @default(true)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-}
-
-enum AwardCategory {
-  award
-  grant
-  fellowship
-  honor
-  distinction
 }
 
 model BlogPost {
@@ -281,29 +237,24 @@ model Collaborator {
   updatedAt   DateTime         @updatedAt
 }
 
-enum CollaboratorType {
-  individual
-  institution
-}
-
 model Resource {
-  id          String   @id @default(uuid())
-  title       String
-  description String   @db.Text
-  url         String
-  category    String   // dataset, software, template, tutorial, paper, book, tool
-  type        String?  // PDF, ZIP, Link, Video, etc.
-  iconUrl     String?
-  fileUrl     String?  // File download link
-  fileSize    String?  // e.g., "2.5 MB"
-  thumbnailUrl String? // Preview image
-  tags        String[] @default([]) // Searchable tags
-  downloads   Int      @default(0)
-  views       Int      @default(0)
-  featured    Boolean  @default(false)
-  published   Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  url          String
+  category     String
+  iconUrl      String?
+  published    Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  downloads    Int      @default(0)
+  featured     Boolean  @default(false)
+  fileSize     String?
+  fileUrl      String?
+  tags         String[] @default([])
+  thumbnailUrl String?
+  type         String?
+  views        Int      @default(0)
 
   @@index([category, published])
   @@index([featured])
@@ -343,9 +294,7 @@ model SiteSettings {
   hiddenSections         Json
   heroVideoUrl           String?
   heroImageUrl           String?
-  // ── Navigation Bar Controls ──
-  navigationSettings     Json?    // Controls which nav items are visible
-  // ── Home page section controls ──
+  navigationSettings     Json?
   showAnnouncements      Boolean  @default(true)
   showStats              Boolean  @default(true)
   showNewsSlider         Boolean  @default(true)
@@ -385,14 +334,14 @@ model Testimonial {
   id          String   @id @default(uuid())
   name        String
   role        String
-  institution String?
-  content     String   @db.Text
-  rating      Int      @default(5) // 1-5 stars
+  content     String
   photoUrl    String?
-  featured    Boolean  @default(false)
   published   Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  featured    Boolean  @default(false)
+  institution String?
+  rating      Int      @default(5)
 
   @@index([featured, published])
 }
@@ -418,13 +367,11 @@ model AppointmentRequest {
   createdAt DateTime @default(now())
 }
 
-// ── LMS MODELS ──
-
 model CourseMaterial {
   id        String   @id @default(uuid())
   courseId  String
   title     String
-  type      String // lecture_note, video, assignment, quiz, other
+  type      String
   url       String?
   content   String?
   order     Int      @default(0)
@@ -465,12 +412,10 @@ model PageView {
 model ChatMessage {
   id        String   @id @default(uuid())
   sessionId String
-  role      String // user | assistant
+  role      String
   content   String
   createdAt DateTime @default(now())
 }
-
-// ── NEW MODELS ──
 
 model ResearchDataset {
   id          String   @id @default(uuid())
@@ -478,7 +423,7 @@ model ResearchDataset {
   description String
   url         String?
   fileUrl     String?
-  format      String? // CSV, JSON, etc.
+  format      String?
   size        String?
   published   Boolean  @default(true)
   createdAt   DateTime @default(now())
@@ -501,7 +446,7 @@ model ResearchPresentation {
 model StudentFeedback {
   id        String   @id @default(uuid())
   courseId  String
-  rating    Int // 1-5
+  rating    Int
   comment   String?
   anonymous Boolean  @default(true)
   createdAt DateTime @default(now())
@@ -521,7 +466,7 @@ model CourseGrade {
   id          String   @id @default(uuid())
   courseId    String
   studentName String
-  assessment  String // midterm, final, assignment, etc.
+  assessment  String
   score       Float
   maxScore    Float    @default(100)
   notes       String?
@@ -533,7 +478,7 @@ model AdminNotification {
   id        String   @id @default(uuid())
   title     String
   message   String
-  type      String   @default("info") // info, warning, success, error
+  type      String   @default("info")
   read      Boolean  @default(false)
   link      String?
   createdAt DateTime @default(now())
@@ -544,7 +489,7 @@ model StudentNotification {
   studentId String
   title     String
   message   String
-  type      String   @default("info") // info, warning, success, error, mentorship, peer_review
+  type      String   @default("info")
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
 }
@@ -559,7 +504,7 @@ model BackupLog {
 
 model SecurityLog {
   id        String   @id @default(uuid())
-  event     String // login_success, login_failed, locked, etc.
+  event     String
   username  String?
   ipAddress String?
   userAgent String?
@@ -575,13 +520,11 @@ model ResourceAnalytics {
   updatedAt  DateTime @updatedAt
 }
 
-// ── NEW MODELS ──
-
 model ResearchProposal {
   id          String    @id @default(uuid())
   title       String
   description String
-  status      String    @default("draft") // draft, submitted, approved, rejected
+  status      String    @default("draft")
   fundingBody String?
   amount      String?
   deadline    DateTime?
@@ -624,7 +567,7 @@ model CourseRegistration {
   studentName String
   email       String
   phone       String?
-  status      String   @default("pending") // pending, approved, rejected
+  status      String   @default("pending")
   notes       String?
   createdAt   DateTime @default(now())
 }
@@ -632,7 +575,7 @@ model CourseRegistration {
 model CourseFeedback {
   id        String   @id @default(uuid())
   courseId  String
-  rating    Int // 1-5
+  rating    Int
   comment   String?
   anonymous Boolean  @default(true)
   createdAt DateTime @default(now())
@@ -656,17 +599,13 @@ model WebhookIntegration {
   id         String    @id @default(uuid())
   name       String
   url        String
-  events     Json // array of event types to trigger on
+  events     Json
   secret     String?
   active     Boolean   @default(true)
   lastCalled DateTime?
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 }
-
-// ═══════════════════════════════════════════════════════════════
-// PHASE 1: STUDENT PORTAL & AUTHENTICATION
-// ═══════════════════════════════════════════════════════════════
 
 model StudentUser {
   id             String    @id @default(uuid())
@@ -688,7 +627,7 @@ model StudentEnrollment {
   id          String    @id @default(uuid())
   studentId   String
   courseId    String
-  status      String    @default("active") // active, completed, dropped
+  status      String    @default("active")
   grade       String?
   enrolledAt  DateTime  @default(now())
   completedAt DateTime?
@@ -722,17 +661,13 @@ model AssignmentSubmission {
 
 model StudentMessage {
   id      String   @id @default(uuid())
-  fromId  String // studentId or 'admin'
-  toId    String // studentId or 'admin'
+  fromId  String
+  toId    String
   subject String
   content String
   read    Boolean  @default(false)
   sentAt  DateTime @default(now())
 }
-
-// ═══════════════════════════════════════════════════════════════
-// PHASE 2: RESEARCH COLLABORATION NETWORK
-// ═══════════════════════════════════════════════════════════════
 
 model Researcher {
   id            String   @id @default(uuid())
@@ -741,7 +676,7 @@ model Researcher {
   email         String   @unique
   institution   String
   department    String?
-  researchAreas Json // array of research interests
+  researchAreas Json
   h_index       Int?
   citations     Int?
   publications  Int?
@@ -762,9 +697,9 @@ model CollaborationProposal {
   fundingNeeded Boolean   @default(false)
   estimatedCost String?
   duration      String?
-  status        String    @default("open") // open, in_progress, completed, closed
+  status        String    @default("open")
   deadline      DateTime?
-  interestedIds Json // array of researcher IDs
+  interestedIds Json
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
@@ -773,9 +708,9 @@ model ResearchMatch {
   id            String   @id @default(uuid())
   researcher1Id String
   researcher2Id String
-  matchScore    Float // 0-100
-  commonAreas   Json // array of common interests
-  status        String   @default("pending") // pending, accepted, rejected
+  matchScore    Float
+  commonAreas   Json
+  status        String   @default("pending")
   createdAt     DateTime @default(now())
 }
 
@@ -787,10 +722,6 @@ model CoAuthorshipNetwork {
   lastPaper   DateTime
   createdAt   DateTime @default(now())
 }
-
-// ═══════════════════════════════════════════════════════════════
-// PHASE 3: PUBLICATION IMPACT & METRICS
-// ═══════════════════════════════════════════════════════════════
 
 model CitationMetric {
   id            String   @id @default(uuid())
@@ -821,15 +752,11 @@ model PublicationDownload {
   downloadedAt  DateTime @default(now())
 }
 
-// ═══════════════════════════════════════════════════════════════
-// PHASE 4: SCHEDULING & APPOINTMENTS
-// ═══════════════════════════════════════════════════════════════
-
 model AvailabilitySlot {
   id        String   @id @default(uuid())
-  dayOfWeek Int // 0-6 (Sunday-Saturday)
-  startTime String // HH:MM format
-  endTime   String // HH:MM format
+  dayOfWeek Int
+  startTime String
+  endTime   String
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
 }
@@ -843,7 +770,7 @@ model Appointment {
   startTime  String
   endTime    String
   purpose    String
-  status     String   @default("pending") // pending, confirmed, cancelled, completed
+  status     String   @default("pending")
   zoomUrl    String?
   notes      String?
   createdAt  DateTime @default(now())
@@ -854,13 +781,9 @@ model AppointmentReminder {
   id            String   @id @default(uuid())
   appointmentId String
   sentAt        DateTime @default(now())
-  type          String // email, sms
+  type          String
   sent          Boolean  @default(false)
 }
-
-// ═══════════════════════════════════════════════════════════════
-// PHASE 5: VIDEO LECTURE LIBRARY
-// ═══════════════════════════════════════════════════════════════
 
 model VideoLecture {
   id           String   @id @default(uuid())
@@ -868,10 +791,10 @@ model VideoLecture {
   title        String
   description  String?
   videoUrl     String
-  duration     Int? // in seconds
+  duration     Int?
   transcript   String?
   thumbnailUrl String?
-  chapters     Json? // array of {time, title}
+  chapters     Json?
   published    Boolean  @default(false)
   views        Int      @default(0)
   createdAt    DateTime @default(now())
@@ -882,8 +805,8 @@ model VideoProgress {
   id           String   @id @default(uuid())
   videoId      String
   studentId    String
-  progress     Float    @default(0) // 0-100
-  lastPosition Int      @default(0) // seconds
+  progress     Float    @default(0)
+  lastPosition Int      @default(0)
   completed    Boolean  @default(false)
   updatedAt    DateTime @updatedAt
 }
@@ -893,7 +816,7 @@ model VideoComment {
   videoId   String
   studentId String
   content   String
-  timestamp Int? // position in video (seconds)
+  timestamp Int?
   createdAt DateTime @default(now())
 }
 
@@ -902,21 +825,17 @@ model VideoPlaylist {
   title       String
   description String?
   courseId    String?
-  videoIds    Json // array of video IDs
+  videoIds    Json
   published   Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 
-// ═══════════════════════════════════════════════════════════════
-// PHASE 6: PEER REVIEW SYSTEM
-// ═══════════════════════════════════════════════════════════════
-
 model PeerReview {
   id           String    @id @default(uuid())
   submissionId String
   reviewerId   String
-  rubric       Json // {criteria: score}
+  rubric       Json
   comments     String?
   strengths    String?
   improvements String?
@@ -930,22 +849,18 @@ model PeerReview {
 model ReviewRubric {
   id           String   @id @default(uuid())
   assignmentId String
-  criteria     Json // array of {name, maxScore, description}
+  criteria     Json
   createdAt    DateTime @default(now())
 }
 
 model PlagiarismCheck {
   id           String   @id @default(uuid())
   submissionId String
-  score        Float // 0-100
-  matches      Json? // array of matches
+  score        Float
+  matches      Json?
   checkedAt    DateTime @default(now())
-  service      String? // turnitin, copyscape, etc
+  service      String?
 }
-
-// ═══════════════════════════════════════════════════════════════
-// PHASE 7: ALUMNI NETWORK
-// ═══════════════════════════════════════════════════════════════
 
 model Alumni {
   id              String   @id @default(uuid())
@@ -980,11 +895,11 @@ model AlumniStory {
 
 model JobPosting {
   id           String    @id @default(uuid())
-  postedBy     String // alumniId
+  postedBy     String
   title        String
   company      String
   location     String
-  type         String // full-time, part-time, internship
+  type         String
   description  String
   requirements String?
   salary       String?
@@ -997,11 +912,11 @@ model JobPosting {
 model MentorshipRequest {
   id        String   @id @default(uuid())
   menteeId  String
-  mentorId  String // alumniId
+  mentorId  String
   message   String
-  goals     String?
-  status    String   @default("pending") // pending, accepted, rejected
+  status    String   @default("pending")
   createdAt DateTime @default(now())
+  goals     String?
 }
 
 model AlumniEvent {
@@ -1010,15 +925,11 @@ model AlumniEvent {
   description String
   date        DateTime
   location    String
-  type        String // reunion, networking, seminar
+  type        String
   rsvpUrl     String?
   published   Boolean  @default(false)
   createdAt   DateTime @default(now())
 }
-
-// ═══════════════════════════════════════════════════════════════
-// PHASE 8: GRANT FUNDING TRACKER
-// ═══════════════════════════════════════════════════════════════
 
 model FundingOpportunity {
   id           String   @id @default(uuid())
@@ -1027,9 +938,9 @@ model FundingOpportunity {
   amount       String
   deadline     DateTime
   eligibility  String?
-  focus        String? // research area
+  focus        String?
   url          String?
-  status       String   @default("open") // open, closed
+  status       String   @default("open")
   notified     Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -1040,13 +951,13 @@ model GrantApplication {
   opportunityId   String?
   title           String
   piName          String
-  coInvestigators Json? // array of names
+  coInvestigators Json?
   amount          String
   deadline        DateTime?
-  status          String    @default("draft") // draft, submitted, under_review, awarded, rejected
+  status          String    @default("draft")
   submittedAt     DateTime?
   decisionDate    DateTime?
-  documents       Json? // array of {name, url}
+  documents       Json?
   notes           String?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
@@ -1055,15 +966,11 @@ model GrantApplication {
 model GrantBudget {
   id            String   @id @default(uuid())
   applicationId String
-  items         Json // array of {category, description, amount}
+  items         Json
   totalAmount   Float
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
-
-// ═══════════════════════════════════════════════════════════════
-// PHASE 9: VIRTUAL LAB & RESEARCH TOOLS
-// ═══════════════════════════════════════════════════════════════
 
 model ResearchData {
   id          String   @id @default(uuid())
@@ -1071,9 +978,9 @@ model ResearchData {
   title       String
   description String?
   dataUrl     String
-  format      String? // CSV, JSON, HDF5, etc
+  format      String?
   size        String?
-  accessLevel String   @default("private") // public, private, restricted
+  accessLevel String   @default("private")
   doi         String?
   version     String   @default("1.0")
   createdAt   DateTime @default(now())
@@ -1087,7 +994,7 @@ model LabNotebook {
   title       String
   content     String
   tags        Json?
-  attachments Json? // array of file URLs
+  attachments Json?
   author      String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -1102,7 +1009,7 @@ model Experiment {
   results     String?
   conclusions String?
   dataFiles   Json?
-  status      String   @default("planning") // planning, running, completed
+  status      String   @default("planning")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -1114,20 +1021,16 @@ model EquipmentBooking {
   startTime DateTime
   endTime   DateTime
   purpose   String?
-  status    String   @default("pending") // pending, confirmed, cancelled
+  status    String   @default("pending")
   createdAt DateTime @default(now())
 }
-
-// ═══════════════════════════════════════════════════════════════
-// PHASE 10: LIVE POLLING & QUIZZES
-// ═══════════════════════════════════════════════════════════════
 
 model LivePoll {
   id        String   @id @default(uuid())
   courseId  String?
   question  String
-  options   Json // array of strings
-  type      String   @default("multiple_choice") // multiple_choice, word_cloud, rating
+  options   Json
+  type      String   @default("multiple_choice")
   active    Boolean  @default(false)
   anonymous Boolean  @default(true)
   createdAt DateTime @default(now())
@@ -1146,9 +1049,9 @@ model Quiz {
   courseId       String
   title          String
   description    String?
-  timeLimit      Int? // minutes
+  timeLimit      Int?
   passingScore   Float     @default(70)
-  questions      Json // array of question objects
+  questions      Json
   published      Boolean   @default(false)
   availableFrom  DateTime?
   availableUntil DateTime?
@@ -1160,28 +1063,24 @@ model QuizAttempt {
   id          String    @id @default(uuid())
   quizId      String
   studentId   String
-  answers     Json // {questionId: answer}
+  answers     Json
   score       Float
   startedAt   DateTime  @default(now())
   submittedAt DateTime?
-  timeSpent   Int? // seconds
+  timeSpent   Int?
 }
 
 model QuizQuestion {
   id            String  @id @default(uuid())
   quizId        String
   question      String
-  type          String // multiple_choice, true_false, short_answer
+  type          String
   options       Json?
   correctAnswer String
   points        Float   @default(1)
   explanation   String?
   order         Int     @default(0)
 }
-
-// ═══════════════════════════════════════════════════════════════
-// PHASE 11: GAMIFICATION
-// ═══════════════════════════════════════════════════════════════
 
 model StudentPoints {
   id        String   @id @default(uuid())
@@ -1198,9 +1097,9 @@ model Achievement {
   description String
   icon        String?
   points      Int      @default(10)
-  category    String? // academic, participation, social
-  rarity      String   @default("common") // common, rare, epic, legendary
-  criteria    Json? // conditions to earn
+  category    String?
+  rarity      String   @default("common")
+  criteria    Json?
   createdAt   DateTime @default(now())
 }
 
@@ -1209,15 +1108,15 @@ model StudentAchievement {
   studentId     String
   achievementId String
   earnedAt      DateTime @default(now())
-  progress      Int? // for progressive achievements
+  progress      Int?
 }
 
 model Leaderboard {
   id        String   @id @default(uuid())
   courseId  String?
-  type      String // points, submissions, participation
-  period    String // weekly, monthly, all_time
-  data      Json // array of {studentId, score}
+  type      String
+  period    String
+  data      Json
   updatedAt DateTime @updatedAt
 }
 
@@ -1226,7 +1125,7 @@ model Challenge {
   title       String
   description String
   points      Int      @default(50)
-  difficulty  String   @default("medium") // easy, medium, hard
+  difficulty  String   @default("medium")
   startDate   DateTime
   endDate     DateTime
   criteria    Json
@@ -1238,22 +1137,18 @@ model ChallengeProgress {
   id          String    @id @default(uuid())
   challengeId String
   studentId   String
-  progress    Float     @default(0) // 0-100
+  progress    Float     @default(0)
   completed   Boolean   @default(false)
   completedAt DateTime?
   updatedAt   DateTime  @updatedAt
 }
 
-// ═══════════════════════════════════════════════════════════════
-// PHASE 12: AI ASSISTANT
-// ═══════════════════════════════════════════════════════════════
-
 model AIConversation {
   id        String   @id @default(uuid())
   userId    String?
   sessionId String
-  messages  Json // array of {role, content, timestamp}
-  context   String? // course, research, admin
+  messages  Json
+  context   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -1275,15 +1170,11 @@ model DocumentSummary {
   generatedAt DateTime @default(now())
 }
 
-// ═══════════════════════════════════════════════════════════════
-// PHASE 13: CERTIFICATES
-// ═══════════════════════════════════════════════════════════════
-
 model Certificate {
   id               String   @id @default(uuid())
   studentId        String
   courseId         String?
-  type             String // course_completion, achievement, participation
+  type             String
   title            String
   description      String?
   issueDate        DateTime @default(now())
@@ -1298,7 +1189,7 @@ model CertificateTemplate {
   name        String
   htmlContent String
   cssContent  String?
-  variables   Json? // placeholders like {studentName}
+  variables   Json?
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -1312,17 +1203,13 @@ model CertificateVerification {
   verifierCountry String?
 }
 
-// ═══════════════════════════════════════════════════════════════
-// PHASE 14: RESOURCE MARKETPLACE
-// ═══════════════════════════════════════════════════════════════
-
 model MarketplaceItem {
   id           String   @id @default(uuid())
-  sellerId     String // userId (admin or contributor)
+  sellerId     String
   title        String
   description  String
-  category     String // lecture_notes, datasets, templates, code
-  price        Float    @default(0) // 0 for free
+  category     String
+  price        Float    @default(0)
   fileUrl      String
   previewUrl   String?
   thumbnailUrl String?
@@ -1347,7 +1234,7 @@ model MarketplaceReview {
   id        String   @id @default(uuid())
   itemId    String
   userId    String
-  rating    Int // 1-5
+  rating    Int
   comment   String?
   createdAt DateTime @default(now())
 }
@@ -1364,16 +1251,12 @@ model SellerProfile {
   updatedAt   DateTime @updatedAt
 }
 
-// ═══════════════════════════════════════════════════════════════
-// PHASE 15: MULTI-LANGUAGE SUPPORT
-// ═══════════════════════════════════════════════════════════════
-
 model Translation {
   id        String   @id @default(uuid())
   key       String
-  language  String // en, sw, fr, etc
+  language  String
   value     String
-  category  String? // ui, content, email
+  category  String?
   approved  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -1383,11 +1266,11 @@ model Translation {
 
 model ContentTranslation {
   id               String   @id @default(uuid())
-  contentType      String // publication, course, blog_post
+  contentType      String
   contentId        String
   language         String
-  translatedFields Json // {field: translatedValue}
-  status           String   @default("draft") // draft, published
+  translatedFields Json
+  status           String   @default("draft")
   translatedBy     String?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
@@ -1395,15 +1278,11 @@ model ContentTranslation {
   @@unique([contentType, contentId, language])
 }
 
-// ═══════════════════════════════════════════════════════════════
-// PHASE 16: INTEGRATIONS
-// ═══════════════════════════════════════════════════════════════
-
 model Integration {
   id        String    @id @default(uuid())
-  name      String // google, microsoft, zoom, github, etc
-  type      String // oauth, api_key, webhook
-  config    Json // credentials and settings (encrypted)
+  name      String
+  type      String
+  config    Json
   active    Boolean   @default(false)
   lastSync  DateTime?
   createdAt DateTime  @default(now())
@@ -1413,8 +1292,8 @@ model Integration {
 model SyncLog {
   id            String   @id @default(uuid())
   integrationId String
-  syncType      String // publications, calendar, etc
-  status        String // success, failed, partial
+  syncType      String
+  status        String
   itemsSync     Int?
   errorMessage  String?
   syncedAt      DateTime @default(now())
@@ -1423,7 +1302,7 @@ model SyncLog {
 model OAuthToken {
   id           String    @id @default(uuid())
   userId       String
-  provider     String // google, microsoft, github
+  provider     String
   accessToken  String
   refreshToken String?
   expiresAt    DateTime?
@@ -1432,16 +1311,12 @@ model OAuthToken {
   updatedAt    DateTime  @updatedAt
 }
 
-// ═══════════════════════════════════════════════════════════════
-// PHASE 17: NEWSLETTER & COMMUNICATIONS
-// ═══════════════════════════════════════════════════════════════
-
 model NewsletterCampaign {
   id           String    @id @default(uuid())
   subject      String
   content      String
   templateId   String?
-  status       String    @default("draft") // draft, scheduled, sent
+  status       String    @default("draft")
   scheduledFor DateTime?
   sentAt       DateTime?
   recipients   Int?
@@ -1456,7 +1331,7 @@ model EmailTemplate {
   subject     String
   htmlContent String
   variables   Json?
-  category    String? // newsletter, notification, reminder
+  category    String?
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -1466,7 +1341,7 @@ model EmailLog {
   id         String    @id @default(uuid())
   to         String
   subject    String
-  status     String // sent, failed, bounced
+  status     String
   campaignId String?
   sentAt     DateTime  @default(now())
   openedAt   DateTime?
@@ -1475,23 +1350,19 @@ model EmailLog {
 
 model SMSNotification {
   id        String    @id @default(uuid())
-  to        String // phone number
+  to        String
   message   String
-  status    String    @default("pending") // pending, sent, failed
+  status    String    @default("pending")
   sentAt    DateTime?
   error     String?
   createdAt DateTime  @default(now())
 }
 
-// ═══════════════════════════════════════════════════════════════
-// PHASE 18: ACCESSIBILITY
-// ═══════════════════════════════════════════════════════════════
-
 model AccessibilityPreference {
   id            String   @id @default(uuid())
   userId        String   @unique
   highContrast  Boolean  @default(false)
-  fontSize      String   @default("medium") // small, medium, large, xlarge
+  fontSize      String   @default("medium")
   screenReader  Boolean  @default(false)
   dyslexiaFont  Boolean  @default(false)
   reducedMotion Boolean  @default(false)
@@ -1506,15 +1377,11 @@ model MediaAltText {
   updatedAt DateTime @updatedAt
 }
 
-// ═══════════════════════════════════════════════════════════════
-// PHASE 19: MOBILE APP SYNC
-// ═══════════════════════════════════════════════════════════════
-
 model MobileDevice {
   id         String   @id @default(uuid())
   userId     String
   deviceId   String   @unique
-  platform   String // ios, android
+  platform   String
   pushToken  String?
   appVersion String?
   lastActive DateTime @updatedAt
@@ -1527,7 +1394,7 @@ model PushNotification {
   title     String
   body      String
   data      Json?
-  status    String    @default("pending") // pending, sent, failed
+  status    String    @default("pending")
   sentAt    DateTime?
   readAt    DateTime?
   createdAt DateTime  @default(now())
@@ -1536,21 +1403,17 @@ model PushNotification {
 model OfflineSync {
   id       String   @id @default(uuid())
   userId   String
-  dataType String // courses, materials, grades
+  dataType String
   data     Json
   syncedAt DateTime @default(now())
 }
 
-// ═══════════════════════════════════════════════════════════════
-// PHASE 20: ADVANCED ANALYTICS
-// ═══════════════════════════════════════════════════════════════
-
 model AnalyticsEvent {
   id         String   @id @default(uuid())
-  eventType  String // page_view, video_watch, download, etc
+  eventType  String
   userId     String?
   sessionId  String?
-  properties Json? // event-specific data
+  properties Json?
   timestamp  DateTime @default(now())
   ipAddress  String?
   userAgent  String?
@@ -1561,9 +1424,9 @@ model StudentEngagement {
   id        String   @id @default(uuid())
   studentId String
   courseId  String?
-  metric    String // login_frequency, assignment_completion, etc
+  metric    String
   value     Float
-  period    String // daily, weekly, monthly
+  period    String
   date      DateTime
   createdAt DateTime @default(now())
 
@@ -1573,9 +1436,9 @@ model StudentEngagement {
 model PredictiveAnalytic {
   id           String   @id @default(uuid())
   studentId    String
-  riskScore    Float // 0-100
-  factors      Json // contributing factors
-  suggestions  Json? // recommended interventions
+  riskScore    Float
+  factors      Json
+  suggestions  Json?
   calculatedAt DateTime @default(now())
 }
 
@@ -1583,62 +1446,53 @@ model ABTest {
   id          String   @id @default(uuid())
   name        String
   description String?
-  variants    Json // array of variants
-  metrics     Json // {variantId: {visits, conversions}}
+  variants    Json
+  metrics     Json
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 
-
-// ── DYNAMIC NAVIGATION MENU SYSTEM ──
 model NavigationMenu {
-  id          String   @id @default(uuid())
-  label       String   // Display name (e.g., "Research", "Publications")
-  href        String?  // URL path (e.g., "/research", null for dropdown only)
-  icon        String?  // Icon name or emoji (e.g., "🔬", "research")
-  description String?  // Description for mega menu
-  order       Int      @default(0) // Display order
-  parentId    String?  // Parent menu ID for sub-navigation (null for top-level)
-  parent      NavigationMenu? @relation("MenuHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
-  children    NavigationMenu[] @relation("MenuHierarchy")
-  
-  // Settings
-  isVisible   Boolean  @default(true) // Show/hide menu item
-  openInNewTab Boolean @default(false) // Open link in new tab
-  requiresAuth Boolean @default(false) // Requires authentication
-  badge       String?  // Badge text (e.g., "New", "Hot")
-  badgeColor  String?  // Badge color (e.g., "red", "green")
-  
-  // Mega Menu Support
-  isMegaMenu  Boolean  @default(false) // Enable mega menu dropdown
-  columns     Int?     @default(1) // Number of columns in mega menu
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
+  id           String           @id @default(uuid())
+  label        String
+  href         String?
+  icon         String?
+  description  String?
+  order        Int              @default(0)
+  parentId     String?
+  isVisible    Boolean          @default(true)
+  openInNewTab Boolean          @default(false)
+  requiresAuth Boolean          @default(false)
+  badge        String?
+  badgeColor   String?
+  isMegaMenu   Boolean          @default(false)
+  columns      Int?             @default(1)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  parent       NavigationMenu?  @relation("MenuHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children     NavigationMenu[] @relation("MenuHierarchy")
+
   @@index([parentId])
   @@index([order])
 }
 
-// ── COMMUNITY SYSTEM ──
 model CommunityPost {
-  id          String   @id @default(uuid())
+  id          String           @id @default(uuid())
   title       String
-  content     String   @db.Text
-  authorName  String   // Display name
-  authorEmail String?  // Optional for replies
-  category    String   // discussion, question, announcement, opportunity
-  tags        String[] // Topics
-  imageUrl    String?  // Optional image
-  likes       Int      @default(0)
-  views       Int      @default(0)
-  isPinned    Boolean  @default(false)
-  isApproved  Boolean  @default(false) // Moderation
-  published   Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
+  content     String
+  authorName  String
+  authorEmail String?
+  category    String
+  tags        String[]
+  imageUrl    String?
+  likes       Int              @default(0)
+  views       Int              @default(0)
+  isPinned    Boolean          @default(false)
+  isApproved  Boolean          @default(false)
+  published   Boolean          @default(true)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
   replies     CommunityReply[]
 
   @@index([category, published])
@@ -1646,33 +1500,74 @@ model CommunityPost {
 }
 
 model CommunityReply {
-  id          String   @id @default(uuid())
+  id          String        @id @default(uuid())
   postId      String
-  post        CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
   authorName  String
   authorEmail String?
-  content     String   @db.Text
-  likes       Int      @default(0)
-  isApproved  Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  content     String
+  likes       Int           @default(0)
+  isApproved  Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  post        CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@index([postId])
 }
 
 model FAQ {
-  id          String   @id @default(uuid())
-  question    String
-  answer      String   @db.Text
-  category    String   // general, research, teaching, technical, admission
-  order       Int      @default(0)
-  helpful     Int      @default(0)
-  notHelpful  Int      @default(0)
-  published   Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id         String   @id @default(uuid())
+  question   String
+  answer     String
+  category   String
+  order      Int      @default(0)
+  helpful    Int      @default(0)
+  notHelpful Int      @default(0)
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@index([category, published])
   @@index([order])
 }
 
+enum PublicationType {
+  journal
+  conference
+  book
+  book_chapter
+  technical_report
+  other
+}
+
+enum ProjectStatus {
+  active
+  completed
+}
+
+enum CourseStatus {
+  active
+  archived
+}
+
+enum DegreeLevel {
+  PhD
+  Masters
+}
+
+enum StudentStatus {
+  current
+  alumni
+}
+
+enum AwardCategory {
+  award
+  grant
+  fellowship
+  honor
+  distinction
+}
+
+enum CollaboratorType {
+  individual
+  institution
+}
