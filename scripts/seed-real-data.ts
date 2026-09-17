@@ -139,7 +139,10 @@ He has published extensively in international peer-reviewed journals on topics s
 
   console.log('✅ Profile updated:', profile.fullName);
 
-  // 2. ADD RESEARCH PROJECTS
+  // 2. SKIP RESEARCH PROJECTS (fake data, not relevant to mathematics education)
+  // Commenting out fake research projects about AI/ML that don't match Dr. Deogratias's field
+  
+  /*
   const researchProjects = [
     {
       title: "AI-Powered Crop Disease Detection System for Tanzanian Farmers",
@@ -193,41 +196,119 @@ He has published extensively in international peer-reviewed journals on topics s
   }
 
   console.log('✅ Research projects added:', researchProjects.length);
+  */
+  console.log('⏭️  Skipping fake research projects (not relevant to Dr. Deogratias)');
 
-  // 3. ADD PUBLICATIONS
+
+  // 3. ADD PUBLICATIONS (REAL publications from Dr. Emmanuel Deogratias)
   const publications = [
     {
-      title: "Deep Learning Approaches for Crop Disease Detection in East African Agriculture",
-      authors: ["Deogratius Mbita", "John Mwakasege", "Sarah Kimaro"],
-      venue: "IEEE Transactions on Agricultural Engineering",
-      year: 2023,
+      title: "The role of complex numbers in interdisciplinary mathematics teaching in Tanzanian secondary schools",
+      authors: ["Emmanuel Deogratias"],
+      venue: "Mathematics and Science Teacher Journal",
+      year: 2026,
       type: "journal",
-      doi: "10.1109/TAE.2023.123456",
-      abstract: "This paper presents a comprehensive study on applying deep learning techniques for early detection of crop diseases in East African farming contexts...",
-      keywords: ["Deep Learning", "Agriculture", "Crop Disease", "Computer Vision", "Tanzania"],
-      pdfUrl: "/publications/mbita-2023-crop-disease.pdf"
+      abstract: "This paper addresses the role of complex numbers in interdisciplinary mathematics teaching in Tanzanian secondary schools, exploring how this mathematical concept can be integrated across various subjects.",
+      pdfUrl: ""
     },
     {
-      title: "Machine Learning for Healthcare Diagnosis in Resource-Limited Settings",
-      authors: ["Deogratius Mbita", "Grace Ndumbaro", "Emmanuel Kileo"],
-      venue: "Journal of Medical AI and Informatics",
-      year: 2023,
+      title: "Investigation of teachers' competency on using ICT for teaching and learning mathematics and science subjects in Tanzanian secondary schools",
+      authors: ["Salome Langoi", "Emmanuel Deogratias"],
+      venue: "International Online Journal of Education and Teaching (IOJET)",
+      year: 2024,
       type: "journal",
-      doi: "10.1016/jmai.2023.789012",
-      abstract: "We propose machine learning models optimized for rural healthcare settings with limited resources...",
-      keywords: ["Machine Learning", "Healthcare", "Rural Medicine", "Diagnosis", "Africa"],
-      pdfUrl: "/publications/mbita-2023-healthcare-ml.pdf"
+      abstract: "This study investigates teachers' competency in using Information and Communication Technology (ICT) for teaching and learning mathematics and science subjects in Tanzanian secondary schools.",
+      pdfUrl: ""
     },
     {
-      title: "Natural Language Processing for Swahili Text Analysis",
-      authors: ["Deogratius Mbita", "Amina Hassan"],
-      venue: "African Conference on Natural Language Processing (AfricaNLP 2022)",
+      title: "Exploring international educators' learning about local and global social justice in a virtual community of practice",
+      authors: ["Emmanuel Deogratias", "et al."],
+      venue: "Advances in Educational Technologies and Instructional Design Book Series, IGI Global",
+      year: 2023,
+      type: "book",
+      abstract: "This chapter reports themes that emerged when a cross-cultural team of researchers involved in a virtual international community of practice (Global Social Justice in Education) investigated reflections on activities focused on social justice in local and global contexts.",
+      pdfUrl: ""
+    },
+    {
+      title: "Enhancing university undergraduate students' understanding of a relation on a set using reflective questions",
+      authors: ["Emmanuel Deogratias"],
+      venue: "Diamond Scientific Publishing",
+      year: 2023,
+      type: "journal",
+      abstract: "This qualitative study explores how reflective questions were used to enhance university undergraduate students' understanding of a relation on a set in mathematics. Findings indicate that reflective questions helped students share, process, generalize and apply mathematical concepts.",
+      pdfUrl: ""
+    },
+    {
+      title: "Practising teaching the concept of pi with pre-service mathematics teachers",
+      authors: ["Emmanuel Deogratias"],
+      venue: "Diamond Scientific Publishing",
+      year: 2023,
+      type: "journal",
+      abstract: "This paper addresses the ways that Tanzanian university pre-service mathematics teachers (PSTs) practised teaching the concept of pi through concept-rich instruction (CRI). Activities enhanced PSTs' pedagogical knowledge through designing lesson plans and performing micro-teaching using local circular objects.",
+      pdfUrl: ""
+    },
+    {
+      title: "Using a crossing method as an alternative approach for teaching systems of linear equations in secondary schools",
+      authors: ["Emmanuel Deogratias"],
+      venue: "Informascope",
+      year: 2022,
+      type: "journal",
+      abstract: "This paper presents an alternative approach (crossing method) for teaching systems of two linear equations to students in Tanzanian ordinary secondary schools. This new method yields similar answers to traditional methods but offers a different perspective.",
+      pdfUrl: ""
+    },
+    {
+      title: "Using graph coloring for effective timetable scheduling at ordinary secondary level",
+      authors: ["Emmanuel Deogratias"],
+      venue: "International Journal of Curriculum and Instruction (IJCI)",
+      year: 2022,
+      type: "journal",
+      abstract: "This study assesses the effectiveness of timetable scheduling developed using graph coloring for class period timetabling at Dodoma central secondary school. The new timetable eliminated collisions among teachers.",
+      pdfUrl: ""
+    },
+    {
+      title: "Comparing the evaluation of students' performance using Mean and dispersion chart grade and fixed grading method",
+      authors: ["Emmanuel Deogratias"],
+      venue: "Biometrics & Biostatistics International Journal",
+      year: 2022,
+      type: "journal",
+      abstract: "This quantitative study investigates students' performance by comparing statistical quality control charts grade method with fixed grading method. Findings revealed that Mean and S chart grade method was better in evaluating students' performance.",
+      pdfUrl: ""
+    },
+    {
+      title: "Using a rope in a research meeting for cognitive development of children's understanding of counting numbers",
+      authors: ["Emmanuel Deogratias"],
+      venue: "World Council for Curriculum and Instruction",
       year: 2022,
       type: "conference",
-      doi: "10.1145/africanlp.2022.456789",
-      abstract: "This work develops NLP tools specifically designed for Swahili language processing...",
-      keywords: ["NLP", "Swahili", "Text Analysis", "African Languages"],
-      pdfUrl: "/publications/mbita-2022-swahili-nlp.pdf"
+      abstract: "This qualitative case study addresses how pre-service mathematics teachers used a rope for cognitive development of children's understanding of counting numbers in Tanzanian elementary schools, following Bruner's work on cognitive development.",
+      pdfUrl: ""
+    },
+    {
+      title: "Developing Student-Teachers' Understanding of Geometrical Figures/Objects Using a Bicycle Rubber Tube",
+      authors: ["Emmanuel Deogratias"],
+      venue: "World Journal of Educational Research",
+      year: 2021,
+      type: "journal",
+      abstract: "This paper addresses how a bicycle rubber tube can be used to develop learners' understanding of geometrical figures/objects. Various geometrical figures including rectangle, triangle, square, and pentagon were formed using this local material.",
+      pdfUrl: ""
+    },
+    {
+      title: "Exploring the Implementation of Concept-Rich Instruction (CRI) with University Mathematics Pre-Service Teachers: A Tanzanian Case",
+      authors: ["Emmanuel Deogratias"],
+      venue: "International Journal of Curriculum and Instruction",
+      year: 2020,
+      type: "journal",
+      abstract: "This qualitative case study explored how concept-rich instruction (CRI) reveals the way that Tanzanian university mathematics pre-service teachers express their understanding of mathematical concepts. Study conducted at University of Dodoma.",
+      pdfUrl: ""
+    },
+    {
+      title: "Practicing complexity theory in mathematics class under the lens of concept study",
+      authors: ["Emmanuel Deogratias"],
+      venue: "International Journal of Curriculum and Instruction (IJCI)",
+      year: 2018,
+      type: "journal",
+      abstract: "This paper addresses the ways that complexity theory can be practiced in mathematics class to encourage students' participation in learning mathematical concepts. The paper illustrates attributes of complexity theory under the lens of concept study.",
+      pdfUrl: ""
     },
   ];
 
