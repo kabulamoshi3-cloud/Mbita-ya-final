@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ProfessorAvatar from "@/components/ui/ProfessorAvatar";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import Navbar from "./Navbar";
 
 interface NavbarProfile {
   fullName: string;
@@ -189,6 +190,11 @@ function DropdownMenu({ label, icon, items, isGroupActive, onClose }: DropdownPr
 
 // ── MAIN NAVBAR ────────────────────────────────────────────────────────────
 export default function DynamicNavbar({ profile, menuItems }: DynamicNavbarProps) {
+  // Fallback to hardcoded navbar if no menu items from database
+  if (menuItems.length === 0) {
+    return <Navbar profile={profile} hiddenSections={[]} />;
+  }
+
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openMobileGroup, setOpenMobileGroup] = useState<string | null>(null);

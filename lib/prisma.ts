@@ -12,12 +12,12 @@ let databaseUrl =
 // Render free PostgreSQL has limited connection slots
 if (databaseUrl && !databaseUrl.includes('connection_limit')) {
   const separator = databaseUrl.includes('?') ? '&' : '?';
-  databaseUrl = `${databaseUrl}${separator}connection_limit=5&pool_timeout=10`;
+  databaseUrl = `${databaseUrl}${separator}connection_limit=5&pool_timeout=20&connect_timeout=60`;
 }
 
 export const prisma =
   globalForPrisma.prisma ?? new PrismaClient({ 
-    log: ['error'],
+    log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
     datasources: {
       db: {
         url: databaseUrl,
@@ -26,3 +26,10 @@ export const prisma =
   });
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+
+// Graceful shutdown
+if (typeof window === 'undefined') {
+  process.on('beforeExit', async () => {
+    await prisma.$disconnect();
+  });
+}
