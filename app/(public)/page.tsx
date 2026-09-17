@@ -8,6 +8,7 @@ import NewsSlider from "@/components/sections/NewsSlider";
 import TestimonialCard from "@/components/sections/TestimonialCard";
 import HomeSearch from "@/components/sections/HomeSearch";
 import { getPhotoForSlot } from "@/lib/profilePhotos";
+import { ParallaxHero, ScrollProgress, CountUp, ScrollToTop, FadeInView, FadeInBlur, FadeInScale } from "@/components/animations";
 
 interface AcademicProfile {
   label: string;
@@ -130,8 +131,17 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen">
+      {/* Scroll Progress Indicator */}
+      <ScrollProgress />
+      
+      {/* Scroll to Top Button */}
+      <ScrollToTop />
+
       {/* ── HERO SECTION ── */}
-      <section className="relative bg-navy-900 text-white overflow-hidden min-h-[520px] flex items-center">
+      <ParallaxHero
+        speed={0.5}
+        className="relative bg-navy-900 text-white overflow-hidden min-h-[520px] flex items-center"
+      >
         {/* Background video or image */}
         {heroVideoUrl ? (
           <video
@@ -357,18 +367,21 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </ParallaxHero>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* ── SEARCH BAR ── */}
         <section className="py-8">
-          <HomeSearch />
+          <FadeInView delay={0.1}>
+            <HomeSearch />
+          </FadeInView>
         </section>
 
         {/* ── SERVICES WE OFFER ── */}
         {show.announcements && announcements.length > 0 && (
-          <section className="mb-12">
+          <FadeInView delay={0.2}>
+            <section className="mb-12">
             <h2 className="text-2xl font-bold text-navy-900 mb-4">Services We Offer</h2>
             <div className="space-y-3">
               {announcements.map((ann) => (
@@ -387,18 +400,22 @@ export default async function HomePage() {
               ))}
             </div>
           </section>
+          </FadeInView>
         )}
 
         {/* ── STATS ── */}
         {show.stats && (
-          <section className="mb-16">
+          <FadeInScale delay={0.3}>
+            <section className="mb-16">
             <StatsCounter stats={statItems} />
           </section>
+          </FadeInScale>
         )}
 
         {/* ── NEWS SLIDER + UPCOMING EVENTS ── */}
         {(show.newsSlider || show.upcomingEvents) && (
-          <section className="mb-16 grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <FadeInView delay={0.4}>
+            <section className="mb-16 grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* News slider */}
             {show.newsSlider && (
               <div>
