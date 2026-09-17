@@ -119,9 +119,7 @@ He has published extensively in international peer-reviewed journals on topics s
       ],
       academicProfiles: [
         { label: "ResearchGate", url: "https://www.researchgate.net/profile/Emmanuel-Deogratias" },
-        { label: "Academia.edu", url: "https://suanet.academia.edu/DrEmmanuelDeogratias" },
-        { label: "ORCID", url: "https://orcid.org/0000-0002-1234-5678" },
-        { label: "Google Scholar", url: "https://scholar.google.com/citations?user=EXAMPLE" }
+        { label: "Academia.edu", url: "https://suanet.academia.edu/DrEmmanuelDeogratias" }
       ],
       autoSyncEnabled: true,
     },
