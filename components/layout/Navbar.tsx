@@ -151,7 +151,7 @@ function DropdownMenu({ label, icon, items, isGroupActive, hiddenSections, onClo
         aria-expanded={open}
         aria-haspopup="true"
         className={[
-          "flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-medium transition-all duration-300",
+          "flex items-center gap-1.5 px-2.5 py-2 rounded-full text-sm font-medium transition-all duration-300",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
           "hover:scale-105",
           isGroupActive || open
@@ -236,11 +236,11 @@ export default function Navbar({ profile, hiddenSections = [] }: NavbarProps) {
       {/* Gradient accent line */}
       <div className="h-[2px] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500" />
       
-      <div className="w-full px-3 sm:px-4 lg:px-6">
-        <div className="flex items-center justify-between h-16">
+      <div className="w-full px-2 sm:px-3 lg:px-4">
+        <div className="flex items-center justify-between h-16 gap-2">
 
           {/* ── BRAND (compact, pushed left) ── */}
-          <div className="flex items-center gap-2 flex-shrink-0 min-w-0">
+          <div className="flex items-center gap-1.5 flex-shrink-0 min-w-0">
             <div className="relative group">
               <button
                 onClick={() => window.location.href = '/login'}
@@ -261,9 +261,9 @@ export default function Navbar({ profile, hiddenSections = [] }: NavbarProps) {
               href="/"
               className="text-navy-900 dark:text-gray-100 font-bold text-sm hover:text-primary dark:hover:text-navy-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded leading-tight transition-all duration-200 hidden sm:block"
             >
-              <span className="block text-base truncate max-w-[140px]">{profile?.fullName ?? "Professor"}</span>
+              <span className="block text-base truncate max-w-[120px]">{profile?.fullName ?? "Professor"}</span>
               {profile?.title && (
-                <span className="block text-[10px] font-normal text-navy-500 dark:text-navy-300 truncate max-w-[140px]">
+                <span className="block text-[10px] font-normal text-navy-500 dark:text-navy-300 truncate max-w-[120px]">
                   {profile.title}
                 </span>
               )}
@@ -293,7 +293,7 @@ export default function Navbar({ profile, hiddenSections = [] }: NavbarProps) {
           </div>
 
           {/* ── DESKTOP NAV ── */}
-          <div className="hidden lg:flex items-center gap-0.5 flex-1 justify-end">
+          <div className="hidden lg:flex items-center gap-1 flex-1 justify-end flex-wrap">
             {/* Standalone links */}
             {visibleStandalone.map((link) => (
               <Link
@@ -301,7 +301,7 @@ export default function Navbar({ profile, hiddenSections = [] }: NavbarProps) {
                 href={link.href}
                 aria-current={isActive(link.href) ? "page" : undefined}
                 className={[
-                  "px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap",
+                  "px-2.5 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
                   "hover:scale-105 hover:shadow-lg",
                   isActive(link.href)
@@ -332,7 +332,7 @@ export default function Navbar({ profile, hiddenSections = [] }: NavbarProps) {
                 href={contactLink.href}
                 aria-current={isActive(contactLink.href) ? "page" : undefined}
                 className={[
-                  "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap",
+                  "px-2.5 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
                   "hover:scale-105 hover:shadow-lg",
                   isActive(contactLink.href)
