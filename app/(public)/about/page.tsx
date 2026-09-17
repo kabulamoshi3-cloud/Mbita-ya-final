@@ -13,6 +13,7 @@ import PageHeader from "@/components/PageHeader";
 import SlideCard from "@/components/SlideCard";
 import SlideGrid from "@/components/SlideGrid";
 
+// Force revalidation for fresh data
 export const revalidate = 0;
 
 interface AcademicProfile {
