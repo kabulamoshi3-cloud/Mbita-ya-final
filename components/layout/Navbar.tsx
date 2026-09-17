@@ -151,7 +151,7 @@ function DropdownMenu({ label, icon, items, isGroupActive, hiddenSections, onClo
         aria-expanded={open}
         aria-haspopup="true"
         className={[
-          "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
+          "flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-medium transition-all duration-300",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
           "hover:scale-105",
           isGroupActive || open
@@ -160,13 +160,13 @@ function DropdownMenu({ label, icon, items, isGroupActive, hiddenSections, onClo
         ].join(" ")}
       >
         {icon && (
-          <span aria-hidden="true" className="text-lg">
+          <span aria-hidden="true" className="text-base">
             {icon}
           </span>
         )}
-        {label}
+        <span className="text-sm">{label}</span>
         <svg
-          className={`w-4 h-4 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+          className={`w-3.5 h-3.5 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
           fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -236,11 +236,11 @@ export default function Navbar({ profile, hiddenSections = [] }: NavbarProps) {
       {/* Gradient accent line */}
       <div className="h-[2px] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500" />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-3 sm:px-4 lg:px-6">
         <div className="flex items-center justify-between h-16">
 
-          {/* ── BRAND (left on desktop, center on mobile) ── */}
-          <div className="flex items-center gap-3 flex-shrink-0">
+          {/* ── BRAND (compact, pushed left) ── */}
+          <div className="flex items-center gap-2 flex-shrink-0 min-w-0">
             <div className="relative group">
               <button
                 onClick={() => window.location.href = '/login'}
@@ -251,19 +251,19 @@ export default function Navbar({ profile, hiddenSections = [] }: NavbarProps) {
                 <ProfessorAvatar
                   photoUrl={profile?.photoUrl}
                   alt={profile?.fullName ?? "Professor"}
-                  width={44}
-                  height={44}
+                  width={36}
+                  height={36}
                   className="flex-shrink-0 cursor-pointer ring-2 ring-primary/20 hover:ring-primary/50 rounded-full transition-all duration-300"
                 />
               </button>
             </div>
             <Link
               href="/"
-              className="text-navy-900 dark:text-gray-100 font-bold text-base hover:text-primary dark:hover:text-navy-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded leading-tight transition-all duration-200"
+              className="text-navy-900 dark:text-gray-100 font-bold text-sm hover:text-primary dark:hover:text-navy-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded leading-tight transition-all duration-200 hidden sm:block"
             >
-              <span className="block text-lg">{profile?.fullName ?? "Professor"}</span>
+              <span className="block text-base truncate max-w-[140px]">{profile?.fullName ?? "Professor"}</span>
               {profile?.title && (
-                <span className="block text-xs font-normal text-navy-500 dark:text-navy-300 truncate max-w-[200px]">
+                <span className="block text-[10px] font-normal text-navy-500 dark:text-navy-300 truncate max-w-[140px]">
                   {profile.title}
                 </span>
               )}
@@ -293,7 +293,7 @@ export default function Navbar({ profile, hiddenSections = [] }: NavbarProps) {
           </div>
 
           {/* ── DESKTOP NAV ── */}
-          <div className="hidden lg:flex items-center gap-0.5">
+          <div className="hidden lg:flex items-center gap-0.5 flex-1 justify-end">
             {/* Standalone links */}
             {visibleStandalone.map((link) => (
               <Link
@@ -301,7 +301,7 @@ export default function Navbar({ profile, hiddenSections = [] }: NavbarProps) {
                 href={link.href}
                 aria-current={isActive(link.href) ? "page" : undefined}
                 className={[
-                  "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap",
+                  "px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
                   "hover:scale-105 hover:shadow-lg",
                   isActive(link.href)
