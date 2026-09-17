@@ -8,7 +8,7 @@ import NewsSlider from "@/components/sections/NewsSlider";
 import TestimonialCard from "@/components/sections/TestimonialCard";
 import HomeSearch from "@/components/sections/HomeSearch";
 import { getPhotoForSlot } from "@/lib/profilePhotos";
-import { ParallaxHero, ScrollProgress, CountUp, ScrollToTop, FadeInView, FadeInBlur, FadeInScale } from "@/components/animations";
+import { ScrollProgress, CountUp, ScrollToTop, FadeInView, FadeInBlur, FadeInScale } from "@/components/animations";
 
 interface AcademicProfile {
   label: string;
@@ -138,10 +138,7 @@ export default async function HomePage() {
       <ScrollToTop />
 
       {/* ── HERO SECTION ── */}
-      <ParallaxHero
-        speed={0.5}
-        className="relative bg-navy-900 text-white overflow-hidden min-h-[520px] flex items-center"
-      >
+      <section className="relative bg-navy-900 text-white overflow-hidden min-h-[520px] flex items-center">
         {/* Background video or image */}
         {heroVideoUrl ? (
           <video
@@ -367,7 +364,7 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-      </ParallaxHero>
+      </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -468,11 +465,13 @@ export default async function HomePage() {
               </div>
             )}
           </section>
+          </FadeInView>
         )}
 
         {/* ── LATEST PUBLICATIONS ── */}
         {show.publications && recentPubs.length > 0 && (
-          <section className="mb-16">
+          <FadeInBlur delay={0.5}>
+            <section className="mb-16">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-navy-900">Latest Publications</h2>
               <Link href="/publications" className="text-sm text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded">
@@ -520,11 +519,13 @@ export default async function HomePage() {
               })}
             </div>
           </section>
+          </FadeInBlur>
         )}
 
         {/* ── TESTIMONIALS ── */}
         {show.testimonials && testimonials.length > 0 && (
-          <section className="mb-16">
+          <FadeInView delay={0.6}>
+            <section className="mb-16">
             <h2 className="text-2xl font-bold text-navy-900 mb-6">What Students Say</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {testimonials.map((t) => (
@@ -538,11 +539,13 @@ export default async function HomePage() {
               ))}
             </div>
           </section>
+          </FadeInView>
         )}
 
         {/* ── RESEARCH HIGHLIGHTS ── */}
         {show.researchHighlights && researchHighlights.length > 0 && (
-          <section className="mb-16">
+          <FadeInScale delay={0.7}>
+            <section className="mb-16">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-navy-900">Research Highlights</h2>
               <Link href="/research" className="text-sm text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded">
@@ -580,11 +583,13 @@ export default async function HomePage() {
               })}
             </div>
           </section>
+          </FadeInScale>
         )}
 
         {/* ── ACADEMIC ACHIEVEMENTS ── */}
         {show.achievements && achievements.length > 0 && (
-          <section className="mb-16">
+          <FadeInBlur delay={0.8}>
+            <section className="mb-16">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-navy-900">Academic Achievements</h2>
               <Link href="/cv" className="text-sm text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded">
@@ -610,8 +615,10 @@ export default async function HomePage() {
               ))}
             </div>
           </section>
+          </FadeInBlur>
         )}
         {show.quickLinks && (
+        <FadeInView delay={0.9}>
         <section className="mb-16">
           <h2 className="text-2xl font-bold text-navy-900 mb-6">Explore</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -637,6 +644,7 @@ export default async function HomePage() {
             ))}
           </div>
         </section>
+        </FadeInView>
         )}
 
       </div>
