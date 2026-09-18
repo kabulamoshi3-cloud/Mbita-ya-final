@@ -122,12 +122,20 @@ export async function PUT(request: NextRequest) {
       ...(mediaAppearances !== null && mediaAppearances !== undefined ? { mediaAppearances } : {}),
     };
     const updateData = { ...scalarData, ...jsonFields };
+    
     const updated = await prisma.profile.upsert({
       where: { id: 1 },
       update: updateData,
       create: {
         id: 1,
-        ...updateData,
+        fullName: scalarData.fullName ?? "Professor",
+        title: scalarData.title ?? "Professor",
+        department: scalarData.department ?? "Department",
+        institution: scalarData.institution ?? "University",
+        email: scalarData.email ?? "professor@university.edu",
+        officeLocation: scalarData.officeLocation ?? "Office",
+        officeHours: scalarData.officeHours ?? "By appointment",
+        bio: scalarData.bio ?? "Biography",
         academicProfiles: academicProfiles ?? [],
         photoUrl: scalarData.photoUrl ?? "",
         navbarPhotoUrl: scalarData.navbarPhotoUrl ?? "",
@@ -142,7 +150,7 @@ export async function PUT(request: NextRequest) {
     revalidatePath("/"); revalidatePath("/about"); revalidatePath("/contact");
     revalidateTag("profile");
     revalidateTag("home");
-    await logAction("UPDATE", "profile", "1", result.data.fullName, performedBy);
+    await logAction("UPDATE", "profile", "1", updated.fullName, performedBy);
     return NextResponse.json(updated);
   } catch (err) {
     console.error("Profile upsert failed:", err);
