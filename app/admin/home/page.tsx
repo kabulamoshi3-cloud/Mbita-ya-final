@@ -97,13 +97,19 @@ export default function HomeAdminPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(settings),
       });
+      
       if (res.ok) {
         showToast("success", "Home settings saved successfully!");
       } else {
         const data = await res.json().catch(() => ({}));
-        showToast("error", data.error || "Failed to save settings.");
+        const errorMsg = data.fields 
+          ? `Validation failed: ${Object.entries(data.fields).map(([k, v]) => `${k}: ${v}`).join(", ")}`
+          : data.error || "Failed to save settings.";
+        showToast("error", errorMsg);
+        console.error("Save error:", data);
       }
-    } catch {
+    } catch (error) {
+      console.error("Save exception:", error);
       showToast("error", "An error occurred.");
     } finally {
       setSaving(false);

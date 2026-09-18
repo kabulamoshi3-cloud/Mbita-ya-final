@@ -66,18 +66,41 @@ export default function AboutAdminPage() {
       const currentRes = await fetch("/api/admin/profile");
       const current = currentRes.ok ? await currentRes.json() : {};
       
+      // Merge only the form fields, preserving existing data structure
+      const updateData = {
+        ...current,
+        ...form,
+        // Ensure array fields from current profile are preserved if not in form
+        academicProfiles: current.academicProfiles || [],
+        skills: current.skills || null,
+        languages: current.languages || null,
+        memberships: current.memberships || null,
+        education: current.education || null,
+        workExperience: current.workExperience || null,
+        certifications: current.certifications || null,
+        faq: current.faq || null,
+        leadershipPositions: current.leadershipPositions || null,
+        mediaAppearances: current.mediaAppearances || null,
+      };
+      
       const res = await fetch("/api/admin/profile", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...current, ...form }),
+        body: JSON.stringify(updateData),
       });
+      
       if (res.ok) {
         showToast("success", "About page saved successfully!");
       } else {
         const data = await res.json().catch(() => ({}));
-        showToast("error", data.error || "Failed to save changes.");
+        const errorMsg = data.fields 
+          ? `Validation failed: ${Object.entries(data.fields).map(([k, v]) => `${k}: ${v}`).join(", ")}`
+          : data.error || "Failed to save changes.";
+        showToast("error", errorMsg);
+        console.error("Save error:", data);
       }
-    } catch {
+    } catch (error) {
+      console.error("Save exception:", error);
       showToast("error", "An error occurred.");
     } finally {
       setSaving(false);
