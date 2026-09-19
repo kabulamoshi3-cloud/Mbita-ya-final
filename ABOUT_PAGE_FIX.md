@@ -8,7 +8,7 @@ The public About page (`/about`) was showing a 500 error.
 ### 1. **Stale Profile Data** ❌
 The database still contained OLD FAKE data:
 - Name: "Dr. Deogratius Mbita Emmanuel" (WRONG)
-- Institution: "University of Dar es Salaam (UDSM)" (WRONG)
+- Institution: "Sokoine University of Agriculture (SUA)" (WRONG)
 - Department: "Computer Science" (WRONG)
 
 ### 2. **Missing Error Handling** ❌

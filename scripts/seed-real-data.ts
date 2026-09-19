@@ -428,10 +428,10 @@ He has published extensively in international peer-reviewed journals on topics s
       name: "AI & Data Science Workshop for East African Researchers",
       description: "A 3-day intensive workshop on AI and data science methodologies, tools, and best practices for researchers in East Africa.",
       eventDate: new Date('2024-07-15'),
-      location: "UDSM CoICT, Dar es Salaam",
+      location: "Sokoine University of Agriculture, Morogoro",
       eventType: "workshop",
       isVirtual: false,
-      registrationUrl: "https://events.udsm.ac.tz/ai-workshop-2024"
+      registrationUrl: "https://events.sua.ac.tz/ai-workshop-2024"
     },
     {
       name: "Guest Lecture: Machine Learning in Agriculture",

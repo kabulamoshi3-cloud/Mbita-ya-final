@@ -15,7 +15,7 @@ async function updateProfileFromCV() {
       officeLocation: "College of Natural and Applied Sciences, P.O. Box 3038, Morogoro, Tanzania",
       officeHours: "By Appointment",
       
-      bio: `Dr. Emmanuel Deogratias is a Senior Lecturer in Mathematics Education at the Department of Mathematics and Statistics, Sokoine University of Agriculture, Tanzania. He holds a Doctor of Education (EdD) in Mathematics Education from the University of Alberta, Canada (2014-2020), an MSc in Mathematical Modelling from the University of Dar es Salaam (2009-2011), and a BED in Mathematics and Education from the University of Dar es Salaam (2005-2008).
+      bio: `Dr. Emmanuel Deogratias is a Senior Lecturer in Mathematics Education at the Department of Mathematics and Statistics, Sokoine University of Agriculture, Tanzania. He holds a Doctor of Education (EdD) in Mathematics Education from the University of Alberta, Canada (2014-2020), an MSc in Mathematical Modelling from Sokoine University of Agriculture (2009-2011), and a BED in Mathematics and Education from Sokoine University of Agriculture (2005-2008).
 
 Dr. Deogratias specializes in mathematics education with a focus on concept-rich instruction, teacher professional development, and innovative teaching methodologies. His doctoral dissertation explored the implementation of concept-rich instruction with university mathematics pre-service teachers in Tanzania.
 
@@ -43,13 +43,13 @@ Dr. Deogratias serves as an Editorial Review Board Member for the International 
         },
         {
           degree: "MSc in Mathematical Modelling",
-          institution: "University of Dar es Salaam, Tanzania",
+          institution: "Sokoine University of Agriculture, Tanzania",
           year: "2009-2011",
           description: "Dissertation: Methods for Pricing and Hedging Plain Vanilla Barrier Options"
         },
         {
           degree: "Bachelor of Education (BED) - Mathematics and Education",
-          institution: "University of Dar es Salaam, Tanzania",
+          institution: "Sokoine University of Agriculture, Tanzania",
           year: "2005-2008"
         },
         {

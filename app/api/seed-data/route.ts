@@ -15,13 +15,13 @@ export async function GET() {
       where: { id: 1 },
       update: {
         fullName: "Dr. Deogratius Mbita Emmanuel",
-        title: "Senior Lecturer in Computer Science",
-        department: "Department of Computer Science",
-        institution: "University of Dar es Salaam (UDSM)",
-        email: "deogratius.mbita@udsm.ac.tz",
-        officeLocation: "CoICT Building, Room 305",
-        officeHours: "Monday-Friday: 10:00 AM - 12:00 PM, 2:00 PM - 4:00 PM",
-        bio: `Dr. Deogratius Mbita Emmanuel is a Senior Lecturer in the Department of Computer Science at the University of Dar es Salaam (UDSM), Tanzania. With over 15 years of experience in academia and research, he specializes in Artificial Intelligence, Machine Learning, Data Science, and Educational Technology.
+        title: "Senior Lecturer in Mathematics Education",
+        department: "Department of Mathematics and Statistics",
+        institution: "Sokoine University of Agriculture (SUA)",
+        email: "emmanuel.mbita@sua.ac.tz",
+        officeLocation: "College of Natural and Applied Sciences, Morogoro",
+        officeHours: "By Appointment",
+        bio: `Dr. Emmanuel Deogratias is a Senior Lecturer in Mathematics Education at the Department of Mathematics and Statistics, Sokoine University of Agriculture, Tanzania. He specializes in concept-rich instruction, teacher professional development, and innovative teaching methodologies in mathematics education.
 
 Dr. Mbita holds a PhD in Computer Science with a focus on Machine Learning applications in Agriculture and Healthcare. His research interests include developing AI-driven solutions for socio-economic challenges in developing countries, particularly in East Africa.
 
@@ -43,50 +43,50 @@ He has published numerous peer-reviewed papers in international journals and con
         ],
         education: [
           {
-            degree: "PhD in Computer Science",
-            institution: "University of Dar es Salaam",
-            country: "Tanzania",
-            year: "2018",
-            focus: "Machine Learning Applications in Agriculture"
+            degree: "PhD in Mathematics Education",
+            institution: "University of Alberta, Canada",
+            country: "Canada",
+            year: "2020",
+            focus: "Concept-Rich Instruction in Mathematics"
           },
           {
-            degree: "MSc in Information Technology",
-            institution: "University of Dar es Salaam",
+            degree: "MSc in Mathematical Modelling",
+            institution: "Sokoine University of Agriculture",
             country: "Tanzania",
-            year: "2012",
-            focus: "Software Engineering and Data Management"
+            year: "2011",
+            focus: "Financial Mathematics and Options Pricing"
           },
           {
-            degree: "BSc in Computer Science",
-            institution: "University of Dar es Salaam",
+            degree: "BED in Mathematics and Education",
+            institution: "Sokoine University of Agriculture",
             country: "Tanzania",
             year: "2008",
-            focus: "Computer Science and Mathematics"
+            focus: "Mathematics Education"
           }
         ],
         workExperience: [
           {
             position: "Senior Lecturer",
-            institution: "University of Dar es Salaam (UDSM)",
-            location: "Dar es Salaam, Tanzania",
-            startDate: "2018",
+            institution: "Sokoine University of Agriculture (SUA)",
+            location: "Morogoro, Tanzania",
+            startDate: "2023",
             endDate: "Present",
             responsibilities: [
-              "Teaching undergraduate and graduate courses in AI, Machine Learning, and Data Science",
-              "Supervising MSc and PhD students in research projects",
-              "Conducting research in AI applications for sustainable development",
-              "Leading research collaborations with international partners"
+              "Teaching mathematics education courses at undergraduate and graduate levels",
+              "Supervising MSc and PhD students in mathematics education research",
+              "Conducting research in concept-rich instruction and teacher development",
+              "Leading curriculum development initiatives"
             ]
           },
           {
             position: "Lecturer",
-            institution: "University of Dar es Salaam (UDSM)",
-            location: "Dar es Salaam, Tanzania",
-            startDate: "2012",
-            endDate: "2018",
+            institution: "Sokoine University of Agriculture (SUA)",
+            location: "Morogoro, Tanzania",
+            startDate: "2022",
+            endDate: "2023",
             responsibilities: [
-              "Taught courses in programming, databases, and software engineering",
-              "Developed new curriculum for Data Science program",
+              "Taught mathematics education and statistics courses",
+              "Developed new curriculum for mathematics teacher training",
               "Supervised undergraduate research projects"
             ]
           }
