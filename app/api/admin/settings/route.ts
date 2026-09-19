@@ -7,6 +7,10 @@ import { getIronSession } from "iron-session";
 import { sessionOptions, SessionData } from "@/lib/session";
 
 const settingsSchema = z.object({
+  // Read-only fields (sent by frontend but ignored)
+  id: z.number().optional(),
+  updatedAt: z.union([z.string(), z.date()]).optional(),
+  // Actual editable fields
   siteTitle: z.string().optional(),
   tagline: z.string().optional(),
   footerText: z.string().optional(),
@@ -30,7 +34,8 @@ const settingsSchema = z.object({
   showResearchHighlights: z.boolean().optional(),
   showAchievements: z.boolean().optional(),
   showQuickLinks: z.boolean().optional(),
-});
+  navigationSettings: z.any().optional(), // JSON field from Prisma schema
+}).passthrough();
 
 async function getUsername(request: NextRequest): Promise<string> {
   const res = new NextResponse();

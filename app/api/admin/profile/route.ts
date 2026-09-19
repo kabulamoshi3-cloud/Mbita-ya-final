@@ -69,7 +69,12 @@ const profileSchema = z.object({
   faq: z.any().optional(),
   leadershipPositions: z.any().optional(),
   mediaAppearances: z.any().optional(),
-}).passthrough(); // Allow extra fields like id, createdAt, updatedAt
+  // Read-only fields that frontend sends but we ignore
+  id: z.number().optional(),
+  updatedAt: z.union([z.string(), z.date()]).optional(),
+  autoSyncEnabled: z.boolean().optional(),
+  lastSyncAt: z.union([z.string(), z.date(), z.null()]).optional(),
+}).passthrough(); // Allow extra fields
 
 async function getSession(request: NextRequest, response: NextResponse) {
   return getIronSession<SessionData>(request, response, sessionOptions);
@@ -107,8 +112,13 @@ export async function PUT(request: NextRequest) {
   }
 
   try {
-    // Filter out null values from JSON fields for Prisma compatibility
-    const { academicProfiles, skills, languages, memberships, education, workExperience, certifications, faq, leadershipPositions, mediaAppearances, ...scalarData } = result.data;
+    // Filter out read-only fields and null values from JSON fields for Prisma compatibility
+    const { 
+      id, updatedAt, autoSyncEnabled, lastSyncAt, // Read-only fields to exclude
+      academicProfiles, skills, languages, memberships, education, workExperience, certifications, faq, leadershipPositions, mediaAppearances, 
+      ...scalarData 
+    } = result.data;
+    
     const jsonFields = {
       ...(academicProfiles !== null && academicProfiles !== undefined ? { academicProfiles } : {}),
       ...(skills !== null && skills !== undefined ? { skills } : {}),
