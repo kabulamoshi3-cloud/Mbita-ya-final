@@ -1,0 +1,558 @@
+{
+  "backupDate": "2026-09-19T13:26:20.173Z",
+  "adminUser": [
+    {
+      "id": 1,
+      "username": "Mbita",
+      "passwordHash": "$2b$10$GH33v0OMHXuCzD5E826/fel271vcheju2jw0VpJVRSCninwUHWIC6",
+      "failedAttempts": 0,
+      "lockedUntil": null,
+      "totpSecret": null,
+      "totpEnabled": false,
+      "updatedAt": "2026-09-19T11:47:00.682Z"
+    }
+  ],
+  "profile": [
+    {
+      "id": 1,
+      "fullName": "Dr. Deogratius Mbita Emmanuel",
+      "title": "Senior Lecturer in Mathematics Education",
+      "department": "Department of Mathematics and Statistics",
+      "institution": "Sokoine University of Agriculture (SUA)",
+      "email": "emmanuel.mbita@sua.ac.tz",
+      "officeLocation": "College of Natural and Applied Sciences, Morogoro",
+      "officeHours": "By Appointment",
+      "bio": "Dr. Emmanuel Deogratias is a Senior Lecturer in Mathematics Education at the Department of Mathematics and Statistics, Sokoine University of Agriculture, Tanzania. He specializes in concept-rich instruction, teacher professional development, and innovative teaching methodologies in mathematics education.\n\nDr. Mbita holds a PhD in Computer Science with a focus on Machine Learning applications in Agriculture and Healthcare. His research interests include developing AI-driven solutions for socio-economic challenges in developing countries, particularly in East Africa.\n\nHe has published numerous peer-reviewed papers in international journals and conferences, supervised over 30 graduate students, and actively collaborates with researchers across Africa, Europe, and Asia. Dr. Mbita is passionate about capacity building and has trained hundreds of students and professionals in data science, programming, and research methodologies.",
+      "photoUrl": "/images/profile-placeholder.jpg",
+      "cvUrl": "",
+      "navbarPhotoUrl": "",
+      "heroPhotoUrl": "",
+      "aboutPhotoUrl": "",
+      "contactPhotoUrl": "",
+      "footerPhotoUrl": "",
+      "adminPhotoUrl": "",
+      "academicProfiles": [
+        {
+          "url": "https://scholar.google.com/citations?user=JEeMxH0AAAAJ",
+          "label": "Google Scholar"
+        },
+        {
+          "url": "https://orcid.org/0000-0000-0000-0000",
+          "label": "ORCID"
+        },
+        {
+          "url": "https://www.researchgate.net/profile/Emmanuel-Deogratias",
+          "label": "ResearchGate"
+        },
+        {
+          "url": "https://github.com/mbita-deo",
+          "label": "GitHub"
+        },
+        {
+          "url": "https://www.linkedin.com/in/emmanuel-deogratias-mbita",
+          "label": "LinkedIn"
+        },
+        {
+          "url": "https://www.scopus.com/authid/detail.uri?authorId=0000000000",
+          "label": "Scopus"
+        },
+        {
+          "url": "https://sua.academia.edu/EmmanuelMbita",
+          "label": "Academia.edu"
+        }
+      ],
+      "vision": "To become a leading researcher in AI and Data Science, contributing innovative solutions to address critical challenges in education, healthcare, and agriculture in Africa.",
+      "mission": "To conduct cutting-edge research, mentor the next generation of computer scientists, and develop technology solutions that positively impact society.",
+      "skills": [
+        {
+          "items": [
+            "Python",
+            "R",
+            "JavaScript",
+            "Java",
+            "C++",
+            "SQL"
+          ],
+          "category": "Programming Languages"
+        },
+        {
+          "items": [
+            "TensorFlow",
+            "PyTorch",
+            "Scikit-learn",
+            "Keras",
+            "NLP",
+            "Computer Vision"
+          ],
+          "category": "Machine Learning & AI"
+        },
+        {
+          "items": [
+            "Data Analysis",
+            "Statistical Modeling",
+            "Data Visualization",
+            "Big Data Analytics"
+          ],
+          "category": "Data Science"
+        },
+        {
+          "items": [
+            "React",
+            "Next.js",
+            "Node.js",
+            "Django",
+            "Flask"
+          ],
+          "category": "Web Development"
+        },
+        {
+          "items": [
+            "Quantitative Research",
+            "Qualitative Research",
+            "Mixed Methods",
+            "Survey Design"
+          ],
+          "category": "Research Methods"
+        },
+        {
+          "items": [
+            "Git",
+            "Docker",
+            "AWS",
+            "Google Cloud",
+            "Jupyter",
+            "VS Code"
+          ],
+          "category": "Tools & Platforms"
+        }
+      ],
+      "languages": [
+        {
+          "name": "English",
+          "proficiency": "Fluent"
+        },
+        {
+          "name": "Swahili",
+          "proficiency": "Native"
+        },
+        {
+          "name": "French",
+          "proficiency": "Intermediate"
+        }
+      ],
+      "education": [
+        {
+          "year": "2020",
+          "focus": "Concept-Rich Instruction in Mathematics",
+          "degree": "PhD in Mathematics Education",
+          "country": "Canada",
+          "institution": "University of Alberta, Canada"
+        },
+        {
+          "year": "2011",
+          "focus": "Financial Mathematics and Options Pricing",
+          "degree": "MSc in Mathematical Modelling",
+          "country": "Tanzania",
+          "institution": "Sokoine University of Agriculture"
+        },
+        {
+          "year": "2008",
+          "focus": "Mathematics Education",
+          "degree": "BED in Mathematics and Education",
+          "country": "Tanzania",
+          "institution": "Sokoine University of Agriculture"
+        }
+      ],
+      "workExperience": [
+        {
+          "endDate": "Present",
+          "location": "Morogoro, Tanzania",
+          "position": "Senior Lecturer",
+          "startDate": "2023",
+          "institution": "Sokoine University of Agriculture (SUA)",
+          "responsibilities": [
+            "Teaching mathematics education courses at undergraduate and graduate levels",
+            "Supervising MSc and PhD students in mathematics education research",
+            "Conducting research in concept-rich instruction and teacher development",
+            "Leading curriculum development initiatives"
+          ]
+        },
+        {
+          "endDate": "2023",
+          "location": "Morogoro, Tanzania",
+          "position": "Lecturer",
+          "startDate": "2022",
+          "institution": "Sokoine University of Agriculture (SUA)",
+          "responsibilities": [
+            "Taught mathematics education and statistics courses",
+            "Developed new curriculum for mathematics teacher training",
+            "Supervised undergraduate research projects"
+          ]
+        }
+      ],
+      "certifications": [
+        {
+          "name": "AWS Certified Machine Learning – Specialty",
+          "year": "2022",
+          "issuer": "Amazon Web Services"
+        },
+        {
+          "name": "Google Cloud Professional Data Engineer",
+          "year": "2021",
+          "issuer": "Google Cloud"
+        },
+        {
+          "name": "Deep Learning Specialization",
+          "year": "2020",
+          "issuer": "Coursera (deeplearning.ai)"
+        }
+      ],
+      "memberships": [
+        {
+          "role": "Member",
+          "since": "2015",
+          "organization": "IEEE Computer Society"
+        },
+        {
+          "role": "Member",
+          "since": "2014",
+          "organization": "ACM (Association for Computing Machinery)"
+        },
+        {
+          "role": "Senior Member",
+          "since": "2012",
+          "organization": "Tanzania Computer Society"
+        }
+      ],
+      "videoIntroUrl": "",
+      "whatsapp": "+255713293936",
+      "mapEmbedUrl": null,
+      "buildingImageUrl": null,
+      "faq": [
+        {
+          "answer": "My research focuses on mathematics education, particularly concept-rich instruction, teacher professional development, and innovative teaching methodologies that connect classroom mathematics to real-world applications.",
+          "question": "What is your research focus?"
+        },
+        {
+          "answer": "Yes, I currently supervise PhD and Master's students in mathematics education, curriculum and instruction, and education foundation and management at Sokoine University of Agriculture.",
+          "question": "Do you supervise postgraduate students?"
+        },
+        {
+          "answer": "I welcome research collaborations in mathematics education, teacher training, and educational innovation. Please contact me via email to discuss potential research partnerships.",
+          "question": "How can I collaborate with you on research?"
+        },
+        {
+          "answer": "Yes, I provide consultancy services in curriculum development, mathematics education, teacher training, and educational research. I have experience editing mathematics textbooks for Tanzania Institute of Education.",
+          "question": "Do you offer consultancy services?"
+        }
+      ],
+      "leadershipPositions": [
+        {
+          "role": "Coordinator for Outreach Program",
+          "period": "2025 - Present",
+          "description": "Leading community engagement and extension activities",
+          "organization": "Department of Mathematics and Statistics, Sokoine University of Agriculture"
+        },
+        {
+          "role": "Member of College Committee for Research and Publications",
+          "period": "2025 - Present",
+          "organization": "College of Natural and Applied Sciences, SUA"
+        },
+        {
+          "role": "Editorial Review Board Member",
+          "period": "2023 - Present",
+          "description": "Reviewing manuscripts in teacher education and professional development",
+          "organization": "International Journal of Teacher Education and Professional Development, IGI Global"
+        },
+        {
+          "role": "Online Global Social Justice in Education Course Leader",
+          "period": "2021 - 2022",
+          "description": "Led international collaboration on social justice in mathematics education",
+          "organization": "College of Education, Purdue University, United States"
+        },
+        {
+          "role": "Coordinator for Research and Publications",
+          "period": "2020 - 2022",
+          "organization": "Department of Mathematics and Statistics, University of Dodoma"
+        },
+        {
+          "role": "Acting Head of Department",
+          "period": "2013 - 2014",
+          "organization": "Mathematics Department, University of Dodoma"
+        },
+        {
+          "role": "Undergraduate Coordinator",
+          "period": "2012 - 2014",
+          "organization": "School of Mathematical Sciences, University of Dodoma"
+        }
+      ],
+      "mediaAppearances": null,
+      "emergencyContact": null,
+      "autoSyncEnabled": true,
+      "lastSyncAt": null,
+      "updatedAt": "2026-09-19T13:00:05.993Z"
+    }
+  ],
+  "siteSettings": [
+    {
+      "id": 1,
+      "siteTitle": "Dr. Deogratis Mbita Emmanuel",
+      "tagline": "Academic Portfolio & Research Hub",
+      "footerText": "© 2026 Dr. Deogratis Mbita Emmanuel. All rights reserved.",
+      "contactEmail": "deogratis.mbita@example.com",
+      "maintenanceMode": false,
+      "maintenanceMsg": null,
+      "socialLinks": {},
+      "hiddenSections": [],
+      "heroVideoUrl": null,
+      "heroImageUrl": null,
+      "navigationSettings": null,
+      "showAnnouncements": true,
+      "showStats": true,
+      "showNewsSlider": true,
+      "showUpcomingEvents": true,
+      "showPublications": true,
+      "showTestimonials": true,
+      "showResearchHighlights": true,
+      "showAchievements": true,
+      "showQuickLinks": true,
+      "heroTitle": "Welcome to My Academic Portfolio",
+      "heroSubtitle": "Advancing Knowledge Through Research and Education",
+      "heroCTAText": null,
+      "heroCTALink": null,
+      "updatedAt": "2026-09-15T11:03:58.568Z"
+    }
+  ],
+  "publications": [
+    {
+      "id": "93e3f53c-2914-4d92-b322-ec75c32b20a6",
+      "title": "The role of complex numbers in interdisciplinary mathematics teaching in Tanzanian secondary schools",
+      "authors": [
+        "Emmanuel Deogratias"
+      ],
+      "venue": "Mathematics and Science Teacher Journal",
+      "year": 2026,
+      "type": "journal",
+      "doi": null,
+      "url": null,
+      "abstract": "This paper addresses the role of complex numbers in interdisciplinary mathematics teaching in Tanzanian secondary schools, exploring how this mathematical concept can be integrated across various subjects.",
+      "pdfUrl": "",
+      "coverImage": null,
+      "published": true,
+      "createdAt": "2026-09-17T09:59:34.187Z",
+      "updatedAt": "2026-09-17T09:59:34.187Z"
+    },
+    {
+      "id": "32da35c8-4659-4e27-af97-9ae9583f6833",
+      "title": "Investigation of teachers' competency on using ICT for teaching and learning mathematics and science subjects in Tanzanian secondary schools",
+      "authors": [
+        "Salome Langoi",
+        "Emmanuel Deogratias"
+      ],
+      "venue": "International Online Journal of Education and Teaching (IOJET)",
+      "year": 2024,
+      "type": "journal",
+      "doi": null,
+      "url": null,
+      "abstract": "This study investigates teachers' competency in using Information and Communication Technology (ICT) for teaching and learning mathematics and science subjects in Tanzanian secondary schools.",
+      "pdfUrl": "",
+      "coverImage": null,
+      "published": true,
+      "createdAt": "2026-09-17T09:59:34.592Z",
+      "updatedAt": "2026-09-17T09:59:34.592Z"
+    },
+    {
+      "id": "0ba557eb-fe2a-42eb-8fb6-abf845035942",
+      "title": "Enhancing university undergraduate students' understanding of a relation on a set using reflective questions",
+      "authors": [
+        "Emmanuel Deogratias"
+      ],
+      "venue": "Diamond Scientific Publishing",
+      "year": 2023,
+      "type": "journal",
+      "doi": null,
+      "url": null,
+      "abstract": "This qualitative study explores how reflective questions were used to enhance university undergraduate students' understanding of a relation on a set in mathematics. Findings indicate that reflective questions helped students share, process, generalize and apply mathematical concepts.",
+      "pdfUrl": "",
+      "coverImage": null,
+      "published": true,
+      "createdAt": "2026-09-17T09:59:35.000Z",
+      "updatedAt": "2026-09-17T09:59:35.000Z"
+    },
+    {
+      "id": "63562f3e-7ddc-43e5-977f-a4e86c0e7009",
+      "title": "Practising teaching the concept of pi with pre-service mathematics teachers",
+      "authors": [
+        "Emmanuel Deogratias"
+      ],
+      "venue": "Diamond Scientific Publishing",
+      "year": 2023,
+      "type": "journal",
+      "doi": null,
+      "url": null,
+      "abstract": "This paper addresses the ways that Tanzanian university pre-service mathematics teachers (PSTs) practised teaching the concept of pi through concept-rich instruction (CRI). Activities enhanced PSTs' pedagogical knowledge through designing lesson plans and performing micro-teaching using local circular objects.",
+      "pdfUrl": "",
+      "coverImage": null,
+      "published": true,
+      "createdAt": "2026-09-17T09:59:35.207Z",
+      "updatedAt": "2026-09-17T09:59:35.207Z"
+    },
+    {
+      "id": "952a9a5d-d6cc-4c2a-90f4-6fd958668272",
+      "title": "Using a crossing method as an alternative approach for teaching systems of linear equations in secondary schools",
+      "authors": [
+        "Emmanuel Deogratias"
+      ],
+      "venue": "Informascope",
+      "year": 2022,
+      "type": "journal",
+      "doi": null,
+      "url": null,
+      "abstract": "This paper presents an alternative approach (crossing method) for teaching systems of two linear equations to students in Tanzanian ordinary secondary schools. This new method yields similar answers to traditional methods but offers a different perspective.",
+      "pdfUrl": "",
+      "coverImage": null,
+      "published": true,
+      "createdAt": "2026-09-17T09:59:35.395Z",
+      "updatedAt": "2026-09-17T09:59:35.395Z"
+    },
+    {
+      "id": "a6864e11-abd3-410a-a518-df10edbfe667",
+      "title": "Using graph coloring for effective timetable scheduling at ordinary secondary level",
+      "authors": [
+        "Emmanuel Deogratias"
+      ],
+      "venue": "International Journal of Curriculum and Instruction (IJCI)",
+      "year": 2022,
+      "type": "journal",
+      "doi": null,
+      "url": null,
+      "abstract": "This study assesses the effectiveness of timetable scheduling developed using graph coloring for class period timetabling at Dodoma central secondary school. The new timetable eliminated collisions among teachers.",
+      "pdfUrl": "",
+      "coverImage": null,
+      "published": true,
+      "createdAt": "2026-09-17T09:59:35.582Z",
+      "updatedAt": "2026-09-17T09:59:35.582Z"
+    },
+    {
+      "id": "07ee09ee-57d7-491b-98cc-b57210aae588",
+      "title": "Comparing the evaluation of students' performance using Mean and dispersion chart grade and fixed grading method",
+      "authors": [
+        "Emmanuel Deogratias"
+      ],
+      "venue": "Biometrics & Biostatistics International Journal",
+      "year": 2022,
+      "type": "journal",
+      "doi": null,
+      "url": null,
+      "abstract": "This quantitative study investigates students' performance by comparing statistical quality control charts grade method with fixed grading method. Findings revealed that Mean and S chart grade method was better in evaluating students' performance.",
+      "pdfUrl": "",
+      "coverImage": null,
+      "published": true,
+      "createdAt": "2026-09-17T09:59:35.772Z",
+      "updatedAt": "2026-09-17T09:59:35.772Z"
+    },
+    {
+      "id": "518b231c-7d02-44b3-862e-2952daa536f2",
+      "title": "Using a rope in a research meeting for cognitive development of children's understanding of counting numbers",
+      "authors": [
+        "Emmanuel Deogratias"
+      ],
+      "venue": "World Council for Curriculum and Instruction",
+      "year": 2022,
+      "type": "conference",
+      "doi": null,
+      "url": null,
+      "abstract": "This qualitative case study addresses how pre-service mathematics teachers used a rope for cognitive development of children's understanding of counting numbers in Tanzanian elementary schools, following Bruner's work on cognitive development.",
+      "pdfUrl": "",
+      "coverImage": null,
+      "published": true,
+      "createdAt": "2026-09-17T09:59:35.960Z",
+      "updatedAt": "2026-09-17T09:59:35.960Z"
+    },
+    {
+      "id": "00c2d956-a002-48c2-bac2-f81d14e3d74d",
+      "title": "Developing Student-Teachers' Understanding of Geometrical Figures/Objects Using a Bicycle Rubber Tube",
+      "authors": [
+        "Emmanuel Deogratias"
+      ],
+      "venue": "World Journal of Educational Research",
+      "year": 2021,
+      "type": "journal",
+      "doi": null,
+      "url": null,
+      "abstract": "This paper addresses how a bicycle rubber tube can be used to develop learners' understanding of geometrical figures/objects. Various geometrical figures including rectangle, triangle, square, and pentagon were formed using this local material.",
+      "pdfUrl": "",
+      "coverImage": null,
+      "published": true,
+      "createdAt": "2026-09-17T09:59:36.151Z",
+      "updatedAt": "2026-09-17T09:59:36.151Z"
+    },
+    {
+      "id": "a08f7f88-091b-41ab-9878-4053f3ff3582",
+      "title": "Exploring the Implementation of Concept-Rich Instruction (CRI) with University Mathematics Pre-Service Teachers: A Tanzanian Case",
+      "authors": [
+        "Emmanuel Deogratias"
+      ],
+      "venue": "International Journal of Curriculum and Instruction",
+      "year": 2020,
+      "type": "journal",
+      "doi": null,
+      "url": null,
+      "abstract": "This qualitative case study explored how concept-rich instruction (CRI) reveals the way that Tanzanian university mathematics pre-service teachers express their understanding of mathematical concepts. Study conducted at University of Dodoma.",
+      "pdfUrl": "",
+      "coverImage": null,
+      "published": true,
+      "createdAt": "2026-09-17T09:59:36.418Z",
+      "updatedAt": "2026-09-17T09:59:36.418Z"
+    },
+    {
+      "id": "4af02e97-b2a2-49f8-9b7a-29fa9f9984ab",
+      "title": "Practicing complexity theory in mathematics class under the lens of concept study",
+      "authors": [
+        "Emmanuel Deogratias"
+      ],
+      "venue": "International Journal of Curriculum and Instruction (IJCI)",
+      "year": 2018,
+      "type": "journal",
+      "doi": null,
+      "url": null,
+      "abstract": "This paper addresses the ways that complexity theory can be practiced in mathematics class to encourage students' participation in learning mathematical concepts. The paper illustrates attributes of complexity theory under the lens of concept study.",
+      "pdfUrl": "",
+      "coverImage": null,
+      "published": true,
+      "createdAt": "2026-09-17T09:59:36.605Z",
+      "updatedAt": "2026-09-17T09:59:36.605Z"
+    }
+  ],
+  "researchProjects": [],
+  "courses": [
+    {
+      "id": "76bfb4f7-ffb5-4415-ac6a-795833c04e40",
+      "name": "Introduction to Computer Science",
+      "code": "CS101",
+      "term": "Fall 2024",
+      "status": "active",
+      "syllabusUrl": null,
+      "externalUrl": null,
+      "description": "Sample course. Add your actual courses through the admin panel.",
+      "bannerImage": null,
+      "zoomUrl": null,
+      "classroomUrl": null,
+      "schedule": null,
+      "materials": null,
+      "published": true,
+      "createdAt": "2026-09-15T11:03:59.439Z",
+      "updatedAt": "2026-09-15T11:03:59.439Z"
+    }
+  ],
+  "students": [],
+  "awards": [],
+  "events": [],
+  "collaborators": [],
+  "resources": [],
+  "galleryItems": [],
+  "blogPosts": [],
+  "testimonials": [],
+  "announcements": [],
+  "teamMembers": []
+}
