@@ -42,14 +42,14 @@ const profileSchema = z.object({
   officeHours: z.string().optional(),
   bio: z.string().optional(),
   // Photo fields
-  photoUrl: z.string().optional().default(""),
-  navbarPhotoUrl: z.string().optional().default(""),
-  heroPhotoUrl: z.string().optional().default(""),
-  aboutPhotoUrl: z.string().optional().default(""),
-  contactPhotoUrl: z.string().optional().default(""),
-  footerPhotoUrl: z.string().optional().default(""),
-  adminPhotoUrl: z.string().optional().default(""),
-  cvUrl: z.string().optional().default(""),
+  photoUrl: z.string().optional(),
+  navbarPhotoUrl: z.string().optional(),
+  heroPhotoUrl: z.string().optional(),
+  aboutPhotoUrl: z.string().optional(),
+  contactPhotoUrl: z.string().optional(),
+  footerPhotoUrl: z.string().optional(),
+  adminPhotoUrl: z.string().optional(),
+  cvUrl: z.string().optional(),
   // Text fields — nullable because Prisma returns null for unset optional fields
   vision: z.string().nullable().optional(),
   mission: z.string().nullable().optional(),
@@ -59,17 +59,17 @@ const profileSchema = z.object({
   buildingImageUrl: z.string().nullable().optional(),
   emergencyContact: z.string().nullable().optional(),
   // JSON array fields — nullable because Prisma returns null for unset Json fields
-  academicProfiles: z.array(z.object({ label: z.string(), url: z.string() })).nullable().optional().default([]),
-  skills: z.array(z.object({ name: z.string(), level: z.number() })).nullable().optional(),
-  languages: z.array(z.string()).nullable().optional(),
-  memberships: z.array(z.string()).nullable().optional(),
-  education: z.array(z.object({ degree: z.string(), institution: z.string(), year: z.string(), logoUrl: z.string().optional() })).nullable().optional(),
-  workExperience: z.array(z.object({ role: z.string(), organization: z.string(), period: z.string(), description: z.string().optional() })).nullable().optional(),
-  certifications: z.array(z.object({ name: z.string(), issuer: z.string(), year: z.string(), imageUrl: z.string().optional() })).nullable().optional(),
-  faq: z.array(z.object({ question: z.string(), answer: z.string() })).nullable().optional(),
-  leadershipPositions: z.array(z.object({ role: z.string(), organization: z.string(), period: z.string(), description: z.string().optional() })).nullable().optional(),
-  mediaAppearances: z.array(z.object({ title: z.string(), outlet: z.string(), date: z.string(), url: z.string().optional(), imageUrl: z.string().optional(), type: z.string().optional() })).nullable().optional(),
-});
+  academicProfiles: z.any().optional(),
+  skills: z.any().optional(),
+  languages: z.any().optional(),
+  memberships: z.any().optional(),
+  education: z.any().optional(),
+  workExperience: z.any().optional(),
+  certifications: z.any().optional(),
+  faq: z.any().optional(),
+  leadershipPositions: z.any().optional(),
+  mediaAppearances: z.any().optional(),
+}).passthrough(); // Allow extra fields like id, createdAt, updatedAt
 
 async function getSession(request: NextRequest, response: NextResponse) {
   return getIronSession<SessionData>(request, response, sessionOptions);
