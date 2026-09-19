@@ -1,84 +1,178 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getIronSession } from "iron-session";
-import { z } from "zod";
-import { prisma } from "@/lib/prisma";
-import { sessionOptions, SessionData } from "@/lib/session";
-import { createErrorResponse, AuthenticationError, ValidationError } from "@/lib/error-handler";
-import { Prisma } from "@prisma/client";
+import { NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
 
-export async function GET(request: NextRequest) {
+const prisma = new PrismaClient();
+
+/**
+ * GET /api/notifications
+ * Get all admin notifications
+ * Query params:
+ * - unreadOnly: boolean (default: false)
+ * - limit: number (default: 50)
+ */
+export async function GET(request: Request) {
   try {
-    const session = await getIronSession<SessionData>(request, NextResponse.next(), sessionOptions);
-    if (!session.studentId) {
-      throw new AuthenticationError("Not authenticated");
-    }
-
     const { searchParams } = new URL(request.url);
-    const unreadOnly = searchParams.get("unread") === "true";
+    const unreadOnly = searchParams.get('unreadOnly') === 'true';
+    const limit = parseInt(searchParams.get('limit') || '50');
 
-    const where: Prisma.StudentNotificationWhereInput = { 
-      studentId: session.studentId,
-      ...(unreadOnly && { read: false })
-    };
-
-    const notifications = await prisma.studentNotification.findMany({
-      where,
-      orderBy: { createdAt: "desc" },
-      take: 50,
+    const notifications = await prisma.adminNotification.findMany({
+      where: unreadOnly ? { read: false } : undefined,
+      orderBy: { createdAt: 'desc' },
+      take: limit,
     });
 
-    const unreadCount = await prisma.studentNotification.count({
-      where: { studentId: session.studentId, read: false },
+    const unreadCount = await prisma.adminNotification.count({
+      where: { read: false },
     });
 
     return NextResponse.json({
+      success: true,
       notifications,
       unreadCount,
     });
-  } catch (error) {
-    return createErrorResponse(error, "Failed to load notifications");
+  } catch (error: any) {
+    console.error('❌ Failed to fetch notifications:', error);
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
+  } finally {
+    await prisma.$disconnect();
   }
 }
 
-const notificationActionSchema = z.object({
-  notificationId: z.string().optional(),
-  action: z.enum(["mark_read", "mark_all_read"]),
-});
-
-export async function POST(request: NextRequest) {
+/**
+ * POST /api/notifications
+ * Create a new notification (for testing or manual creation)
+ */
+export async function POST(request: Request) {
   try {
-    const session = await getIronSession<SessionData>(request, NextResponse.next(), sessionOptions);
-    if (!session.studentId) {
-      throw new AuthenticationError("Not authenticated");
-    }
-
     const body = await request.json();
-    const { notificationId, action } = notificationActionSchema.parse(body);
+    const { title, message, type, link } = body;
 
-    if (action === "mark_read") {
-      if (!notificationId) {
-        throw new ValidationError("Notification ID is required for mark_read action");
-      }
+    if (!title || !message) {
+      return NextResponse.json(
+        { success: false, error: 'Title and message are required' },
+        { status: 400 }
+      );
+    }
 
-      await prisma.studentNotification.update({
-        where: { id: notificationId },
+    const notification = await prisma.adminNotification.create({
+      data: {
+        title,
+        message,
+        type: type || 'info',
+        link: link || null,
+        read: false,
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      notification,
+    });
+  } catch (error: any) {
+    console.error('❌ Failed to create notification:', error);
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+/**
+ * PATCH /api/notifications
+ * Mark notification(s) as read
+ * Body: { id: string } or { markAllRead: true }
+ */
+export async function PATCH(request: Request) {
+  try {
+    const body = await request.json();
+
+    if (body.markAllRead) {
+      // Mark all as read
+      await prisma.adminNotification.updateMany({
+        where: { read: false },
         data: { read: true },
       });
 
-      return NextResponse.json({ message: "Marked as read" });
-    }
-
-    if (action === "mark_all_read") {
-      await prisma.studentNotification.updateMany({
-        where: { studentId: session.studentId, read: false },
+      return NextResponse.json({
+        success: true,
+        message: 'All notifications marked as read',
+      });
+    } else if (body.id) {
+      // Mark specific notification as read
+      await prisma.adminNotification.update({
+        where: { id: body.id },
         data: { read: true },
       });
 
-      return NextResponse.json({ message: "All marked as read" });
+      return NextResponse.json({
+        success: true,
+        message: 'Notification marked as read',
+      });
+    } else {
+      return NextResponse.json(
+        { success: false, error: 'Either id or markAllRead is required' },
+        { status: 400 }
+      );
     }
+  } catch (error: any) {
+    console.error('❌ Failed to update notification:', error);
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
+  } finally {
+    await prisma.$disconnect();
+  }
+}
 
-    throw new ValidationError("Invalid action");
-  } catch (error) {
-    return createErrorResponse(error, "Failed to update notification");
+/**
+ * DELETE /api/notifications
+ * Delete notification(s)
+ * Query params: id=<notificationId> or deleteAll=true
+ */
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    const deleteAll = searchParams.get('deleteAll') === 'true';
+
+    if (deleteAll) {
+      await prisma.adminNotification.deleteMany({
+        where: { read: true }, // Only delete read notifications
+      });
+
+      return NextResponse.json({
+        success: true,
+        message: 'All read notifications deleted',
+      });
+    } else if (id) {
+      await prisma.adminNotification.delete({
+        where: { id },
+      });
+
+      return NextResponse.json({
+        success: true,
+        message: 'Notification deleted',
+      });
+    } else {
+      return NextResponse.json(
+        { success: false, error: 'Either id or deleteAll is required' },
+        { status: 400 }
+      );
+    }
+  } catch (error: any) {
+    console.error('❌ Failed to delete notification:', error);
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
+  } finally {
+    await prisma.$disconnect();
   }
 }
