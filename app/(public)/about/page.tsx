@@ -114,21 +114,39 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function AboutPage() {
   try {
+    console.log('[About Page] Starting...');
+    
     const [profile, awards] = await Promise.all([getProfile(), getAwards()]);
+    
+    console.log('[About Page] Profile:', profile ? 'Found' : 'NULL');
+    console.log('[About Page] Awards count:', awards.length);
 
     if (!profile) {
+      console.log('[About Page] No profile found, showing message');
       return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
             <h2 className="text-xl font-semibold text-yellow-900 mb-2">Profile Not Found</h2>
             <p className="text-yellow-700">Profile information is not available. Please contact the administrator.</p>
+            <p className="text-xs text-yellow-600 mt-4">Check database connection and run profile seed script.</p>
           </div>
         </div>
       );
     }
 
-    // Safely handle bio rendering
-    const bioHtml = profile.bio ? await renderMarkdown(profile.bio) : "<p>No biography available.</p>";
+    console.log('[About Page] Profile name:', profile.fullName);
+
+    // Safely handle bio rendering - use plain text if markdown fails
+    let bioHtml = "<p>No biography available.</p>";
+    if (profile.bio) {
+      try {
+        bioHtml = await renderMarkdown(profile.bio);
+        console.log('[About Page] Markdown rendered successfully');
+      } catch (err) {
+        console.error('[About Page] Markdown render failed:', err);
+        bioHtml = `<p>${profile.bio}</p>`; // Fallback to plain text
+      }
+    }
     
     // Safely parse JSON fields with fallbacks
     const education = Array.isArray(profile.education) ? (profile.education as unknown as EducationItem[]) : [];
@@ -141,8 +159,12 @@ export default async function AboutPage() {
     const mediaAppearances = Array.isArray(profile.mediaAppearances) ? (profile.mediaAppearances as unknown as MediaAppearanceItem[]) : [];
     const academicProfiles = Array.isArray(profile.academicProfiles) ? (profile.academicProfiles as unknown as AcademicProfile[]) : [];
     
+    console.log('[About Page] All data parsed successfully');
+    
     // Use about-specific photo slot
     const aboutPhoto = getPhotoForSlot(profile, "about");
+    
+    console.log('[About Page] Ready to render');
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
