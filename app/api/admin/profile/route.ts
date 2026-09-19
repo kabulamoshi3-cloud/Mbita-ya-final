@@ -33,14 +33,14 @@ const SLOT_REVALIDATE_MAP: Record<PhotoSlot, string[]> = {
 };
 
 const profileSchema = z.object({
-  fullName: z.string().min(1, "Full name is required").optional().or(z.literal("")),
-  title: z.string().min(1, "Title is required").optional().or(z.literal("")),
-  department: z.string().min(1, "Department is required").optional().or(z.literal("")),
-  institution: z.string().min(1, "Institution is required").optional().or(z.literal("")),
-  email: z.string().email("Valid email is required").optional().or(z.literal("")),
-  officeLocation: z.string().min(1, "Office location is required").optional().or(z.literal("")),
-  officeHours: z.string().min(1, "Office hours are required").optional().or(z.literal("")),
-  bio: z.string().optional().or(z.literal("")),
+  fullName: z.string().optional(),
+  title: z.string().optional(),
+  department: z.string().optional(),
+  institution: z.string().optional(),
+  email: z.string().optional(),
+  officeLocation: z.string().optional(),
+  officeHours: z.string().optional(),
+  bio: z.string().optional(),
   // Photo fields
   photoUrl: z.string().optional().default(""),
   navbarPhotoUrl: z.string().optional().default(""),
